@@ -1,0 +1,183 @@
+Zmìny (od verze 1.4)
+--------------------------------------------------
+(MozBackup 1.4.10)
+- Oprava jednoho problému s automatickými zálohami
+
+(MozBackup 1.4.10 Beta 1)
+- Pøidána podpora Firefoxu 3.6
+- Pøidána podpora Thunderbirdu 3.0
+
+(MozBackup 1.4.10 Alpha 1)
+- Pøidána podpora PostBoxu a Wyza
+- Nìkolik úprav v instalátoru
+
+(MozBackup 1.4.9)
+- Fix: FS#286 - Okno s prùbìhem zálohování obsahovalo nìkteré nìlokalizované øetìzce
+
+(MozBackup 1.4.9 Beta 1)
+- Fix: FS#264 - Chyba pøístupu do neinicalizovaného pole
+- Fix: FS#265 - Pøidání "finální" stránky do instalátoru 
+- Fix: FS#266 - Instalátor by mìl implicitnì instalovat MozBackup pro všechny uživatele
+- Fix: FS#279 - MozBackup by mìl být odinstalovatelný skrze dialog Pøidat/Odebrat programy 
+
+(MozBackup 1.4.9 Alpha 2)
+- Nìkterá vylepšení v podpoøe pøenositelných aplikací (Portable)
+- Nìkterá vylepšení v zálohování poštovních schránek
+- Add: FS#191 - Podpora pro Songbird
+- Fix: FS#211 - Zakázané rozšíøení již nejsou po obnovì znovu aktivní
+- Fix: FS#263 - Oprava zálohování SeaMonkey
+
+(MozBackup 1.4.9 Alpha)
+- new application icon
+- Add: FS#201 - Pøidání možnosti zálohy bez komprese zálohy
+- Add: FS#223 - Zálohovat nový soubor s hesly (signons.sqlite)
+- Fix: FS#125 - Oprava dialogu o "nezavøitelném disku"
+- Fix: FS#173 - Oprava potencionálního problému se velkými zálohami
+- Fix: FS#188 - MozBackup nabízí zálohu neexistující Mozilly 1.8 
+- Fix: FS#204 - Chyba pøístupu do neinicalizovaného pole
+- Fix: FS#208 - Duplicitní aplikace v nabídce aplikací na zálohování
+- Fix: FS#216 - Chybné nabízení SeaMonkey na zálohu, i když nebyla nikdy nainstalována  
+
+(MozBackup 1.4.8)
+- Add: FS#152 - Nová grafická podoba MozBackupu 
+- Fix: FS#143 - Soubory v ZIP verzi jsou umístìny v podadresáøi
+
+(MozBackup 1.4.8 Beta)
+- Fix: FS#120 - Upravena èeská lokalizace 
+- Fix: FS#123 - Jazykový balíèek nebyl vždy korektnì aplikován.
+- Fix: FS#141 - Oprava jednoho pøeklepu 
+
+(MozBackup 1.4.8 Alfa)
+- Add: FS#1   - Pøidáno zálohování souboru urlbarhistory.sqlite z uživatelských profilù SeaMonkey 2.0 
+- Add: FS#6   - Pøidána podpora pro Netscape Navigator 9.0 
+- Add: FS#7   - Pøidána podpora pro logování operací do profilu MozBackupu 
+- Add: FS#8   - Pøidána podpora pro SeaMonkey 2.0
+- Add: FS#9   - Pøidána podpora pro Flock 
+- Add: FS#10  - Pøidána podpora pro Sunbird  
+- Add: FS#11  - Provedena migrace na Nullsoft installer pro vytváøení instalaèních balíèkù 
+- Add: FS#13  - Pøidána podpora pro pøenosné verze aplikací Mozilla (tzv. Portable)
+- Add: FS#16  - Pøidána možnost zakázat dotazování se na heslo zálohy v prùvodci
+- Add: FS#22  - Pøidána podpora pro zálohování neznámých souborù z uživatelského profilu aplikace
+- Add: FS#18  - Zálohování rozšíøení je nyní ve výchozí konfiguraci zapnuto.
+- Add: FS#38  - Pøidána kontrola na konec zálohování, zda je vytvoøená záloha konzistentní 
+- Add: FS#39  - Pøejmenování souboru aplikace z Backup.exe na MozBackup.exe 
+- Add: FS#45  - Pøidáno zálohování souboru urlclassifier3.sqlite z profilu.
+- Add: FS#48  - Pøidána možnost definovat v backup.ini do výchozího formátu jména záložního souboru den v týdnu.
+- Add: FS#67  - Pøidána podpora pro Netscape Messenger 9.0 
+- Add: FS#69  - Pøidání informace o licenci do každého zdrojového souboru.
+- Add: FS#70  - Vytvoøení profilu pro MozBackup pro ukládání logù.
+- Add: FS#73  - Vytvoøení dokumentace pro kompilaci MozBackupu.
+- Add: FS#75  - Pøidání nových souborù bookmarks* do zálohování.  
+- Add: FS#77  - Pøidáno zálohování souboru signons3.txt z Firefoxu 3.0.
+- Add: FS#81  - Pøidáno zálohování souboru cert_override.txt
+- Add: FS#82  - Pøidáno zálohování souboru permissions.sqlite
+- Add: FS#112 - Pøidána podpora pro definici hesla zálohy pøi zálohování skrze pøíkazovou øádku.
+- Add: FS#114 - Pøidáno zálohování souboru urlclassifierkey3.txt 
+- Add: FS#115 - Pøidána podpora Spicebirdu
+- Fix: FS#4   - Odstranìní chyby pøi dojití místa na disku pøi zálohování
+- Fix: FS#14  - Odstranìn problém znemožòující zálohovat na server
+- Fix: FS#17  - Pøidána informace o verzi do souboru backup.exe/mozbackup.exe
+- Fix: FS#27  - Pøidána možnost nezálohovat základní nastavení  
+- Fix: FS#28  - Podpora pro více monitorù 
+- Fix: FS#30  - Odstranìn problém s velkými zálohami.
+- Fix: FS#49  - Napsán nový parser na parsování souboru prefs.js 
+- Fix: FS#63  - Oprava, aby nebyly zakázané doplòky po obnovì povoleny.
+- Fix: FS#68  - Podpora pro vytváøení nových uživatelských profilù novì pøidaných aplikací z MozBackupu.  
+- Fix: FS#84  - Pøidána kontrola, zda je souboru profilefiles.txt souèástí adresáøe s aplikací.  
+- Fix: FS#118 - Lepší zvýraznìní informace ve wizardu, kam se bude provádìt záloha.
+
+(MozBackup 1.4.7)
+- Stejná verze jako beta.
+
+(MozBackup 1.4.7 Beta)
+- Add: Podpora pro alfa verze Firefoxu 3.0
+- Add: Upozoròující dialog pøed akci obnova profilu
+- Fix: Oprava chyby související se zálohováním a obnovou RSS úètu Thunderbirdu
+
+(MozBackup 1.4.6)
+- Add: Podpora pro Places.
+
+(MozBackup 1.4.6 Beta)
+- Fix: Opravy nìkterých chyb pod Windows Vista.
+- Fix: Práce s hesly ve Firefoxu 2.0.0.2/1.5.0.10 èi vyšší.
+
+(MozBackup 1.4.5)
+- Fix: Oprava nìkolika chyb
+
+(MozBackup 1.4.5 Beta)
+- Add: Podpora pro rozšíøení
+       * Adblock Plus (podadresáø adblockplus)
+       * Google Toolbar (podadresáø GoogleToolbarData)
+       * ChatZilla (podadresáø ChatZilla)               
+       * Prebar (soubor prefbar.rdf)
+- Add: Podpora pro Microsummaries (viz: http://wiki.mozilla.org/Microsummaries)    
+- Add: Podpora pro Phishing Protection 
+       (viz: http://www.mozilla.org/projects/bonecho/anti-phishing/)
+- Add: Podopora pro client-side session a persistent storage.
+       (viz: http://www.whatwg.org/specs/web-apps/current-work/#scs-client-side)       
+- Add: Podpora pro nový systém ukládání informací o vyhledávání.
+- Add: Podpora pro relace.                      
+- Fix: Opravena chyba související se zálohováním pošty v noèních verzích
+       Thunderbirdu 2.0.
+
+(MozBackup 1.4.4)
+- Stejná verze jako beta.
+
+(MozBackup 1.4.4 Beta)
+- Add: Podpora pro Firefox 2.0 Alpha1 (Bon Echo)
+- Add: Zálohování souboru bookmarks.bak.
+- Add: Podpora pro rozšíøení. 
+       * Clippings
+       * Crash Recovery       
+       * Download Manager Tweak
+       * File Title,
+       * ForecastFox
+       * Greasemonkey       
+       * HTML Validator
+       * Lightning       
+       * Menu Editor
+       * Mouse Gestures
+       * Sage
+       * Signature 
+       * Slim Extension List
+       * Stylish
+       * Tab Mix Plus
+       * Tabbrowser Extensions       
+       * Web Developer
+- Fix: Nìkolik malých chyb.
+
+(MozBackup 1.4.3)
+- žádné zmìny. Stejný build jako Beta 2.
+
+(MozBackup 1.4.3 Beta 2)
+- Add: Podpora pro následující rozšíøení: Bookmarks Synchronizer, ScrapBook, 
+       Tabbrowser Preferences, View Source With 
+- Add: Varování pøed zálohováním rozšíøení.
+- Fix: Nìkteré pøedvolby v backup.ini byly nastaveny na 
+       nevýchozí hodnoty.
+
+(MozBackup 1.4.3 Beta)
+- Add: Podpora pro SeaMonkey 1.0a
+- Add: Mùžete urèovat formát pojmenování výstupního souboru.
+       Viz soubor backup.ini. Tento soubor je v angliètinì.
+- Add: Uživatel mùže v rámci jednoho spuštìní MozBackup 
+       zálohovat více souborù.
+- Add: Mùžete urèit výstupní adresáø pro zálohování u 
+       každé aplikace.
+- Add: V prùvodci mùžete vybírat program a profil dvojklepnutím.
+- Add: Zálohování záloh záložek.
+- Fix: Opravena chyba související s obnovou zaheslovaných záloh.
+
+
+(MozBackup 1.4.2)
+- opravena jedna chyba související s obnovou rozšíøení
+  a motivù vzhledu
+- nová grafika programu (podìkování Tomáši Kebertovi)
+- pøidání zálohování vyhledávacích modulù, co jsou 
+  uloženy v profilu (novinka Firefoxu 1.1 NB)
+- nìkolik dalších vylepšení
+
+(MozBackup 1.4.1)
+- opravena chyba související se zálohováním rozšíøení
+  a motivù vzhledu
+- opravena chyba související s obnovou hesel

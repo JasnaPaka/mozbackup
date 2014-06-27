@@ -1,0 +1,18 @@
+10
+C:\\Dokumente und Einstellungen\\Administrator\\Anwendungsdaten\\Thunderbird\\Profiles\\wg847rxr.default\\Mail\\e-mail.inode-1.at
+pop3
+2
+C:\\Dokumente und Einstellungen\\Administrator\\Anwendungsdaten\\Thunderbird\\Profiles\\5pkor447.default\\Mail\\Local Folders
+none
+3
+C:\\Dokumente und Einstellungen\\Administrator\\Anwendungsdaten\\Thunderbird\\Profiles\\wg847rxr.default\\Mail\\pop.gmx.net
+pop3
+5
+C:\\Dokumente und Einstellungen\\Administrator\\Anwendungsdaten\\Thunderbird\\Profiles\\wg847rxr.default\\Mail\\pop.gmx-1.net
+pop3
+6
+C:\\Dokumente und Einstellungen\\Administrator\\Anwendungsdaten\\Thunderbird\\Profiles\\wg847rxr.default\\Mail\\pop.gmx-2.net
+pop3
+7
+C:\\Dokumente und Einstellungen\\Administrator\\Anwendungsdaten\\Thunderbird\\Profiles\\wg847rxr.default\\Mail\\pop.gmx-3.net
+pop3

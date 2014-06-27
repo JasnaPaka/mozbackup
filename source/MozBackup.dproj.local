@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2007.10.12 22:03:15.278.pas,E:\Projekty\MozBackup\trunk\source\Unit1.pas=E:\Projekty\MozBackup\trunk\source\l10n.pas</Transaction>
+    <Transaction>2007.10.12 22:07:37.765.pas,E:\Projekty\MozBackup\trunk\source\l10n.pas=E:\Projekty\MozBackup\trunk\source\mozl10n.pas</Transaction>
+    <Transaction>2007.10.12 22:07:55.781.pas,E:\Projekty\MozBackup\trunk\source\mozl10n.pas=E:\Projekty\MozBackup\trunk\source\l10n.pas</Transaction>
+    <Transaction>2007.10.12 22:30:28.471.pas,E:\Projekty\MozBackup\trunk\source\Unit1.pas=E:\Projekty\MozBackup\trunk\source\Config.pas</Transaction>
+    <Transaction>2007.10.13 16:13:40.457.pas,E:\Projekty\MozBackup\trunk\source\adresar.pas=</Transaction>
+    <Transaction>2007.10.13 16:13:40.478.dfm,E:\Projekty\MozBackup\trunk\source\adresar.dfm=</Transaction>
+    <Transaction>2007.10.13 16:14:28.056.pas,E:\Projekty\MozBackup\trunk\source\language.pas=</Transaction>
+    <Transaction>2007.10.13 16:15:10.191.pas,E:\Projekty\MozBackup\trunk\source\Unit1.pas=E:\Projekty\MozBackup\trunk\source\JPDialogs.pas</Transaction>
+    <Transaction>2007.10.13 20:45:57.670.pas,E:\Projekty\MozBackup\trunk\source\Unit1.pas=E:\Projekty\MozBackup\trunk\source\PrefsParser.pas</Transaction>
+    <Transaction>2007.10.13 20:50:29.703.pas,E:\Projekty\MozBackup\trunk\source\Unit1.pas=E:\Projekty\MozBackup\trunk\source\PrefsParserAccount.pas</Transaction>
+    <Transaction>2007.10.31 20:21:42.442.pas,E:\Projekty\MozBackup\trunk\source\Unit1.pas=E:\Projekty\MozBackup\trunk\source\IZipFactory.pas</Transaction>
+    <Transaction>2007.10.31 20:22:01.025.pas,E:\Projekty\MozBackup\trunk\source\Unit1.pas=E:\Projekty\MozBackup\trunk\source\ZipFactory.pas</Transaction>
+    <Transaction>2007.10.31 20:52:47.032.pas,E:\Projekty\MozBackup\trunk\source\IZipFactory.pas=</Transaction>
+    <Transaction>2007.11.17 20:35:56.812.pas,E:\Projekty\MozBackup\trunk\source\parametry.pas=</Transaction>
+    <Transaction>2007.11.17 20:55:25.107.pas,E:\Projekty\MozBackup\trunk\source\Unit1.pas=E:\Projekty\MozBackup\trunk\source\MozProfile.pas</Transaction>
+    <Transaction>2007.11.17 20:55:36.046.pas,E:\Projekty\MozBackup\trunk\source\konstanty.pas=</Transaction>
+    <Transaction>2007.11.17 21:09:52.161.pas,E:\Projekty\MozBackup\trunk\source\JP_Windows.pas=E:\Projekty\MozBackup\trunk\source\WinUtils.pas</Transaction>
+    <Transaction>2007.11.17 21:35:27.733.pas,E:\Projekty\MozBackup\trunk\source\errorlog.pas=</Transaction>
+    <Transaction>2007.11.18 13:34:05.406.pas,E:\Projekty\MozBackup\trunk\source\Unit3.pas=E:\Projekty\MozBackup\trunk\source\UnknowFiles.pas</Transaction>
+    <Transaction>2007.11.18 13:34:05.406.dfm,E:\Projekty\MozBackup\trunk\source\Unit3.dfm=E:\Projekty\MozBackup\trunk\source\UnknowFiles.dfm</Transaction>
+    <Transaction>2007.11.18 13:54:51.273.pas,E:\Projekty\MozBackup\trunk\source\Unit1.pas=E:\Projekty\MozBackup\trunk\source\UnknowFilesBL.pas</Transaction>
+    <Transaction>2007.11.18 15:05:42.194.pas,E:\Projekty\MozBackup\trunk\source\Unit1.pas=E:\Projekty\MozBackup\trunk\source\UnknowItem.pas</Transaction>
+    <Transaction>2007.12.31 00:08:41.545.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\CmdLine.pas</Transaction>
+    <Transaction>2007.12.31 14:15:45.508.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\MozUtils.pas</Transaction>
+    <Transaction>2007.12.31 15:24:10.874.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\apps\MozApp.pas</Transaction>
+    <Transaction>2007.12.31 15:24:47.282.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\MozManager.pas</Transaction>
+    <Transaction>2007.12.31 15:25:03.884.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\apps\SeaMonkeyApp.pas</Transaction>
+    <Transaction>2007.12.31 15:25:29.046.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\apps\FirefoxApp.pas</Transaction>
+    <Transaction>2007.12.31 15:25:57.334.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\apps\ThunderbirdApp.pas</Transaction>
+    <Transaction>2007.12.31 15:26:13.671.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\apps\SunbirdApp.pas</Transaction>
+    <Transaction>2007.12.31 15:26:40.977.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\apps\FlockApp.pas</Transaction>
+    <Transaction>2007.12.31 15:26:53.035.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\apps\NetscapeApp.pas</Transaction>
+    <Transaction>2007.12.31 15:27:06.429.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\apps\Messenger.pas</Transaction>
+    <Transaction>2007.12.31 15:27:20.871.pas,D:\Projekty\MozBackup\trunk\source\apps\Messenger.pas=D:\Projekty\MozBackup\trunk\source\apps\MessengerApp.pas</Transaction>
+    <Transaction>2008.03.01 10:19:24.663.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\Functions.pas</Transaction>
+    <Transaction>2008.03.01 11:45:37.609.bdsproj,D:\Projekty\MozBackup\trunk\source\Backup.bdsproj=D:\Projekty\MozBackup\trunk\source\MozBackup.bdsproj</Transaction>
+    <Transaction>2008.03.01 12:34:52.751.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\AppProfile.pas</Transaction>
+    <Transaction>2008.09.14 16:31:00.484.pas,D:\Projekty\MozBackup2\trunk\source\Unit1.pas=D:\Projekty\MozBackup2\trunk\source\BackupTask.pas</Transaction>
+    <Transaction>2008.09.14 17:45:25.796.pas,D:\Projekty\MozBackup2\trunk\source\Unit1.pas=D:\Projekty\MozBackup2\trunk\source\BackupTaskExternal.pas</Transaction>
+    <Transaction>2008.09.14 18:10:08.953.pas,D:\Projekty\MozBackup2\trunk\source\Unit1.pas=D:\Projekty\MozBackup2\trunk\source\ProgressWindow.pas</Transaction>
+    <Transaction>2008.09.14 19:02:59.125.pas,D:\Projekty\MozBackup2\trunk\source\Unit1.pas=D:\Projekty\MozBackup2\trunk\source\ProfileDetection.pas</Transaction>
+  </Transactions>
+</BorlandProject>

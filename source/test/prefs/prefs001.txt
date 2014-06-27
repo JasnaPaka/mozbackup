@@ -1,0 +1,15 @@
+1
+C:\\Users\\JasnaPaka\\AppData\\Roaming\\Thunderbird\\Profiles\\wblq6egb.default\\Mail\\Local Folders
+none
+2
+C:\\Users\\JasnaPaka\\AppData\\Roaming\\Thunderbird\\Profiles\\wblq6egb.default\\Mail\\mail.cesky-hosting.cz
+pop3
+3
+C:\\Users\\JasnaPaka\\AppData\\Roaming\\Thunderbird\\Profiles\\wblq6egb.default\\ImapMail\\www.in.softeu.cz
+imap
+4
+C:\\Users\\JasnaPaka\\AppData\\Roaming\\Thunderbird\\Profiles\\wblq6egb.default\\Mail\\pop.gmail-1.com
+pop3
+5
+C:\\Users\\JasnaPaka\\AppData\\Roaming\\Thunderbird\\Profiles\\wblq6egb.default\\News\\news.mozilla.org
+nntp

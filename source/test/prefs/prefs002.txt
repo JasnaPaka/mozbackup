@@ -1,0 +1,12 @@
+1
+C:\\Documents and Settings\\Tomas\\Data aplikací\\Thunderbird\\Profiles\\upvmrwjf.default\\Local Folders
+none
+2
+C:\\DOCUMENTS AND SETTINGS\\TOMÁŠ\\DATA APLIKACÍ\\Thunderbird\\Profiles\\default\\29orsf19.slt\\Local Folders-1
+none
+4
+C:\\Documents and Settings\\Tomas\\Data aplikací\\Thunderbird\\Profiles\\upvmrwjf.default\\pop3.post-1.cz
+pop3
+6
+C:\\Documents and Settings\\Tomas\\Data aplikací\\Thunderbird\\Profiles\\upvmrwjf.default\\pop.centrum.cz
+pop3

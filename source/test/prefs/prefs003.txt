@@ -1,0 +1,12 @@
+1
+C:\\Documents and Settings\\gebruiker\\Application Data\\Thunderbird\\Profiles\\16jkl726.default\\Mail\\Local Folders
+none
+2
+C:\\Documents and Settings\\gebruiker\\Application Data\\Thunderbird\\Profiles\\16jkl726.default\\Mail\\pop.solcon.nl
+pop3
+3
+C:\\Documents and Settings\\mdolle\\Application Data\\Thunderbird\\Profiles\\re1fwwvf.default\\Mail\\pop.solcon-1.nl
+pop3
+4
+C:\\Documents and Settings\\mdolle\\Application Data\\Thunderbird\\Profiles\\re1fwwvf.default\\Mail\\pop3.ision.nl
+pop3

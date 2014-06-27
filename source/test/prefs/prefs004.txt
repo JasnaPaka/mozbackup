@@ -1,0 +1,6 @@
+1
+C:\\Documents and Settings\\Kristian\\Application Data\\Thunderbird\\Profiles\\sp6sum9n.default\\Mail\\Local Folders
+none
+2
+C:\\Documents and Settings\\Kristian\\Application Data\\Thunderbird\\Profiles\\sp6sum9n.default\\Mail\\pop3.mail.dk
+pop3

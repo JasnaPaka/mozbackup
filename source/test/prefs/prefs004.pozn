@@ -1,0 +1,12 @@
+I have a problem using MozBackup, and after looking at the MozBackup support forum, I realised that you would need the following information to help me out. So I'm hoping that you will take a look.
+
+This is the path to my Thunderbird profile:
+C:\Documents and Settings\Kristian\Application Data\Thunderbird\Profiles\mj5nfcig.default
+
+These are the errors I get when trying to backup using MozBackup:
+Problem with backup email account! Account: C:\Documents and Settings\Kristian\Application Data\Thunderbird\Profiles\sp6sum9n.default\Mail\Local Folders
+Problem with backup email account! Account: C:\Documents and Settings\Kristian\Application Data\Thunderbird\Profiles\sp6sum9n.default\Mail\pop3.mail.dk
+
+I have attached my prefs-file.
+
+Sincerely, Kristian Troelsen 

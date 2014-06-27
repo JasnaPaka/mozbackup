@@ -1,0 +1,179 @@
+Changelog (since MozBackup 1.4)
+-------------------------------
+(MozBackup 1.4.10)
+- Fix one problem with automatic backups
+
+(MozBackup 1.4.10 Beta 1)
+- Add support for Firefox 3.6
+- Add support for Thunderbird 3.0
+
+(MozBackup 1.4.10 Alpha 1)
+- Add support for PostBox and Wyzo
+- Some installer improvements
+
+(MozBackup 1.4.9)
+- Fix: FS#286 - Progress window contains some unlocalizable strings
+
+(MozBackup 1.4.9 Beta 1)
+- Fix: FS#264 - List Index out of bounds
+- Fix: FS#265 - Add finish page to installer 
+- Fix: FS#266 - Installer should install MozBackup for all users
+- Fix: FS#279 - MozBackup should be uninstallable from Add/Remove applications dialog 
+
+(MozBackup 1.4.9 Alpha 2)
+- Some improvements with support of portable applications
+- Some improvements with backup of mailboxes
+- Add: FS#191 - Enable MozBackup to backup Songbird
+- Fix: FS#211 - Disabled extensions are imported but as enabled
+- Fix: FS#263 - Backup of SeaMonkey doesn't work in MozBackup 1.4.9 Alpha
+
+(MozBackup 1.4.9 Alpha)
+- new application icon
+- Add: FS#201 - Add option for backup with no compression
+- Add: FS#223 - Add signons.sqlite to backups
+- Fix: FS#125 - Unclosable "Drive undefined" window
+- Fix: FS#173 - temp0082.zip file during mozbackup (problem with large backups)
+- Fix: FS#188 - hangs when selecting old no more existant Mozilla 1.8 
+- Fix: FS#204 - List Index Out of Bounds
+- Fix: FS#208 - Mozilla Profiles backup always offer 2 identical lines of the same option - "profiles only"
+- Fix: FS#216 - Showing SeaMonkey when does no exists  
+
+(MozBackup 1.4.8)
+- Add: FS#152 - New graphic for MozBackup 1.4.8 
+- Fix: FS#143 - ZIP version should contains directory
+
+(MozBackup 1.4.8 Beta)
+- Fix: FS#120 - Check Czech localization 
+- Fix: FS#123 - language file hasn't applied correctry
+- Fix: FS#141 - Spelling error on component selection screen. 
+
+(MozBackup 1.4.8 Alpha)
+- Add: FS#1   - Backup file urlbarhistory.sqlite from SeaMonkey 2.0 profile 
+- Add: FS#6   - Add support for Netscape 9 
+- Add: FS#7   - Add support for logging 
+- Add: FS#8   - Add support for SeaMonkey 2.0
+- Add: FS#9   - Add support for Flock 
+- Add: FS#10  - Add support for Sunbird  
+- Add: FS#11  - Migrate to Nullsoft installer 
+- Add: FS#13  - Add support for Firefox/Thunderbird portable
+- Add: FS#16  - Add option for disable password question dialog
+- Add: FS#22  - Option to save unsupported files from profile
+- Add: FS#18  - Enable extensions backup by default
+- Add: FS#38  - Add test if backup's file is ok after backup 
+- Add: FS#39  - Rename Backup.exe to MozBackup.exe 
+- Add: FS#45  - Backup file urlclassifier3.sqlite from profile
+- Add: FS#48  - backup.ini / fileformat: Add "Day of Week" (Monday, ...)
+- Add: FS#67  - Support for Netscape Messenger 9.0 
+- Add: FS#69  - Add license information to all source files
+- Add: FS#70  - Create profile for MozBackup
+- Add: FS#73  - Create documentation for compilation of MozBackup
+- Add: FS#75  - Add new bookmarks* files to backup process  
+- Add: FS#77  - Backup new signons3.txt file.
+- Add: FS#81  - Backup file cert_override.txt
+- Add: FS#82  - Backup file permissions.sqlite
+- Add: FS#112 - Command Line - password option 
+- Add: FS#114 - Backup urlclassifierkey3.txt 
+- Add: FS#115 - Add support for Spicebird
+- Fix: FS#4   - No error when no space on device
+- Fix: FS#14  - MozBackup cannot save backup's file to server drives
+- Fix: FS#17  - Add file version to backup.exe/mozbackup.exe
+- Fix: FS#27  - Possible to disable General Settings for backup  
+- Fix: FS#28  - Dual monitor support 
+- Fix: FS#30  - Problem with large backups
+- Fix: FS#49  - Write new prefs.js parser 
+- Fix: FS#63  - All restored Firefox plugins are enabled
+- Fix: FS#68  - Add support of creation of new profiles for new supported applications  
+- Fix: FS#84  - Add check that file profilefiles.txt is in program directory.  
+- Fix: FS#118 - Better highlighting location where backups are stored
+
+(MozBackup 1.4.7)
+- Same like beta
+
+(MozBackup 1.4.7 Beta)
+- Add: Support for Firefox 3.0 Alphas
+- Add: Warning dialog before restore action
+- Fix: Backup/restore Thunderbird RSS accounts
+
+(MozBackup 1.4.6)
+- Add: Support for Places.
+
+(MozBackup 1.4.6 Beta)
+- Fix: Some Windows Vista related bugs.
+- Fix: Password handling in FF 2.0.0.2/1.5.0.10.
+
+(MozBackup 1.4.5)
+- Fix: Some bug fixed.
+
+(MozBackup 1.4.5 Beta)
+- Add: Support for extensions:
+       * Adblock Plus (subdirectory adblockplus)
+       * Google Toolbar (subdirectory GoogleToolbarData)
+       * ChatZilla (subdirectory ChatZilla)               
+       * Prebar (file prefbar.rdf)
+- Add: Support for Microsummaries (see: http://wiki.mozilla.org/Microsummaries)    
+- Add: Support for Phishing Protection 
+       (see: http://www.mozilla.org/projects/bonecho/anti-phishing/)
+- Add: Support for client-side session and persistent storage.
+       (see: http://www.whatwg.org/specs/web-apps/current-work/#scs-client-side)       
+- Add: Support for new storage of search setting.
+- Add: Support for sessions.                       
+- Fix: Problem with backup emails (Thunderbird Nightly Builds)
+
+(MozBackup 1.4.4)
+- Same like beta.
+
+(MozBackup 1.4.4 Beta)
+- Add: Support for Firefox 2.0 Alpha1 (Bon Echo)
+- Add: File bookmarks.bak to backup process.
+- Add: Support for extensions: 
+       * Clippings
+       * Crash Recovery       
+       * Download Manager Tweak
+       * File Title,
+       * ForecastFox
+       * Greasemonkey       
+       * HTML Validator
+       * Lightning       
+       * Menu Editor
+       * Mouse Gestures
+       * Sage
+       * Signature 
+       * Slim Extension List
+       * Stylish
+       * Tab Mix Plus
+       * Tabbrowser Extensions       
+       * Web Developer
+- Fix: Some small bugs.
+- Fix: Rename "E-mail settings only" to "Accounts settings only".
+
+(MozBackup 1.4.3)
+- Same build like Beta 2
+
+(MozBackup 1.4.3 Beta 2)
+- Add: Support for extensions: Bookmarks Synchronizer, ScrapBook, 
+       Tabbrowser Preferences, View Source With 
+- Add: Warning before backup of extensions. 
+- Fix: Some preferences in backup.ini was set to non-default values.
+
+(MozBackup 1.4.3 Beta)
+- Add: Support for SeaMonkey 1.0a
+- Add: You can specify output file format now. See backup.ini.
+- Add: Users needn't run MozBackup many times when they need backup many 
+       profiles.
+- Add: You can specify output directory for backups for every 
+       application.
+- Add: You can select program or profile by doubleclick. 
+- Add: Backup of bookmarks backup.
+- Fix: Bug with password handling when you restore a backup.
+
+(MozBackup 1.4.2)
+- Fixed one bug with restore extensions and themes
+- New graphics (Thanks to Tomas Kebert)
+- Add backup and restore directory searchplugins 
+  from profile (new in Firefox 1.1 NB)
+- Some improvements
+
+
+(MozBackup 1.4.1)
+- Fixed bug with backups of extensions and themes
+- Fixed bug with restore passwords

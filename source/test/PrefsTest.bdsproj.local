@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2007.10.30 20:35:20.539.bdsproj,C:\Users\JasnaPaka\Documents\Borland Studio Projects\Project1.bdsproj=E:\Projekty\MozBackup\trunk\source\Test\PrefsTest.bdsproj</Transaction>
+    <Transaction>2007.10.30 22:34:30.370.pas,E:\Projekty\MozBackup\trunk\source\Test\Unit1.pas=E:\Projekty\MozBackup\trunk\source\Utils.pas</Transaction>
+    <Transaction>2007.11.04 16:32:57.733.pas,E:\Projekty\MozBackup\trunk\source\Test\Unit1.pas=E:\Projekty\MozBackup\trunk\source\Test\Functions.pas</Transaction>
+  </Transactions>
+</BorlandProject>

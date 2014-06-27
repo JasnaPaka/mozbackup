@@ -1,0 +1,8 @@
+Toto programové vybavení je poskytováno zdarma (freeware). 
+Jeho používáním èi šíøením se zavazujete, že berete na 
+vìdomí následující body:
+
+1. Programové vybavení lze libovolnì rozšiøovat. K tomuto šíøení 
+není nutný souhlas autora.
+2. Autor nenese žádnou odpovìdnost za škody zpùsobené programovým 
+vybavením. Je poskytováno "tak, jak je" a bez jakékoliv záruky.

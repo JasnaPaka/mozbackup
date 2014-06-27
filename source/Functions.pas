@@ -1,0 +1,142 @@
+{/* ***** BEGIN LICENSE BLOCK *****
+* Version: MPL 1.1/GPL 2.0/LGPL 2.1
+*
+* The contents of this file are subject to the Mozilla Public License Version
+* 1.1 (the "License"); you may not use this file except in compliance with
+* the License. You may obtain a copy of the License at
+* http://www.mozilla.org/MPL/
+*
+* Software distributed under the License is distributed on an "AS IS" basis,
+* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+* for the specific language governing rights and limitations under the
+* License.
+*
+* Original author:
+* - Pavel Cvrcek <jasnapaka@jasnapaka.com>
+*
+* Contributor(s):
+*
+* Alternatively, the contents of this file may be used under the terms of
+* either of the GNU General Public License Version 2 or later (the "GPL"),
+* or the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+* in which case the provisions of the GPL or the LGPL are applicable instead
+* of those above. If you wish to allow use of your version of this file only
+* under the terms of either the GPL or the LGPL, and not to allow others to
+* use your version of this file under the terms of the MPL, indicate your
+* decision by deleting the provisions above and replace them with the notice
+* and other provisions required by the GPL or the LGPL. If you do not delete
+* the provisions above, a recipient may use your version of this file under
+* the terms of any one of the MPL, the GPL or the LGPL.
+*
+* ***** END LICENSE BLOCK ***** */}
+
+unit Functions;
+
+interface
+
+uses Forms, Dialogs, Hlavni,MozUtils,SysUtils;
+
+function GetApplicationDirectory:String;
+function IsRunCommandLineVersion:boolean;
+function ReplacePlaceholdersInPath(path: string; PortableDirectory: String):string;
+
+implementation
+
+// ******************** Private functions ************************************
+
+{ Convert date part to string. If length of this string is 1, add char '0'
+  befor this string. }
+function PrepareDatePartToString(DatePart: Word):String;
+var DateStr: String;
+begin
+  DateStr:= IntToStr (DatePart);
+  if (Length (DateStr) = 1) then DateStr:= '0' + DateStr;
+  Result:= DateStr;
+end;
+
+// ******************** Public functions *************************************
+
+function GetApplicationDirectory:String;
+begin
+  Result:= ExtractFilePath (Application.ExeName);
+end;
+
+
+{ Info, if application is running with parameters for automatic backup }
+function IsRunCommandLineVersion:boolean;
+begin
+  Result:= (ParamCount = 1);
+end;
+
+{ Replace placeholders in path to backup's file. This path is loaded from
+  backup.ini.}
+function ReplacePlaceholdersInPath(Path: string; PortableDirectory: String):string;
+var Application: String;
+    Version: String;
+    Position: integer;
+    ActualDate: TDateTime;
+    Year, Month, Day, Hour, Minute, Second, Milisecond: Word;
+    SYear, SMonth, SDay, SHour, SMinute, SSecond, SMilisecond: string;
+    Profile: String;
+begin
+  // Prepare date format
+  ActualDate:= Now;
+  DecodeDate (ActualDate, Year, Month, Day);
+  DecodeTime (ActualDate, Hour, Minute, Second, Milisecond);
+
+  // Format date str
+  SYear:= IntToStr (Year);
+  SMonth:= PrepareDatePartToString (Month);
+  SDay:= PrepareDatePartToString (Day);
+  SHour:= PrepareDatePartToString (Hour);
+  SMinute:= PrepareDatePartToString (Minute);
+  SSecond:= PrepareDatePartToString (Second);
+  SMilisecond:= PrepareDatePartToString (Milisecond);  
+
+  // Replace program name
+  Application:= GetApplicationShortNameOrderById (Form1.Typ_programu, Form1.PortableDirectory);
+  Path:= SysUtils.StringReplace (Path, '<application>', Application, [rfReplaceAll]);
+
+  // Replace info about version
+  case Form1.Typ_programu of
+    1: Version:= Programy[1].Verze;
+    2: Version:= Programy[2].Verze;
+    3: Version:= Programy[3].Verze;
+    4: Version:= Programy[4].Verze;
+    5: Version:= Programy[5].Verze;
+    6: Version:= Programy[6].Verze;
+    7: Version:= Programy[7].Verze;
+    8: Version:= Programy[8].Verze;
+    9: Version:= Programy[9].Verze;
+    11: Version:= Programy[11].Verze;
+    12: Version:= Programy[12].Verze;
+  end;
+  Path:= SysUtils.StringReplace (Path, '<version>', Version, [rfReplaceAll]);
+
+  // Replace info about profile name
+  Position:= Form1.ListBox2.ItemIndex;
+  if Position >= 0 then
+    begin
+      Profile:= Form1.ListBox2.Items.Strings[Position];
+      Path:= SysUtils.StringReplace (Path, '<profile>', Profile, [rfReplaceAll]);
+    end;
+  if Form1.Akce = 2 then path:= SysUtils.StringReplace (Path, '<profile>', '', [rfReplaceAll]);
+
+  // Replace date info
+  Path:= SysUtils.StringReplace (Path, '<year>', SYear, [rfReplaceAll]);
+  Path:= SysUtils.StringReplace (Path, '<month>', SMonth, [rfReplaceAll]);
+  Path:= SysUtils.StringReplace (Path, '<day>', SDay, [rfReplaceAll]);
+  Path:= SysUtils.StringReplace (Path, '<hour>', SHour, [rfReplaceAll]);
+  Path:= SysUtils.StringReplace (Path, '<minute>', SMinute, [rfReplaceAll]);
+  Path:= SysUtils.StringReplace (Path, '<second>', SSecond, [rfReplaceAll]);
+  Path:= SysUtils.StringReplace (Path, '<millisecond>', SMilisecond, [rfReplaceAll]);
+
+  // Day of week <dayOfWeek>
+  Path:= SysUtils.StringReplace (Path, '<dayOfWeek>', LongDayNames [DayOfWeek(Date)], [rfReplaceAll]);
+
+  // Replace problematic chars
+  Path:= SysUtils.StringReplace(Path, '/', '-', [rfReplaceAll]);
+  Result:= Path;  
+end;
+
+end.

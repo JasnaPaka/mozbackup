@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2008.08.02 15:42:44.625.bdsproj,C:\Documents and Settings\Pavel Cvrček\Dokumenty\Borland Studio Projects\Project1.bdsproj=D:\Projekty\MozBackup\trunk\source\Tester.bdsproj</Transaction>
+    <Transaction>2008.08.02 15:47:08.062.pas,D:\Projekty\MozBackup\trunk\source\IZipFactory.pas=</Transaction>
+    <Transaction>2008.08.02 15:51:21.781.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\TesterHelper.pas</Transaction>
+  </Transactions>
+</BorlandProject>

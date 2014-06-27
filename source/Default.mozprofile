@@ -1,0 +1,6 @@
+[General]
+action=backup
+application=Firefox
+profile=Default
+output=C:\<application> <version> - <year>-<month>-<day>.pcv
+password=

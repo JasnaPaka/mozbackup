@@ -78,7 +78,6 @@ var Application: String;
     Year, Month, Day, Hour, Minute, Second, Milisecond: Word;
     SYear, SMonth, SDay, SHour, SMinute, SSecond, SMilisecond: string;
     Profile: String;
-    FS: TFormatSettings;
 begin
   // Prepare date format
   ActualDate:= Now;
@@ -133,8 +132,7 @@ begin
   Path:= SysUtils.StringReplace (Path, '<millisecond>', SMilisecond, [rfReplaceAll]);
 
   // Day of week <dayOfWeek>
-  FS := TFormatSettings.Create;
-  Path:= SysUtils.StringReplace (Path, '<dayOfWeek>', FS.LongDayNames [DayOfWeek(Date)], [rfReplaceAll]);
+  Path:= SysUtils.StringReplace (Path, '<dayOfWeek>', LongDayNames [DayOfWeek(Date)], [rfReplaceAll]);
 
   // Replace problematic chars
   Path:= SysUtils.StringReplace(Path, '/', '-', [rfReplaceAll]);

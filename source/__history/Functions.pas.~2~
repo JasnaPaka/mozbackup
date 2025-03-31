@@ -133,8 +133,7 @@ begin
   Path:= SysUtils.StringReplace (Path, '<millisecond>', SMilisecond, [rfReplaceAll]);
 
   // Day of week <dayOfWeek>
-  FS := TFormatSettings.Create;
-  Path:= SysUtils.StringReplace (Path, '<dayOfWeek>', FS.LongDayNames [DayOfWeek(Date)], [rfReplaceAll]);
+  Path:= SysUtils.StringReplace (Path, '<dayOfWeek>', LongDayNames [DayOfWeek(Date)], [rfReplaceAll]);
 
   // Replace problematic chars
   Path:= SysUtils.StringReplace(Path, '/', '-', [rfReplaceAll]);

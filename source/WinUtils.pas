@@ -155,7 +155,7 @@ function GetProcessListNT: TStringList;
       end
       else
       begin
-        if GetModuleBaseNameA(Handle, 0, PChar(Result), MAX_PATH) > 0 then
+        if GetModuleBaseNameA(Handle, 0, PAnsiChar(PChar(Result)), MAX_PATH) > 0 then
           SetLength(Result, StrLen(PChar(Result)))
         else
           Result := '';

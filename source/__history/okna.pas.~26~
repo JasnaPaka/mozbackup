@@ -347,11 +347,15 @@ begin
 
    end;
 
- // Show warn when user wants to backup on drive with FAT32 system
+  // Show warn when user wants to backup on drive with FAT32 system
   Disc:= ExtractFileDrive (Form1.Vyst_soubor);
-  if (Form1.Akce = 1) and (Pos(GetHardDiskPartitionType(Disc[1]), 'FAT') > 0) then
+  if (Form1.Akce = 1) and (Pos('FAT', GetHardDiskPartitionType(Disc[1])) > 0) then
     begin
-      ShowMessage ('FAT32');
+      if showQuestionDialog(Config.l10n.getL10nString ('TForm1', 'LANG_QUESTION'),
+                           Config.l10n.getL10nString ('TForm1', 'LANG_FAT32_WARNING')) = 7 then
+      begin
+        Pokracovat:= false;
+      end;
     end;
 
   SaveDirectory (Form1.Vyst_soubor, Form1.Typ_programu);   

@@ -63,7 +63,7 @@ implementation
 // Deklarace pouzitych unit
 //******************************************************************************
 
-uses hlavni, dialogs, forms, funkce, jp_registry, jp_windows, sysutils,
+uses hlavni, dialogs, forms, funkce, jp_registry, sysutils,
 windows, Config, heslo, ZipMstr19, zaloha, JPDialogs, UnknowFilesBL, UnknowFiles,
 classes, UnknowItem, Functions, ProgressWindow, Graphics, MozUtils, WinUtils;
 

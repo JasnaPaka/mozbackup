@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{19535A84-A6BD-405F-81BC-6848F6B2AAFB}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="MozBackup.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Tester.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MozBackup">
+        <MSBuild Projects="MozBackup.dproj"/>
+    </Target>
+    <Target Name="MozBackup:Clean">
+        <MSBuild Projects="MozBackup.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MozBackup:Make">
+        <MSBuild Projects="MozBackup.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Tester">
+        <MSBuild Projects="Tester.dproj"/>
+    </Target>
+    <Target Name="Tester:Clean">
+        <MSBuild Projects="Tester.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Tester:Make">
+        <MSBuild Projects="Tester.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="MozBackup;Tester"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="MozBackup:Clean;Tester:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="MozBackup:Make;Tester:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

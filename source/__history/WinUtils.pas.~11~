@@ -50,6 +50,8 @@ procedure OpenExplorer (Cesta: string);
 function OSVersion: byte;
 // ziskat adresar, kde jsou nainstalovana Windows
 function GetWindowsDir: string;
+// returns info about used file system
+function GetHardDiskPartitionType(const DriveLetter: Char): string;
 
 implementation
 
@@ -286,6 +288,24 @@ begin
          6: Result:= 11;                                        // Windows Vista
      end;
   end;
+end;
+
+{
+  Function returns string 'FAT' or 'NTFS' in dependence on which file system
+  is used on disc which is input as a parameter. 
+}
+function GetHardDiskPartitionType(const DriveLetter: Char): string;
+var
+  NotUsed: DWORD;
+  VolumeFlags: DWORD;
+  VolumeInfo: array[0..MAX_PATH] of Char;
+  VolumeSerialNumber: DWORD;
+  PartitionType: array[0..32] of Char;
+begin
+  GetVolumeInformation(PChar(DriveLetter + ':\'),
+    nil, SizeOf(VolumeInfo), @VolumeSerialNumber, NotUsed,
+    VolumeFlags, PartitionType, 32);
+  Result := PartitionType;
 end;
 
 end.

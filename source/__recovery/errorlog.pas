@@ -53,23 +53,23 @@ begin
   Return:= true;
 
   // Nejprve se overi, zda adresar s profilem MozBackupu existuje
-  if (DirectoryExists (GetSpecialDir (11) + '\MozBackup') = false) then
+  if (DirectoryExists (GetEnvironmentVariable('APPDATA') + '\MozBackup') = false) then
     begin
-      Return:= SysUtils.CreateDir(GetSpecialDir (11) + '\MozBackup');
+      Return:= SysUtils.CreateDir(GetEnvironmentVariable('APPDATA') + '\MozBackup');
     end;
 
   // Zapise se zprava do souboru
   if (Return = true) then
     begin
       try
-        if FileExists (GetSpecialDir (11) + '\MozBackup\error.log') = false then
+        if FileExists (GetEnvironmentVariable('APPDATA') + '\MozBackup\error.log') = false then
           begin
-            AssignFile (F, GetSpecialDir (11) + '\MozBackup\error.log');
+            AssignFile (F, GetEnvironmentVariable('APPDATA') + '\MozBackup\error.log');
             ReWrite (F);
             CloseFile (F);
           end;
 
-        AssignFile (F, GetSpecialDir (11) + '\MozBackup\error.log');
+        AssignFile (F, GetEnvironmentVariable('APPDATA') + '\MozBackup\error.log');
         Append (F);
         Writeln (F, Text);
         CloseFile (F);

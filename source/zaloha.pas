@@ -58,7 +58,7 @@ implementation
 //******************************************************************************
 
 uses forms, dialogs, funkce, hlavni, chyby, okna, StrUtils,
-     SysUtils, Windows, ZipMstr19, JP_Windows, Config, JPDialogs,
+     SysUtils, Windows, ZipMstr19, Config, JPDialogs,
      ZipFactory, classes, PrefsParser, PrefsParserAccount, UnknowFilesBL,
      UnknowItem, UnknowFiles, functions, ProgressWindow;
 
@@ -1524,9 +1524,9 @@ procedure TestBackupFile (zipFactory: TZipFactory);
 begin
   try
     // Jako zkouška se rozbalí soubor prefs.js
-    zipFactory.extractFile('indexfile.txt', GetSpecialDir (2));
+    zipFactory.extractFile('indexfile.txt', GetEnvironmentVariable('TEMP'));
 
-    if not (FileExists (GetSpecialDir (2) + '\indexfile.txt')) then
+    if not (FileExists (GetEnvironmentVariable('TEMP') + '\indexfile.txt')) then
       begin
         Application.MessageBox (pchar (Config.l10n.getL10nString ('MozBackup14', 'LANG_INVALID_OUTPUT')),
                                 pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_OK + MB_ICONWARNING);
@@ -1535,12 +1535,12 @@ begin
       end
     else
       begin
-        SysUtils.DeleteFile(GetSpecialDir (2) + '\indexfile.txt');
+        SysUtils.DeleteFile(GetEnvironmentVariable('TEMP') + '\indexfile.txt');
       end;
    except
      on E:EInOutError do
        begin
-          if (FileExists (GetSpecialDir (2) + '\indexfile.txt')) then SysUtils.DeleteFile(GetSpecialDir (2) + '\indexfile.txt');
+          if (FileExists (GetEnvironmentVariable('TEMP') + '\indexfile.txt')) then SysUtils.DeleteFile(GetEnvironmentVariable('TEMP') + '\indexfile.txt');
           Application.MessageBox (pchar (Config.l10n.getL10nString ('MozBackup14', 'LANG_INVALID_OUTPUT')),
                                   pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_OK + MB_ICONWARNING);
           SysUtils.DeleteFile (Form1.Vyst_soubor);

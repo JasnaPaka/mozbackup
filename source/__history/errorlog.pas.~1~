@@ -38,7 +38,7 @@ procedure WriteMessage (Text: string);
 
 implementation
 
-uses hlavni, sysutils;
+uses hlavni, sysutils, JP_Windows;
 
 //******************************************************************************
 // procedure WriteMessage
@@ -53,23 +53,23 @@ begin
   Return:= true;
 
   // Nejprve se overi, zda adresar s profilem MozBackupu existuje
-  if (DirectoryExists (GetEnvironmentVariable('APPDATA') + '\MozBackup') = false) then
+  if (DirectoryExists (GetSpecialDir (11) + '\MozBackup') = false) then
     begin
-      Return:= SysUtils.CreateDir(GetEnvironmentVariable('APPDATA') + '\MozBackup');
+      Return:= SysUtils.CreateDir(GetSpecialDir (11) + '\MozBackup');
     end;
 
   // Zapise se zprava do souboru
   if (Return = true) then
     begin
       try
-        if FileExists (GetEnvironmentVariable('APPDATA') + '\MozBackup\error.log') = false then
+        if FileExists (GetSpecialDir (11) + '\MozBackup\error.log') = false then
           begin
-            AssignFile (F, GetEnvironmentVariable('APPDATA') + '\MozBackup\error.log');
+            AssignFile (F, GetSpecialDir (11) + '\MozBackup\error.log');
             ReWrite (F);
             CloseFile (F);
           end;
 
-        AssignFile (F, GetEnvironmentVariable('APPDATA') + '\MozBackup\error.log');
+        AssignFile (F, GetSpecialDir (11) + '\MozBackup\error.log');
         Append (F);
         Writeln (F, Text);
         CloseFile (F);

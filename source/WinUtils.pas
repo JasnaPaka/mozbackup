@@ -59,14 +59,14 @@ uses Forms, Registry, psapi, SysUtils, ShellApi, shlObj, Tlhelp32, Windows, WinS
 
 
 //******************************************************************************
-// ** Privatni procedury a funkce
+// ** Private procedures and functions
 //******************************************************************************
 
 
 //******************************************************************************
 // function GetTempDir
 //
-// - vraci cestu ke slozce Temp
+// - returns the path to the Temp folder
 //******************************************************************************
 
 function GetTempDir: string;
@@ -88,7 +88,7 @@ end;
 //******************************************************************************
 // function GetWindowsDir
 //
-// - vraci adresar, kde jsou nainstalovany Windows
+// - returns the directory where Windows is installed
 //******************************************************************************
 
 function GetWindowsDir: string;
@@ -100,14 +100,14 @@ end;
 
 
 //******************************************************************************
-// ** Public procedury a funkce
+// ** Public procedures and functions
 //******************************************************************************
 
 
 //******************************************************************************
 // function GetProcessList
 //
-// - vrati seznam spustenych procesu
+// - returns the list of running processes
 //******************************************************************************
 
 function GetProcessList: TStringList;
@@ -131,7 +131,7 @@ end;
 //******************************************************************************
 // function GetProcessListNT
 //
-// - vrati seznam spustenych procesu pod NT
+// - returns the list of running processes under NT
 //******************************************************************************
 
 function GetProcessListNT: TStringList;
@@ -187,10 +187,10 @@ end;
 //******************************************************************************
 // function GetSpecialDir
 //
-// - vraci cestu ke specialnim adresarum Windows
+// - returns the path to special Windows directories
 //
-// Vstup: id - ciselne vyjadreni adresare
-// Vystup: - cesta k danemu adresari
+// Input: id - numerical representation of the directory
+// Output: - path to the specified directory
 //******************************************************************************
 
 function GetSpecialDir (id: byte): string;
@@ -198,29 +198,29 @@ var gFolder : Integer;
     SFolder : pItemIDList;
     SpecialPath : Array[0..MAX_PATH] of Char;
 begin
-  gFolder:= 0;
+  gFolder := 0;
   case id of
-    1: gFolder:= CSIDL_DESKTOP;                         // Desktop
-    2: gFolder:= CSIDL_PERSONAL;                        // Dokumenty
-    3: gFolder:= CSIDL_FAVORITES;                       // Oblibene
-    4: gFolder:= CSIDL_FONTS;                           // Fonty
-    5: gFolder:= CSIDL_NETHOOD;                         // Okolni pocitace
-    6: gFolder:= CSIDL_PROGRAMS;                        // Programy
-    7: gFolder:= CSIDL_STARTUP;                         // Po spusteni
-    8: gFolder:= CSIDL_RECENT;                          // Recent
-    9: gFolder:= CSIDL_SENDTO;                          // SendTo
-    10: gFolder:= CSIDL_STARTMENU;                      // Start
-    11: gFolder:= CSIDL_APPDATA;                        // Data aplikaci
-    12: gFolder:= CSIDL_COOKIES;                        // Cookies
-    13: gFolder:= CSIDL_INTERNET_CACHE;                 // Internet Cache
-    14: gFolder:= CSIDL_HISTORY;                        // Historie
-    16: gFolder:= CSIDL_TEMPLATES;                      // Templates
-    17: gFolder:= CSIDL_COMMON_DESKTOPDIRECTORY;        // Sdileny Desktop
-    18: gFolder:= CSIDL_COMMON_FAVORITES;               // Sdilene Oblibene
-    19: gFolder:= CSIDL_COMMON_STARTMENU;               // Sdileny Start
-    20: gFolder:= CSIDL_COMMON_PROGRAMS;                // Sdileny Programy
-    21: gFolder:= CSIDL_COMMON_STARTUP;                 // Sdileny Po spusteni
-    else Result:= '';
+    1: gFolder := CSIDL_DESKTOP;                         // Desktop
+    2: gFolder := CSIDL_PERSONAL;                        // Documents
+    3: gFolder := CSIDL_FAVORITES;                       // Favorites
+    4: gFolder := CSIDL_FONTS;                           // Fonts
+    5: gFolder := CSIDL_NETHOOD;                         // Network Places
+    6: gFolder := CSIDL_PROGRAMS;                        // Programs
+    7: gFolder := CSIDL_STARTUP;                         // Startup
+    8: gFolder := CSIDL_RECENT;                          // Recent
+    9: gFolder := CSIDL_SENDTO;                          // SendTo
+    10: gFolder := CSIDL_STARTMENU;                      // Start Menu
+    11: gFolder := CSIDL_APPDATA;                        // Application Data
+    12: gFolder := CSIDL_COOKIES;                        // Cookies
+    13: gFolder := CSIDL_INTERNET_CACHE;                 // Internet Cache
+    14: gFolder := CSIDL_HISTORY;                        // History
+    16: gFolder := CSIDL_TEMPLATES;                      // Templates
+    17: gFolder := CSIDL_COMMON_DESKTOPDIRECTORY;        // Shared Desktop
+    18: gFolder := CSIDL_COMMON_FAVORITES;               // Shared Favorites
+    19: gFolder := CSIDL_COMMON_STARTMENU;               // Shared Start Menu
+    20: gFolder := CSIDL_COMMON_PROGRAMS;                // Shared Programs
+    21: gFolder := CSIDL_COMMON_STARTUP;                 // Shared Startup
+    else Result := '';
   end;
 
   if (id <> 0) and (id <> 15) and (id <= 21) then
@@ -229,18 +229,18 @@ begin
       SHGetPathFromIDList(SFolder, SpecialPath);
       Result:= StrPas(SpecialPath);
     end;
-  if (id = 0) then Result:= GetWindowsDir;              // adresar Windows
+  if (id = 0) then Result:= GetWindowsDir;              // dir Windows
   if (id = 15) then Result:= GetTempDir;                // Temp
-  if (id = 22) then Result:= '';                        // nesmysl
+  if (id = 22) then Result:= '';                        // irelevant
 end;
 
 
 //******************************************************************************
 // procedure OpenExplorer
 //
-// - otevre okno Windows Exploreru v pozadovanem adresari
+// - opens the Windows Explorer window in the specified directory
 //
-// Vstup: Cesta - cesta k adresari
+// Input: Path - path to the directory
 //******************************************************************************
 
 procedure OpenExplorer (Cesta: string);
@@ -252,7 +252,7 @@ end;
 //******************************************************************************
 // function OSVersion
 //
-// - vrati verzi Windows
+// - returns the Windows version
 //******************************************************************************
 
 function OSVersion: byte;
@@ -285,7 +285,23 @@ begin
                     2 : Result:= 10;                            // Windows 2003
                end;
              end;
-         6: Result:= 11;                                        // Windows Vista
+        6:
+          begin
+            case OS.dwMinorVersion of
+              0:
+                Result := 11;  // Windows Vista
+              1:
+                Result := 12;  // Windows 7
+              2:
+                Result := 13;  // Windows 8
+              3:
+                Result := 14;  // Windows 8.1
+            end;
+          end;
+        10:
+          Result := 15;  // Windows 10
+        11:
+          Result := 16;  // Windows 11
      end;
   end;
 end;

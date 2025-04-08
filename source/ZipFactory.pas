@@ -95,7 +95,7 @@ begin
   self.password:= Password;
   self.rootDir:= RootDir;
 
-  // vytvoøení ZIP souboru
+  // ZIP creation
   ZipMaster1:= TZipMaster19.Create(nil);
   ZipMaster1.DLLDirectory:= '.\dll\';
   ZipMaster1.ZipFileName:= ZipFilePath;
@@ -219,7 +219,7 @@ begin
     end;    
 end;
 
-// pøidá seznam souborù do ZIP archivu
+// adds a list of files to the ZIP archive
 procedure TZipFactory.addFileList (FileList: TStringList);
 begin
   ZipMaster1.FSpecArgs.Assign(FileList);
@@ -228,7 +228,7 @@ begin
   Application.ProcessMessages;
 end;
 
-// rozbalení souboru
+// extracting the file
 function TZipFactory.extractFile (FilePath: String):integer;
 begin
   Result:= extractFile (FilePath, rootDir);
@@ -249,7 +249,7 @@ begin
   Result:= ZipMaster1.SuccessCnt;  
 end;
 
-// rozbalení seznamu souborù
+// extracting the list of files
 function TZipFactory.extractFileList (FileList: TStringList): Integer;
 begin
   ZipMaster1.FSpecArgs.Assign(FileList);
@@ -265,7 +265,7 @@ begin
   Result:= ZipMaster1.SuccessCnt;  
 end;
 
-// rozbaleni adresare
+// directory extraction
 function TZipFactory.extractDirectory (DirectoryPath: String; Mask: String):Integer;
 begin
   Result:= extractDirectory (DirectoryPath, Mask, rootDir);
@@ -288,13 +288,13 @@ begin
   Result:= ZipMaster1.SuccessCnt;  
 end;
 
-// vrátí adresáø na disku, ke kterému je vztahována cesta souboru v ZIPu
+// returns the directory on the disk associated with the file path in the ZIP archive
 function TZipFactory.getRootDir():String;
 begin
   Result:= rootDir;
 end;
 
-// nastaví adresáø na disku, ke kterému se vztahuje cesta k ZIP souboru
+// sets the directory on the disk associated with the path to the ZIP file
 procedure TZipFactory.setRootDir(RootDir: string);
 begin
   self.rootDir:= RootDir;

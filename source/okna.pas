@@ -40,27 +40,27 @@ interface
 
 procedure DefaultL10n;
 
-// dialog c. 1 - uvitani v pruvodci
+// dialog no. 1 - welcome in the wizard
 procedure Okno1;
-// dialog c. 2 - volba operace
+// dialog no. 2 - operation selection
 procedure Okno2;
-// dialog c. 3 - volba profilu
+// dialog no. 3 - profile selection
 procedure Okno3;
-// dialog c. 4 - volba soucasti, ktere se budou zalohovat (obnovovat)
+// dialog no. 4 - selection of components to be backed up (restored)
 procedure Okno4;
-// dialog c. 5 - provadeni akci
+// dialog no. 5 - performing actions
 procedure Okno5;
-// dialog c. 6 - zaver
+// dialog no. 6 - conclusion
 procedure Okno6;
 
 
-// okno na vyber externiho profilu
+// window for selecting an external profile
 //procedure Profil_okno;
 
 implementation
 
 //******************************************************************************
-// Deklarace pouzitych unit
+// Declaration of used units
 //******************************************************************************
 
 uses hlavni, dialogs, forms, funkce, jp_registry, sysutils,
@@ -71,7 +71,7 @@ classes, UnknowItem, Functions, ProgressWindow, Graphics, MozUtils, WinUtils;
 var unknowFilesL: TUnknowFilesBL;
 
 //******************************************************************************
-// Procedury a funkce
+// Procedures and functions
 //******************************************************************************
 
 procedure DefaultL10n;
@@ -85,7 +85,7 @@ end;
 //******************************************************************************
 // procedure Okno1
 //
-// - nastaveni 1. dialogu - uvitani
+// - settings of the first dialog - welcome
 //******************************************************************************
 
 procedure Okno1;
@@ -104,11 +104,11 @@ begin
   Form1.Label1.Font.Name:= Config.l10n.getDefaultFont();
   Form1.Label1.Font.Charset:= Config.l10n.getDefaultCharset();
 
-  // nastaveni vystupniho souboru
+  // settings of the output file
   Form1.Vyst_soubor:= '';
   //Form1.Ukoncit:= false;
 
-  // nastaveni prvku na formulari
+  // settings of the form elements
   Form1.Panel1.Visible:= true;
   Form1.Panel2.Visible:= false;
   Form1.Panel6.Visible:= false;
@@ -117,15 +117,15 @@ begin
   Form1.Button2.Visible:= true;
   Form1.Button3.Visible:= false;
   
-  // nastaveni promennych
+  // settings of the variables
   Form1.Okno:= 1;
-  Form1.Chyba:= false;          // chyba nenastala
+  Form1.Chyba:= false;          // no error occurred
 end;
 
 //******************************************************************************
 // procedure Okno2
 //
-// - nastaveni 2. dialogu - volba operace
+// - settings of the second dialog - operation selection
 //******************************************************************************
 
 procedure Okno2;
@@ -140,15 +140,15 @@ begin
   Form1.StaticText1.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_CO_PROVEST');
   Form1.StaticText10.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_MEMO2');
 
-  // nastaveni prvku na formulari
+  // settings of the form elements
   Form1.Panel3.Visible:= false;
   Form1.Panel2.Visible:= true;
   Form1.Panel1.Visible:= false;
   Form1.Button3.Visible:= true;
 
   
-  DetekceKomponent;                                   // detekce nainstalovanych aplikaci
-  Over_program;                                       // je detekovan nejaky program? ne - program bude ukoncen
+  DetekceKomponent;                                   // detection of installed applications
+  Over_program;                                       // is any program detected? no - the program will be terminated
 
   if Form1.ListBox1.Items.Count > 0 then
     begin
@@ -163,15 +163,15 @@ end;
 //******************************************************************************
 // procedure Okno3
 //
-// - nastaveni 3. dialogu - volba profilu
+// - settings of the third dialog - profile selection
 //******************************************************************************
 
 procedure Okno3;
 begin
-  // volba operace
+  // operation selection
   if (Form1.RadioButton1.Checked) then Form1.Akce:= 1 else Form1.Akce:= 2;
 
-  // nastaveni Caption okna
+  // settings of the window caption
   Form1.Caption:= Config.APPLICATION_NAME + Config.l10n.getL10nString ('TForm1', 'LANG_VOLBA_PROFILU');
 
   Form1.Button5.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_NEW_PROFIL');
@@ -210,7 +210,7 @@ begin
   Form1.Button1.Enabled:= false;
   Form1.ListBox2.Sorted:= true;
 
-  // nastaveni jazykovych veci
+  // settings of language-related aspects
   if Form1.Akce = 1 then
     begin
       Form1.StaticText2.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_TEXT2_1');
@@ -222,7 +222,7 @@ begin
       Form1.StaticText4.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_TEXT4_2');
     end;
 
-  DetekceProfilu;               // provede detekci profilu
+  DetekceProfilu;               // performs profile detection
   
   if Form1.ListBox2.Items.Count > 0 then
     begin
@@ -230,8 +230,8 @@ begin
     end;
   Form1.ListBox2.SetFocus;
 
-  Over_vyber_profilu;           // je vybran nejaky profil?
-  NastavSoubor;                 // Nastavi vystupni soubor
+  Over_vyber_profilu;           // is any profile selected?
+  NastavSoubor;                 // sets the output file
 end;
 
 
@@ -288,7 +288,7 @@ end;
 //******************************************************************************
 // procedure Okno4
 //
-// - nastaveni 4. dialogu - volba soucasti
+// - settings of the fourth dialog - component selection
 //******************************************************************************
 
 procedure Okno4;
@@ -310,7 +310,7 @@ begin
   else
     begin
 
- // prepsat zalozni soubor? - pri zalohovani
+ // overwrite the backup file? - during backup
  if (Form1.Akce = 1) and (FileExists (Form1.Vyst_soubor)) then
    begin
      if showQuestionDialog(Config.l10n.getL10nString ('TForm1', 'LANG_QUESTION'),
@@ -320,7 +320,7 @@ begin
      end;
    end;
 
- // existuje zalozni soubor? - pri obnoveni profilu
+ // does the backup file exist? - during profile restoration
  if (Form1.Akce = 2) then
    begin
      if (not FileExists (Form1.Vyst_soubor)) then
@@ -362,7 +362,7 @@ begin
 
  if Pokracovat then begin
 
- // zaheslovat archiv? - pri zalohovani
+ // password-protect the archive? - during backup
  if (Form1.Akce=1) and (Form1.AskForPassword) and (showQuestionDialog(Config.l10n.getL10nString ('TForm1', 'LANG_QUESTION'),
                             Config.l10n.getL10nString ('TForm4', 'LANG_ENCRYPT')) = IDYES) then
    begin
@@ -388,21 +388,21 @@ begin
 
  if (FileExists (Form1.Vyst_soubor)) or (Form1.RadioButton1.Checked) then
     begin
-      // "vynulovani" checkboxu
+      // “resetting” the checkbox
       NastavCheckboxy;
-      // detekce soucasti urcenych k zalohovani (ci obnoveni)
+      // detection of components designated for backup (or restoration)
       Form1.Pocet_extern:= 1;
       if Form1.Akce = 1 then DetekceSoucasti else DetekceSoucastiSoubor;
 
-      // nastaveni Caption okna
+      // setting the window caption
       Form1.Caption:= Config.APPLICATION_NAME + Config.l10n.getL10nString ('TForm1', 'LANG_SOUCASTI');
 
-      // nastaveni prvku na formulari
+      // setting the form elements
       Form1.Panel4.Visible:= true;
       Form1.Panel5.Visible:= false;
       Form1.Panel3.Visible:= false;
 
-      // nastaveni jazykove
+      // language settings
       if Form1.Akce = 1 then Form1.StaticText5.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_CHOOSE_ZALOHA')
       else Form1.StaticText5.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_CHOOSE_OBNOVA');
 
@@ -470,7 +470,7 @@ begin
                         Config.l10n.getL10nString ('TForm1', 'LANG_BAD_FILE2'));
       Dec (Form1.Okno);
     end;
-  end   // "pokracovat"
+  end   // "continue"
   else Dec (Form1.Okno);
 
   end;
@@ -480,7 +480,7 @@ end;
 //******************************************************************************
 // procedure Okno5
 //
-// - nastaveni 5. dialogu - akce
+// - settings of the fifth dialog - actions
 //******************************************************************************
 
 procedure Okno5;
@@ -524,7 +524,7 @@ end;
 //******************************************************************************
 // procedure Okno6
 //
-// - nastaveni 6. dialogu - zaver
+// - settings of the sixth dialog - conclusion
 //******************************************************************************
 
 procedure Okno6;
@@ -578,7 +578,7 @@ begin
       Form1.StaticText11.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_BACKUP_RESTOR'));
     end;
 
-  // smazani souboru s informaci o obsahu zalozniho souboru
+  // deletion of the file containing information about the backup file’s contents
   if (Form1.Akce = 2) and (fileexists (GetSpecialDir (11) + 'indexfile.txt')) then SysUtils.DeleteFile (GetSpecialDir (11) + 'indexfile.txt');
 end;
 

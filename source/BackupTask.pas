@@ -128,7 +128,7 @@ begin
               begin
                 Application.ProcessMessages;
                 
-                // TODO: Lepsi osetreni
+                // TODO: better handling
                 if Pos ('.mozmsgs', Directory + '\' + SearchRec.Name) = 0 then
                   begin
                     addDirectory (Directory + '\' + SearchRec.Name, Mask, Path);

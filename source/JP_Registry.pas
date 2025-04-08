@@ -44,7 +44,7 @@ uses Dialogs, SysUtils, Registry, Windows;
 //******************************************************************************
 // function LoadDirectory
 //
-// - nacte ulozeny vychozi adresar z registru
+// - loads the saved default directory from the registry
 //******************************************************************************
 
 function LoadDirectory (Typ: byte): string;
@@ -72,7 +72,7 @@ end;
 //******************************************************************************
 // function SaveDirectory
 //
-// - ulozi vychozi adresar do registru
+// - saves the default directory to the registry
 //******************************************************************************
 
 function SaveDirectory (Cesta: string; Typ: byte): boolean;

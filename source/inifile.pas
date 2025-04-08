@@ -38,7 +38,7 @@ procedure LoadIni;
 
 implementation
 
-uses hlavni, dialogs, functions, errorlog, inifiles, Config, sysutils, JP_Windows;
+uses hlavni, dialogs, functions, errorlog, inifiles, Config, sysutils;
 
 //******************************************************************************
 // procedure CreateIni

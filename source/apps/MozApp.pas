@@ -178,26 +178,26 @@ begin
    FStream.Seek(12,soFromBeginning);                                         // 1
    FStream.Read(i, SizeOf (i));
 
-   // nacteni "/"
+   // loading "/"
    FStream.Seek(I + 16, soFromBeginning);                                    // 2
    FStream.Read(i, SizeOf (i));
 
-   // nasleduje presun na key "users"                                        // 3
+   // next, move to the “users” key                                         // 3
    FStream.Seek(I + 12, soFromBeginning);
    FStream.Read(i, SizeOf (i));
 
-   // nasleduje presun na sekci "common"                                     // 4
+   // next, move to the “common” section                                     // 4
    FStream.Seek(I + 16, soFromBeginning);
    FStream.Read(i, SizeOf (i));
 
-   // nasleduje presun na sekci "CurrentProfile"
+   // next, move to the “CurrentProfile” section
    FStream.Seek(I, soFromBeginning);
    FStream.Read(i, SizeOf (i));
 
    FStream.Seek(I+16, soFromBeginning);                                      // 5
    FStream.Read(i, SizeOf (i));
 
-   // ** I nyni ukazuje na prvni profil
+   // ** and now it points to the first profile
    if I <> 0 then
      begin
        While I<>0 do
@@ -211,7 +211,7 @@ begin
            S:= ReadString (FStream, K, J-K);
            Jmeno:= Utf8ToAnsi(S);
 
-           // odkaz na konec retezce
+           // reference to the end of the string
            FStream.Seek(J+20,soFromBeginning);
            FStream.Read(i, SizeOf (i));
 
@@ -229,8 +229,8 @@ begin
            S:='';
            for I:=Length(Location) downto 1 do S:=S+Location[i];
 
-           // prekopane mazani retezce ze souboru
-           // puvodni: Delete (S, 1, 11);
+           // reworked string deletion from the file
+           // previous: Delete (S, 1, 11);
            L:= Pos ('directory', S);
            if (L = 0) then Delete (S, 1, 11)
            else
@@ -249,7 +249,7 @@ begin
 
            profilesList.Add(TAppProfile.Create(Name, RelativePath, FullPath));
 
-           // odkaz na dalsi?
+           // reference to the next one?
            FStream.Seek(J+12,soFromBeginning);
            FStream.Read(i, SizeOf (i));
         end;

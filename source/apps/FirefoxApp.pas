@@ -38,7 +38,7 @@ uses Dialogs, Hlavni, Funkce, MozApp, Registry, Windows;
 
 type TFirefoxApp = class(TMozApp)
   private
-    // TODO: tempporary
+    // TODO: temporary
     Registr: TRegistry;
   protected
     procedure init; override;
@@ -59,12 +59,14 @@ begin
   Registr.Access:= KEY_READ;
   Registr.RootKey:= HKEY_LOCAL_MACHINE;
 
+  OutputDebugStringW('Debug');
+
   // called function need rewrite
-  // ** Detekce Mozilly Firefox
+  // ** Mozilla Firefox detection
   SearchProgram (Registr, 'SOFTWARE\mozilla\Mozilla Firefox', 'CurrentVersion', 2, 1, false);
   SearchDirectory (Registr, 'SOFTWARE\mozilla\Mozilla Firefox\'+ Programy[2].Verze + '\Main', 'Install Directory', 2);
 
-  // Detekce starsi verze
+  // Detection (old version)
   if Length (Programy[2].Cesta) = 0 then
     begin
       SearchProgram (Registr, 'SOFTWARE\mozilla.org\Mozilla Firefox', 'CurrentVersion', 2, 0, true);

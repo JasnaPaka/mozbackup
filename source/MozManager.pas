@@ -62,7 +62,7 @@ end;
 
 destructor TMozManager.Destroy;
 begin
-  // TODO: uvolneni pameti
+  // TODO: memory release
 end;
 
 procedure TMozManager.init;

@@ -1,0 +1,387 @@
+{/* ***** BEGIN LICENSE BLOCK *****
+* Version: MPL 1.1/GPL 2.0/LGPL 2.1
+*
+* The contents of this file are subject to the Mozilla Public License Version
+* 1.1 (the "License"); you may not use this file except in compliance with
+* the License. You may obtain a copy of the License at
+* http://www.mozilla.org/MPL/
+*
+* Software distributed under the License is distributed on an "AS IS" basis,
+* WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+* for the specific language governing rights and limitations under the
+* License.
+*
+* Original author:
+* - Pavel Cvrcek <jasnapaka@jasnapaka.com>
+*
+* Contributor(s):
+*
+* Alternatively, the contents of this file may be used under the terms of
+* either of the GNU General Public License Version 2 or later (the "GPL"),
+* or the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+* in which case the provisions of the GPL or the LGPL are applicable instead
+* of those above. If you wish to allow use of your version of this file only
+* under the terms of either the GPL or the LGPL, and not to allow others to
+* use your version of this file under the terms of the MPL, indicate your
+* decision by deleting the provisions above and replace them with the notice
+* and other provisions required by the GPL or the LGPL. If you do not delete
+* the provisions above, a recipient may use your version of this file under
+* the terms of any one of the MPL, the GPL or the LGPL.
+*
+* ***** END LICENSE BLOCK ***** */}
+
+unit MozApp;
+
+interface
+
+uses AppProfile, Dialogs, Classes, IniFiles, SysUtils, WinUtils, Windows;
+
+type TMozApp = class
+  private
+    const PROFILE_REGISTRY_DAT = 'registry.dat';
+    const PROFILE_PROFILES_INI = 'profiles.ini';
+  protected
+    // application id
+    id: integer;
+    // application name (for example: Mozilla Firefox)
+    name: string;
+    // short application name (for example: Firefox)
+    shortName: string;
+    // application version
+    version: string;
+    // locations, where applications stores user data
+    profilesLocations: TStringList;
+    // application exe names
+    exeNames: TStringList;
+    // application path (where application is installed)
+    pathToApplication: String;
+
+    // info if application was found or not
+    found: boolean;
+
+    // list of profiles
+    profilesList: TList;
+
+    // ** methods
+    procedure init; virtual; abstract;
+    procedure searchApplication(); virtual; abstract;
+    procedure searchProfiles();
+
+    procedure loadFileProfilesIni(Path: String);
+    procedure loadFileRegistryDat(Path: String);
+
+    function ReadString(FStream: TFileStream; dwPos, dwLen: DWord): String;
+  public
+    constructor Create;
+
+    function getId():integer;
+    function getName():string;
+    function getVersion():string;
+    function getShortName():string;
+    function getProfilesLocations():TStringList;
+    function getExeNames():TStringList;
+    function getPathToApplication():String;
+
+    function isFound():boolean;
+
+    function findProfile(ProfileName:String):TAppProfile;
+end;
+
+implementation
+
+//************************ protected methods *************************************
+
+{ load info about profiles from file profiles.ini }
+procedure TMozApp.loadFileProfilesIni(Path: String);
+var I: Integer;
+    ProfileExists: boolean;
+    Ini: TIniFile;
+    S: String;
+    Name: String;
+    ProfilePath: String;
+    RelativePath: String;
+    FullPath: String;
+    IsRelative: Integer;
+    Position: Integer;
+begin
+  i:= 0;
+  ProfileExists:= true;
+
+  // load profiles.ini
+  ini:= TIniFile.Create(Path);
+
+  Repeat
+    S:= 'Profile' + IntToStr (I);
+    if (ini.SectionExists(s)) then
+      begin
+        if (ini.ValueExists(S, 'name')) and (ini.ValueExists(S, 'path')) then
+           begin
+             Name:= Utf8ToAnsi(ini.ReadString (S, 'name', ''));
+             IsRelative:= ini.ReadInteger(S, 'IsRelative', 0);
+             ProfilePath:= Utf8ToAnsi (ini.ReadString (S, 'path', ''));
+             if (IsRelative = 1) then
+               begin
+                 FullPath:= ExtractFilePath(Path) + '\' + ProfilePath + '\';               
+                 RelativePath:= ProfilePath;
+               end
+             else
+               begin
+                 FullPath:= ProfilePath + '\';               
+                 Position:= Pos(ExtractFilePath(Path), ProfilePath);
+                 Delete (ProfilePath, Position, Length (ExtractFilePath (Path)));
+                 RelativePath:= ProfilePath;
+               end;
+
+             // add new profile to list
+             profilesList.Add(TAppProfile.Create(name, relativePath, fullPath));
+           end;
+        end
+      else
+        begin
+          ProfileExists:= false;
+        end;
+     I:= I + 1;
+  Until ProfileExists = false;
+  Ini.Free;
+end;
+
+{ support function for loadFileRegistryDat }
+function TMozApp.ReadString(FStream: TFileStream; dwPos, dwLen: DWord): String;
+var
+  sTemp: String;
+  intA: Integer;
+begin
+  Result := '';
+  SetLength(sTemp, dwLen);
+  FStream.Seek(dwPos, soFromBeginning);
+  FStream.Read(PChar(sTemp)^, dwLen);
+
+  for intA := 1 to dwLen do begin
+    if sTemp[intA] <> #0 then
+      Result := Result + sTemp[intA];
+  end;
+end;
+
+{ load info about profiles from file registry.dat }
+procedure TMozApp.loadFileRegistryDat(Path: String);
+var FStream: TFileStream;
+    I, J, K, L: Integer;
+    S, Jmeno, Location: String;
+    Name: String;
+    ProfilePath: String;
+    RelativePath: String;
+    FullPath: String;
+    Position: Integer;
+begin
+   FStream:= TFileStream.Create(Path, fmOpenRead);
+
+   FStream.Seek(12,soFromBeginning);                                         // 1
+   FStream.Read(i, SizeOf (i));
+
+   // loading "/"
+   FStream.Seek(I + 16, soFromBeginning);                                    // 2
+   FStream.Read(i, SizeOf (i));
+
+   // next, move to the “users” key                                      // 3
+   FStream.Seek(I + 12, soFromBeginning);
+   FStream.Read(i, SizeOf (i));
+
+   // nasleduje presun na sekci "common"                                     // 4
+   FStream.Seek(I + 16, soFromBeginning);
+   FStream.Read(i, SizeOf (i));
+
+   // nasleduje presun na sekci "CurrentProfile"
+   FStream.Seek(I, soFromBeginning);
+   FStream.Read(i, SizeOf (i));
+
+   FStream.Seek(I+16, soFromBeginning);                                      // 5
+   FStream.Read(i, SizeOf (i));
+
+   // ** I nyni ukazuje na prvni profil
+   if I <> 0 then
+     begin
+       While I<>0 do
+         begin
+           J:= I;
+
+           FStream.Seek(I+4, soFromBeginning);
+           FStream.Read(i, SizeOf (i));
+           K:= I;
+
+           S:= ReadString (FStream, K, J-K);
+           Jmeno:= Utf8ToAnsi(S);
+
+           // odkaz na konec retezce
+           FStream.Seek(J+20,soFromBeginning);
+           FStream.Read(i, SizeOf (i));
+
+           Location:= '';
+           Repeat
+              Location:= Location + ReadString (FStream, I-1, 1);
+              I:= I-1;
+              FStream.Seek(I,soFromBeginning);
+              FStream.Read(K, SizeOf (K));
+           Until J = K;
+           // Location:= Trim (Location);
+
+           Name:= Utf8ToAnsi(S);
+
+           S:='';
+           for I:=Length(Location) downto 1 do S:=S+Location[i];
+
+           // prekopane mazani retezce ze souboru
+           // puvodni: Delete (S, 1, 11);
+           L:= Pos ('directory', S);
+           if (L = 0) then Delete (S, 1, 11)
+           else
+             begin
+               Delete (S, 1, L-1);
+               Delete (S, 1, 9);
+             end;
+
+           ProfilePath:= Utf8ToAnsi(S);
+           FullPath:= ProfilePath;
+
+           // get relative path
+           Position:= Pos(ExtractFilePath(Path), ProfilePath);
+           Delete (ProfilePath, Position, Length (ExtractFilePath (Path)));
+           RelativePath:= ProfilePath;           
+
+           profilesList.Add(TAppProfile.Create(Name, RelativePath, FullPath));
+
+           // odkaz na dalsi?
+           FStream.Seek(J+12,soFromBeginning);
+           FStream.Read(i, SizeOf (i));
+        end;
+     end;
+   FStream.Destroy;
+end;
+
+{ search application profiles }
+procedure TMozApp.searchProfiles();
+var I: integer;
+    ProfilesLocation: String;
+    Found: boolean;
+begin
+  Found:= false;  
+  for I := 0 to getProfilesLocations.Count - 1 do
+    begin
+      ProfilesLocation:= getProfilesLocations[I];
+
+      if (Pos ('[AppData]', ProfilesLocation) > 0) then
+        begin
+            ProfilesLocation:= SysUtils.StringReplace (ProfilesLocation, '[AppData]',
+                                        GetSpecialDir (11), [rfReplaceAll]);
+        end;
+      ProfilesLocation:= ProfilesLocation + '\';
+
+      if (FileExists(ProfilesLocation + PROFILE_PROFILES_INI) or
+          FileExists(ProfilesLocation + PROFILE_REGISTRY_DAT)) then
+        begin
+          Found:= true;
+          Break;
+        end;
+    end;
+
+  // some profiles has found
+  if (Found) then
+    begin
+      profilesList:= TList.Create();
+
+      if (FileExists(ProfilesLocation + PROFILE_PROFILES_INI)) then
+        begin
+          loadFileProfilesIni (ProfilesLocation + PROFILE_PROFILES_INI);
+        end
+      else
+        begin
+          loadFileRegistryDat (ProfilesLocation + PROFILE_PROFILES_INI);
+        end;
+    end;
+end;
+
+//************************ public methods **************************************
+
+constructor TMozApp.Create;
+begin
+  init;
+  
+  // search, if application is installed
+  searchApplication();
+
+  // search for profiles
+  searchProfiles();
+end;
+
+function TMozApp.getId;
+begin
+  Result:= id;
+end;
+
+function TMozApp.getName;
+begin
+  Result:= name;
+end;
+
+function TMozApp.getVersion;
+begin
+  Result:= Version;   
+end;
+
+function TMozApp.getShortName;
+begin
+  Result:= shortName;
+end;
+
+function TMozApp.getProfilesLocations;
+begin
+  Result:= profilesLocations;
+end;
+
+function TMozApp.getExeNames;
+begin
+  Result:= exeNames;
+end;
+
+function TMozApp.getPathToApplication:String;
+begin
+  Result:= pathToApplication;
+end;
+
+
+function TMozApp.isFound:boolean;
+begin
+  Result:= found;
+end;
+
+{ try to find profile order by name. If profile is found than returns instance of
+  class TAppProfile. If not, just return nil. }
+function TMozApp.findProfile(ProfileName:String):TAppProfile;
+var I: Integer;
+    Found: boolean;
+begin
+  if (profilesList = nil) then
+    begin
+      Result:= nil;
+    end
+  else
+    begin
+      Found:= false;
+      for I := 0 to profilesList.Count - 1 do
+        begin
+          if Pos (ProfileName, lowercase((TAppProfile(profilesList[I])).getName())) > 0 then
+            begin
+              Found:= true;
+              Result:= profilesList[I];
+            end;
+        end;
+
+      if not Found then
+        begin
+          Result:= nil;
+        end;
+    end;
+end;
+
+end.
+
+

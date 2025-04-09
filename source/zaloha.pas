@@ -36,25 +36,25 @@ interface
 
 uses BackupTask;
 
-const Pocet_polozek = 13;       // pocet polozek, ktere se zalohuji + 1
+const Pocet_polozek = 13;       // number of items being backed up + 1
 
 var backupTask: TBackupTask;
 
-// ulozi seznam zalohovanych veci
+// saves the list of backed-up items
 procedure CreateKomponenty (var F: textfile);
-// zkopiruje soubor ze zalohy
+// copies file from backup
 procedure Kopie2 (var F1: textfile; Soubor: string);
-// provede obnoveni zalohy
+// performs backup restore
 procedure Obnoveni;
-// vytvori potrebne adresare v ceste
+// creates necessary directories in the path
 procedure VytvorAdresar (S: string);
-// provede zalohu
+// performs backup
 procedure Zalohovani;
 
 implementation
 
 //******************************************************************************
-// Deklarace pouzitych unit
+// Declaration of used units
 //******************************************************************************
 
 uses forms, dialogs, funkce, hlavni, chyby, okna, StrUtils,
@@ -66,7 +66,7 @@ uses forms, dialogs, funkce, hlavni, chyby, okna, StrUtils,
 //******************************************************************************
 // procedure Uzavrit_soubor
 //
-// - pokusi se uzavrit a vymazat zalozni soubor, ktery se nepovedlo vytvorit
+// - attempts to close and delete the backup file that failed to be created
 //******************************************************************************
 
 procedure Uzavrit_soubor (var F: textfile; Soubor: string);
@@ -91,7 +91,7 @@ end;
 //******************************************************************************
 // procedure VymazPrefs
 //
-// - vymaze nepouzivane radky ze souboru
+// - deletes unused lines from the file
 //******************************************************************************
 procedure VymazPrefs;
 var F, F2: textfile;
@@ -108,29 +108,29 @@ begin
 
         Repeat
           Readln (F, S);
-          // odstraneni emailu
+          // removal of emails
           if (Pos ('user_pref("mail.', S) = 1) and (Form1.Typ_programu = 2) then S:= '';
           if (Pos ('user_pref("mailnews', S) = 1) and (Form1.Typ_programu = 2) then S:= '';
           if (Pos ('user_pref("ldap', S) = 1) and (Form1.Typ_programu = 2) then S:= '';
 
-          // odstraneni browser
+          // removal of browser data
           if (Pos ('user_pref("browser.', S) = 1) and (Form1.Typ_programu = 3) then S:= '';
 
-          // odstraneni informaci o emailu
+          // removal of email information
           if (Form1.CheckBox2.Checked = false) and (Pos ('user_pref("mail.', S) > 0) then S:= '';
           if (Form1.CheckBox2.Checked = false) and (Pos ('user_pref("mailnews.', S) > 0) then S:= '';
 
-          // odstraneni informaci o kontaktech
+          // removal of contact information
           if (Form1.CheckBox3.Checked = false) and (Pos ('user_pref("ldap_2', S) > 0) then S:= '';
 
-          // odstraneni hesel
+          // removal of passwords
           if (Form1.CheckBox9.Checked = false) and (Pos ('user_pref("signon.SignonFileName",', S) > 0) then S:= '';
 
-          // doplnene formulare
+          // filled-in forms
           if (Form1.CheckBox11.Checked = false) and (Pos ('user_pref("wallet.SchemaValueFileName"', S) > 0) then S:= '';
           if (Form1.CheckBox11.Checked = false) and (Pos ('user_pref("wallet.caveat",', S) > 0) then S:= '';          
 
-          // odstraneni diskove cache
+          // removal of disk cache
           if Pos ('user_pref("browser.cache.disk.parent_directory"', S) > 0 then S:= '';          
 
           if Length(S) <> 0 then Writeln (F2, S);
@@ -141,7 +141,7 @@ begin
         SysUtils.DeleteFile (Form1.Slozka_data + 'prefs.zal');
       end;
    except
-    on E:EInOutError do     // nastala nejaka vyjimka
+    on E:EInOutError do     // an exception occurred
       begin
         showWarningDialog(Config.l10n.getL10nString ('TForm1', 'LANG_WARNING'),
                           Config.l10n.getL10nString ('TForm1', 'LANG_NOT_FOUND2'));
@@ -154,7 +154,7 @@ end;
 //******************************************************************************
 // procedure CreateFileHeader
 //
-// - vytvoreni indexoveho souboru archivu
+// - creating the index file of the archive
 //******************************************************************************
 
 procedure CreateFileHeader (unknowFilesList: TList);
@@ -163,7 +163,7 @@ var F: textfile;
     unknowItem: TUnknowItem;
 begin
   try
-    // samotna manipulace s programem
+    // the program’s actual manipulation
     AssignFile (F, Form1.Slozka_data + 'indexfile.txt');
     Rewrite (F);
       Writeln (F, 'Mozilla Backup');
@@ -209,9 +209,9 @@ end;
 //******************************************************************************
 // procedure CreateKomponenty
 //
-// - ulozi do zalozniho souboru informaci o castech, ktere obsahuje
+// - saves information about the components it contains to the backup file
 //
-// Vstup: F - odkaz na vystupni soubor
+// Input: F - reference to the output file
 //******************************************************************************
 
 procedure CreateKomponenty (var F: textfile);
@@ -249,10 +249,10 @@ end;
 //******************************************************************************
 // procedure Kopie2
 //
-// - zkopiruje soubor ze zalohy do urcene slozky
+// - copies a file from the backup to the specified folder
 //
-// Vstup: F1 - odkaz na zdrojovy soubor
-//        Soubor - jmeno vystupniho souboru
+// Input: F1 - reference to the source file
+//        Soubor - name of the output file
 //******************************************************************************
 
 procedure Kopie2 (var F1: textfile; Soubor: string);
@@ -345,13 +345,13 @@ begin
     end;
 end;
 
-// pokud je predposledni na true, pak se vrati cesta od predposledniho lomitka,
-// v opacenem pripade se vrati to, co je uvedeno pred poslednim lomitkem
-// TODO: TOhle by chtelo napsat elegantneji
-// typ:
-// 1 - vymaze se z cesty vse, co je do predposledniho lomitka
-// 2 - vymaze se vse od posledniho lomitka
-// 3 - vymaze se vse do posledniho lomitka
+// if the second-to-last is true, it returns the path from the second-to-last slash,
+// otherwise, it returns everything before the last slash
+// TODO: This could be written more elegantly
+// type:
+// 1 - removes everything up to the second-to-last slash
+// 2 - removes everything after the last slash
+// 3 - removes everything up to the last slash
 function getRelativeMailBoxPathToProfile(path:String; typ: integer):String;
 var i, j, k: integer;
 begin
@@ -374,7 +374,7 @@ begin
   Result:= path;
 end;
 
-// vytvori adresarovou strukturu vyjma posledniho adresare v ceste
+// creates the directory structure except for the last directory in the path
 procedure CreateDirectoryRecursive (directory:String);
 var i: integer;
     s: String;
@@ -425,73 +425,72 @@ var f1, f2: TextFile;
     // if program delete relative path to account in prefs.js
     DeleteRelativePath: boolean;
 begin
-  // Restore mailboxes which are located in profile
+   // Restores mailboxes located in the profile
   zipFactory.extractDirectory('ImapMail', '*.*');
   zipFactory.extractDirectory('Mail', '*.*');
   zipFactory.extractDirectory('News', '*.*');
 
-  // Restore external mailboxes which are outside profile
-  prefsParser:= TPrefsParser.Create(Directory + '\prefs.js');
-  AccountList:= TStringList.Create;
+  // Restores external mailboxes located outside the profile
+  prefsParser := TPrefsParser.Create(Directory + '\prefs.js');
+  AccountList := TStringList.Create;
 
-  // pokud existuje stary soubor se zalohou prefs.js, pak jej smazat
-  if FileExists (Directory + 'prefs.zal') then SysUtils.DeleteFile (Directory + 'prefs.zal');
+  // If an old backup file (prefs.js) exists, delete it
+  if FileExists(Directory + 'prefs.zal') then SysUtils.DeleteFile(Directory + 'prefs.zal');
 
-  // prefs.js prejmenovat na zalohu, z ktere se bude novy prefs.js vytvaret
-  RenameFile (Directory + '\' + 'prefs.js', Directory + '\' + 'prefs.zal');
+  // Rename prefs.js to backup from which the new prefs.js will be created
+  RenameFile(Directory + '\' + 'prefs.js', Directory + '\' + 'prefs.zal');
 
-  // editace konfiguracniho souboru
-  AssignFile (f1, Directory + '\' + 'prefs.zal');
-  Reset (f1);
-  AssignFile (f2, Directory + '\' + 'prefs.js');
-  ReWrite (f2);
+  // Editing the configuration file
+  AssignFile(f1, Directory + '\' + 'prefs.zal');
+  Reset(f1);
+  AssignFile(f2, Directory + '\' + 'prefs.js');
+  ReWrite(f2);
   Repeat
-    Readln (f1, s);
+    Readln(f1, s);
 
-    // je v radku informace o adresari s postou
-    mailAccountB:= ((Pos ('user_pref("mail.server.server', s) > 0) and (Pos ('.directory"', s) > 0));
+    // Check if the line contains information about a mail account directory
+    mailAccountB := ((Pos('user_pref("mail.server.server', s) > 0) and (Pos('.directory"', s) > 0));
 
-    // cesta k uctum (absolutni)
+    // Absolute path to mail accounts
     if mailAccountB then
+    begin
+      value := prefsParser.getPrefValue(s);
+      value := getDirectoryFromPref(value);
+
+      if isExternAccount(value) then
       begin
-        value:= prefsParser.getPrefValue(s);
-        value:= getDirectoryFromPref (value);
+        // It is an external email account
+        CreateDirectoryRecursive(value);
 
-        if isExternAccount (value) then
-          begin
-            // jedna se o externi postovni ucet
-            CreateDirectoryRecursive (value);
+        if not DirectoryExists(value) then
+        begin
+          // TODO: If the directory creation fails, offer the user to choose a different location
+          showErrorDialog(Config.l10n.getL10nString('MozBackup14', 'LANG_ERROR'),
+                          Config.l10n.getL10nString('MozBackup14', 'LANG_CANNOT_RESTORE_ORIG_EXT') + ' ' + value);
+        end
+        else
+        begin
+          // Remove the last directory from the path
+          directoryExt := getRelativeMailBoxPathToProfile(value, 2);
+          dir := getRelativeMailBoxPathToProfile(value, 3);
 
-            if not DirectoryExists (value) then
-              begin
-                // TODO: Pokud se to nepovede, dat uzivateli vyber jineho umisteni
-                showErrorDialog (Config.l10n.getL10nString ('MozBackup14', 'LANG_ERROR'),
-                              Config.l10n.getL10nString ('MozBackup14', 'LANG_CANNOT_RESTORE_ORIG_EXT') + ' ' + value);
-              end
-            else
-              begin
-                // odrizne se z cesty posledni adresar
-                directoryExt:= getRelativeMailBoxPathToProfile (value, 2);
-                dir:= getRelativeMailBoxPathToProfile (value, 3);
+          SysUtils.ForceDirectories(directoryExt + '\' + dir);
+          zipFactory.extractDirectory(dir, '*.*', directoryExt);
 
-                SysUtils.ForceDirectories(directoryExt + '\' + dir);
-                zipFactory.extractDirectory(dir, '*.*', directoryExt);
-
-                // nastavení nové hodnoty vlastnosti
-                s:= prefsParser.setPrefValue(s, getDirectoryToPref(directoryExt + '\' + dir));
-              end;
-          end;
+          // Set the new property value
+          s := prefsParser.setPrefValue(s, getDirectoryToPref(directoryExt + '\' + dir));
+        end;
       end;
+    end;
 
-
-    // pokud je neco na vystup, zapis to tam    
-    if Length (s) > 0 then
-      begin
-        Writeln (f2, s);
-      end;
-  until eof (f1);
-  CloseFile (f2);
-  CloseFile (f1);
+    // If there is any output, write it to the output file
+    if Length(s) > 0 then
+    begin
+      Writeln(f2, s);
+    end;
+  until eof(f1);
+  CloseFile(f2);
+  CloseFile(f1);
 end;
 
 {procedure RestoreEmailsNew (Directory: String; zipFactory: TZipFactory);
@@ -682,7 +681,7 @@ end;    }
 //******************************************************************************
 // procedure ModifChrome
 //
-// - upraveni cest v /chrome/chrome.rdf
+// - correct path in /chrome/chrome.rdf
 //******************************************************************************
 
 procedure ModifChrome;
@@ -711,14 +710,14 @@ begin
         Readln (F1, S);
         if Pos ('c:baseURL', S) > 0 then
           begin
-            // nejprve se najde leva cast cesty
+            // first, the left part of the path is found
             if Pos ('/extensions/', S) > 0 then
               begin
                 L:= Pos ('/extensions/', S);
                 L:= L + 11;
                 S1:= copy (S, L, Length (S) - L + 1);
 
-                // prava cast cesty
+                // right part of the path
                 if Pos ('"', S1) > 0 then
                   begin
                     R:= Pos ('"', S1);
@@ -729,7 +728,7 @@ begin
                     if Pos ('>', S) > 0 then zavorka:= true
                     else zavorka:= false;
 
-                    // nyni se sestavi novy radek do konfiguraku
+                    // now a new line is constructed for the configuration file
                     S:= 'c:baseURL="jar:file:///';
                     S:= S + AnsiReplaceStr (Form1.Slozka_data, '\', '/');
                     S:= S + '/extensions';
@@ -737,7 +736,7 @@ begin
                     if zavorka = true then S:= S + '>';
 
 
-                    // pretypovani
+                    // typecasting
                     for i:=1 to length (s) do
                       begin
                         c:= S[i];
@@ -777,7 +776,7 @@ end;
 //******************************************************************************
 // procedure Obnoveni
 //
-// - obnoveni profilu ze zalohy
+// - // restoring profile from backup
 //******************************************************************************
 
 procedure Obnoveni_ext (zipFactory: TZipFactory);
@@ -843,7 +842,7 @@ end;
 //******************************************************************************
 // procedure Obnoveni
 //
-// - obnoveni profilu ze zalohy
+// - restoring profile from backup
 //******************************************************************************
 
 procedure Obnoveni;
@@ -862,7 +861,7 @@ begin
   if FileExists (Form1.Vyst_soubor) then
     begin
       try
-        // zjisteni cesty k profilu
+        // determining the path to the profile
         Profil:= Form1.ListBox2.Items.Strings[Form1.ListBox2.ItemIndex];
 
         Nalezen:= false;
@@ -899,24 +898,24 @@ begin
 
 
           if Form1.Verze_souboru = 1 then begin
-            // otevreni souboru pro cteni
+            // opening the file for reading
             AssignFile (F, Form1.Vyst_soubor);
               Reset (F);
-                // nacteni prvnich 6 radku
+                // loading first 6 lines
                 for I:= 1 to 6 do
                   Readln (F, S);
-                // nacitani radku
+                // loading lines
                 Repeat
                   Readln (F, S);
                   S:= Trim (S);
 
-                  // obecne nastaveni
+                  // general settings
                   if (S = 'Nastaveni') and (Form1.CheckBox1.Checked = true) then
                     begin
                       Form1.StaticText6.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_AKCE_OBECNE1');
-                      Readln (F, S);     // nacteni jmena souboru
+                      Readln (F, S);     // loading the filename
                       Readln (F, S1);
-                      Kopie2 (F, S);     // vytvoreni souboru a jeho zkopirovani
+                      Kopie2 (F, S);     // create the file and copy it
                       Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
                       Form1.ListBox3.Items.Add (Config.l10n.getL10nString ('TForm1', 'LANG_SOUBOR') + S);
                     end;
@@ -925,21 +924,21 @@ begin
                   if (S = 'Mail') and (Form1.CheckBox2.Checked = true) then
                     begin
                       Form1.StaticText6.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_AKCE_MAIL1');
-                      Readln (F, S);     // nacteni jmena souboru
-                      VytvorAdresar (S); // vytvori potrebne adresare
+                      Readln (F, S);     // loading the filename
+                      VytvorAdresar (S); // create the necessary directories
                       Readln (F, S1);
-                      Kopie2 (F, S);     // vytvoreni souboru a jeho zkopirovani
+                      Kopie2 (F, S);     // create the file and copy it
                       Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
                       Form1.ListBox3.Items.Add (Config.l10n.getL10nString ('TForm1', 'LANG_SOUBOR') + S);
                     end;
 
-                  // kontakty
+                  // contacts
                   if (S = 'Kontakty') and (Form1.CheckBox3.Checked = true) then
                     begin
                       Form1.StaticText6.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_KONTATKY1');
-                      Readln (F, S);     // nacteni jmena souboru
+                      Readln (F, S);     // loading the filename
                       Readln (F, S1);
-                      Kopie2 (F, S);     // vytvoreni souboru a jeho zkopirovani
+                      Kopie2 (F, S);     // create the file and copy it
                       Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
                       Form1.ListBox3.Items.Add (Config.l10n.getL10nString ('TForm1', 'LANG_SOUBOR') + S);
                     end;
@@ -948,9 +947,9 @@ begin
                   if (S = 'Oblibene polozky') and (Form1.CheckBox4.Checked = true) then
                     begin
                       Form1.StaticText6.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_FAVORITES1');
-                      Readln (F, S);     // nacteni jmena souboru
+                      Readln (F, S);     // loading the filename
                       Readln (F, S1);
-                      Kopie2 (F, S);     // vytvoreni souboru a jeho zkopirovani
+                      Kopie2 (F, S);     // create the file and copy it
                       Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
                       Form1.ListBox3.Items.Add (Config.l10n.getL10nString ('TForm1', 'LANG_SOUBOR') + S);
                     end;
@@ -959,9 +958,9 @@ begin
                   if (S = 'Historie') and (Form1.CheckBox5.Checked = true) then
                     begin
                       Form1.StaticText6.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_HISTORIE1');
-                      Readln (F, S);     // nacteni jmena souboru
+                      Readln (F, S);     // loading the filename
                       Readln (F, S1);
-                      Kopie2 (F, S);     // vytvoreni souboru a jeho zkopirovani
+                      Kopie2 (F, S);     // create the file and copy it
                       Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
                       Form1.ListBox3.Items.Add (Config.l10n.getL10nString ('TForm1', 'LANG_SOUBOR') + S);
                     end;
@@ -970,9 +969,9 @@ begin
                   if (S = 'Postranni panely') and (Form1.CheckBox6.Checked = true) then
                     begin
                       Form1.StaticText6.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_PANELY1');
-                      Readln (F, S);     // nacteni jmena souboru
+                      Readln (F, S);     // loading the filename
                       Readln (F, S1);
-                      Kopie2 (F, S);     // vytvoreni souboru a jeho zkopirovani
+                      Kopie2 (F, S);     // create the file and copy it
                       Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
                       Form1.ListBox3.Items.Add (Config.l10n.getL10nString ('TForm1', 'LANG_SOUBOR') + S);
                     end;
@@ -981,10 +980,10 @@ begin
                   if (S = 'Uzivatelske styly') and (Form1.CheckBox8.Checked = true) then
                     begin
                       Form1.StaticText6.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_STYLY1');
-                      Readln (F, S);     // nacteni jmena souboru
-                      VytvorAdresar (S); // vytvori potrebne adresare
+                      Readln (F, S);     // loading the filename
+                      VytvorAdresar (S); // creates the necessary directories
                       Readln (F, S1);
-                      Kopie2 (F, S);     // vytvoreni souboru a jeho zkopirovani
+                      Kopie2 (F, S);     // create the file and copy it
                       Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
                       Form1.ListBox3.Items.Add (Config.l10n.getL10nString ('TForm1', 'LANG_SOUBOR') + S);
                     end;
@@ -993,9 +992,9 @@ begin
                   if (S = 'Ulozena hesla') and (Form1.CheckBox9.Checked = true) then
                     begin
                       Form1.StaticText6.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_HESLA1');
-                      Readln (F, S);     // nacteni jmena souboru
+                      Readln (F, S);     // loading the filename
                       Readln (F, S1);
-                      Kopie2 (F, S);     // vytvoreni souboru a jeho zkopirovani
+                      Kopie2 (F, S);     // create the file and copy it
                       Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
                       Form1.ListBox3.Items.Add (Config.l10n.getL10nString ('TForm1', 'LANG_SOUBOR') + S);
                     end;
@@ -1004,9 +1003,9 @@ begin
                   if (S = 'Cookies') and (Form1.CheckBox10.Checked = true) then
                     begin
                       Form1.StaticText6.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_COOKIES1');
-                      Readln (F, S);     // nacteni jmena souboru
+                      Readln (F, S);     // loading the filename
                       Readln (F, S1);
-                      Kopie2 (F, S);     // vytvoreni souboru a jeho zkopirovani
+                      Kopie2 (F, S);     // create the file and copy it
                       Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
                       Form1.ListBox3.Items.Add (Config.l10n.getL10nString ('TForm1', 'LANG_SOUBOR') + S);
                     end;
@@ -1015,9 +1014,9 @@ begin
                   if (S = 'Doplnene formulare') and (Form1.CheckBox11.Checked = true) then
                     begin
                       Form1.StaticText6.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_FORMULAR1');
-                      Readln (F, S);     // nacteni jmena souboru
+                      Readln (F, S);     // loading the filename
                       Readln (F, S1);
-                      Kopie2 (F, S);     // vytvoreni souboru a jeho zkopirovani
+                      Kopie2 (F, S);     // create the file and copy it
                       Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
                       Form1.ListBox3.Items.Add (Config.l10n.getL10nString ('TForm1', 'LANG_SOUBOR') + S);
                     end;
@@ -1026,9 +1025,9 @@ begin
                   if (S = 'Download manager') and (Form1.CheckBox12.Checked = true) then
                     begin
                       Form1.StaticText6.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_DOWNLOAD1');
-                      Readln (F, S);     // nacteni jmena souboru
+                      Readln (F, S);     // loading the filename
                       Readln (F, S1);
-                      Kopie2 (F, S);     // vytvoreni souboru a jeho zkopirovani
+                      Kopie2 (F, S);     // create the file and copy it
                       Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
                       Form1.ListBox3.Items.Add (Config.l10n.getL10nString ('TForm1', 'LANG_SOUBOR') + S);
                     end;
@@ -1044,7 +1043,7 @@ begin
           Form1.ProgressBar1.Max:= 140;
           Form1.ProgressBar1.Position:= 0;
 
-          // obnoveni nastaveni
+          // restore settings
           if Form1.CheckBox1.Checked = true then
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_AKCE_OBECNE1'));
@@ -1090,7 +1089,7 @@ begin
               Form1.ListBox3.Items.Add(Config.l10n.getL10nString ('MozBackup14', 'LANG_AKCE_OBECNE_R_OK'));
             end;
 
-          // obnoveni posty
+          // restore mail
           if (Form1.CheckBox2.Checked = true) and (Form1.Typ_programu <> 2) then
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_AKCE_MAIL1'));
@@ -1108,14 +1107,14 @@ begin
               zipFactory.extractFileList(stringList);
               stringList.Clear;
 
-              // obnoveni samotnych kont
+              // restore the accounts themselves
               RestoreEmails (Form1.Slozka_data, zipFactory);
 
               Form1.ListBox3.Items.Add(Config.l10n.getL10nString ('MozBackup14', 'LANG_AKCE_MAIL_R_OK'));
             end;
           Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
 
-          // obnoveni kontaktu
+          // restore the contacts
           if (Form1.CheckBox3.Checked = true) and (Form1.Typ_programu <> 2) then
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_KONTATKY1'));
@@ -1127,7 +1126,7 @@ begin
             end;
           Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
 
-          // obnoveni oblibenych polozek
+          // restore the favorite items
           if (Form1.CheckBox4.Checked = true) and (Form1.Typ_programu <> 3) then
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_FAVORITES1'));
@@ -1149,7 +1148,7 @@ begin
             end;
           Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
 
-          // obnoveni historie
+         // restore history
           if (Form1.CheckBox5.Checked = true) and (Form1.Typ_programu <> 3) then
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_HISTORIE1'));
@@ -1168,7 +1167,7 @@ begin
             end;
           Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
 
-          // sidebary
+          // sidebars
           if (Form1.CheckBox6.Checked = true) and (Form1.Typ_programu <> 3) then
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_PANELY1'));
@@ -1182,7 +1181,7 @@ begin
             end;
           Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
 
-          // uzivatelske styly
+          // user styles
           if Form1.CheckBox8.Checked = true then
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_STYLY1'));
@@ -1197,7 +1196,7 @@ begin
             end;
           Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;            
 
-          // ulozena hesla
+          // saved passwords
           if Form1.CheckBox9.Checked = true then
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_HESLA1'));
@@ -1235,7 +1234,7 @@ begin
             end;
           Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;
 
-          // formulare
+          // forms
           if (Form1.CheckBox11.Checked = true) and (Form1.Typ_programu <> 3) then
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_FORMULAR1'));
@@ -1268,7 +1267,7 @@ begin
             end;
           Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;            
 
-          // certifikaty
+          // certificates
           if Form1.CheckBox13.Checked = true then
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_CERTIF1'));
@@ -1289,7 +1288,7 @@ begin
             end;
           Form1.ProgressBar1.Position:= Form1.ProgressBar1.Position + 10;            
 
-          // Rozsireni
+          // extensions
           if (Form1.CheckBox14.Checked = true) and (Form1.Typ_programu <> 1) then
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_EXTENSIONS1'));
@@ -1315,10 +1314,10 @@ begin
                   SysUtils.DeleteFile('chrome' + '\' + 'userChrome.css');
                 end;
 
-              // Obnoveni souboru rozsireni
+              // restoration of extension files
               Obnoveni_ext (zipFactory);
 
-              // Modifikace
+              // Modifications
               ModifChrome;
 
               Form1.ListBox3.Items.Add(Config.l10n.getL10nString ('MozBackup14', 'LANG_AKCE_EXTENSIONS_R_OK'));
@@ -1368,15 +1367,15 @@ begin
 
         end;
 
-        // oprava souboru prefs.js
+        // correct file prefs.js
        // CorrectPrefs;
 
-        // vymazani nepotrebnych souboru z prefs.js
+        // deletion of unnecessary files from prefs.js
         VymazPrefs;
             
           //end;
       except
-       // nastala nejaka vyjimka
+       // an exception occurred
        on E:EInOutError do
          begin
           Application.MessageBox (pchar (Config.l10n.getL10nString ('TForm1', 'LANG_KONEC')),
@@ -1392,7 +1391,7 @@ begin
       Halt (1);
     end;
     
-  // presun na okno 6
+  // move to window 6
   Okno6;
 end;
 
@@ -1400,10 +1399,10 @@ end;
 //******************************************************************************
 // function PravostProfilu
 //
-// - detekuje, zda-li se v adresari skutecne nachazi profil Mozilly
+// - detects whether the directory contains a valid Mozilla profile
 //
-// Vstup: adresar - adresar s profilem
-// Vystup: - informace o tom, zda-li se jedna o profil ci nikoliv
+// Input: directory - the directory containing the profile
+// Output: - information on whether it is a valid profile or not
 //******************************************************************************
 
 function PravostProfilu (Adresar: string): boolean;
@@ -1415,9 +1414,9 @@ end;
 //******************************************************************************
 // procedure VytvorAdresar
 //
-// - vytvori potrebne adresare v ceste
+// - creates the necessary directories in the given path
 //
-// Vstup: S - cesta
+// Input: S - the path
 //******************************************************************************
 
 procedure VytvorAdresar (S: string);
@@ -1447,9 +1446,9 @@ end;
 
 
 //******************************************************************************
-// proceduer Zalohovani_ext
+// procedure Zalohovani_ext
 //
-// - zalohovani soucasti rozsireni
+// - backup of extension components
 //******************************************************************************
 
 procedure Zalohovani_ext (zipFactory: TZipFactory);
@@ -1517,13 +1516,13 @@ end;
 //******************************************************************************
 // procedure TestBackupFile
 //
-// - otestuje, zda výsledný soubor je platný ZIP soubor
+// - tests if the resulting file is a valid ZIP file
 //******************************************************************************
 
 procedure TestBackupFile (zipFactory: TZipFactory);
 begin
   try
-    // Jako zkouška se rozbalí soubor prefs.js
+    // As a test, the prefs.js file is unpacked
     zipFactory.extractFile('indexfile.txt', GetEnvironmentVariable('TEMP'));
 
     if not (FileExists (GetEnvironmentVariable('TEMP') + '\indexfile.txt')) then
@@ -1595,7 +1594,7 @@ begin
                 end;
               Delete (s, 1, j);
 
-              // pridani do seznamu externich cest
+              // Adding to the list of external paths
               Form1.Extern_ucty[Form1.Pocet_extern]:= directory;
               Form1.Pocet_extern:= Form1.Pocet_extern + 1;
 
@@ -1618,7 +1617,7 @@ begin
 end;
 
 
-// provede zalohovani postovnich stranek
+// Perform backup of mail boxes
 procedure BackupMailBoxs (zipFactory: TZipFactory; onlySettings: boolean);
 var prefsParser: TPrefsParser;
     mailAccounts: TList;
@@ -1640,17 +1639,17 @@ begin
         begin
           if not prefsParserAccount.isExternalMailBox then
             begin
-              // vymazu cast cesty, ktera neni potreba -> udelam z absolutni relativni
+              // Remove the unnecessary part of the path -> convert absolute to relative
               Delete (directory, 1, Length (Form1.Slozka_data));
 
               if not onlySettings then
                  backupTask.addDirectory(directory, '*.*');
               Application.ProcessMessages;
 
-              // pokud se jedna o diskusni skupiny, proved zalohovani konfiguracnich souboru
+              // If it is about discussion groups, perform backup of configuration files
               if prefsParserAccount.getAccountType = 'nntp' then
                 begin
-                  // nalezne se posledni lomitko a o nej se orizne cesta
+                  // Find the last slash and trim the path at that point
                   s:= directory;
                   j:= 0;
                   for k:=1 to Length (s) do
@@ -1665,7 +1664,7 @@ begin
             end
           else
             begin
-              // jedna se o externi email
+              // It is an external email
               j:= 0; s:= directory;
               for k:= 1 to Length (s) do
                 begin
@@ -1673,7 +1672,7 @@ begin
                 end;
               Delete (s, 1, j);
 
-              // pridani do seznamu externich cest
+              // Adding to the list of external paths
               Form1.Extern_ucty[Form1.Pocet_extern]:= directory;
               Form1.Pocet_extern:= Form1.Pocet_extern + 1;
 
@@ -1694,9 +1693,9 @@ end;
 
 
 //******************************************************************************
-// procedure Zalohovani
+// procedure BackupProfile
 //
-// - zalohovani profilu
+// - backs up the profile
 //******************************************************************************
 
 procedure Zalohovani;
@@ -1710,24 +1709,24 @@ var zipFactory: TZipFactory;
     unknowFilesList: TList;
 begin
   try
-    // vynulovani externich uctu
+    // resetting external accounts
     Form1.Pocet_extern:= 1;
     Form1.BackupFailed:= false;
 
     if PravostProfilu (Form1.Slozka_data) then
       begin
-        // existuje soubor pod stejnym jmenem?
+        // does a file with the same name exist?
         if FileExists (Form1.Vyst_soubor) then SysUtils.DeleteFile (Form1.Vyst_soubor);
 
         // instantion of backup task
         backupTask:= TBackupTask.Create(Form1.Slozka_data);
 
-        // ** Zaèátek zálohování. Vytvoøí se ZIP soubor
+        // ** Beginning of backup. A ZIP file will be created
         zipFactory:= TZipFactory.Create(Form1.Vyst_soubor, Form1.Slozka_data, Form1.Password);
 
         fileList:= TStringList.Create;
 
-        // ** zalohovani obecneho nastaveni
+        // ** Backup of general settings
         if (Form1.CheckBox1.Checked) and (FileExists (Form1.Slozka_data + 'prefs.js')) then
           begin
             backupTask.addFile('prefs.js');
@@ -1767,14 +1766,14 @@ begin
             backupTask.addDirectory('weave', '*.*');
           end;
 
-        // ** zalohovani kontaktu
+        // ** Backup of contacts
         if Form1.CheckBox3.Checked then
           begin
             backupTask.addDirectory('Photos', '*.*');
             backupTask.addDirectory('.', '*.mab');
           end;
 
-        // ** zalohovani záložek
+        // ** Backup of bookmarks
         if Form1.CheckBox4.Checked then
           begin
             backupTask.addFile('bookmarks.html');
@@ -1788,7 +1787,7 @@ begin
             backupTask.addDirectory('bookmarkbackups', '*.*');
           end;
 
-        // ** zalohovani historie
+        // ** Backup of history
         if Form1.CheckBox5.Checked then
           begin
             backupTask.addFile('history.dat');
@@ -1798,20 +1797,20 @@ begin
             backupTask.addFile('urlbarhistory.sqlite');
           end;
 
-        // ** zalohovani postrannich panelu
+        // ** Backup of sidebar panels
         if Form1.CheckBox6.Checked then
           begin
             backupTask.addFile('panels.rdf');
           end;
 
-        // ** zalohovani uzivatelskych stylu
+        // ** Backup of user styles
         if Form1.CheckBox8.Checked then
           begin
             backupTask.addFile('chrome\userContent.css');
             backupTask.addFile('chrome\userChrome.css');
           end;
 
-        // ** ulozena hesla
+        // ** Backup of saved passwords
         if Form1.CheckBox9.Checked then
           begin
             backupTask.addFile('signons.txt');
@@ -1832,7 +1831,7 @@ begin
             backupTask.addFile('cookies.sqlite');
           end;
 
-        // ** doplnene formulare
+        // ** Backup of filled forms
         if Form1.CheckBox11.Checked then
           begin
             backupTask.addFile('formhistory.dat');
@@ -1843,7 +1842,7 @@ begin
           end;
 
 
-        // ** download manager
+        // ** Backup of download manager
         if Form1.CheckBox12.Checked then
           begin
             backupTask.addFile('downloads.sqlite');
@@ -1851,7 +1850,7 @@ begin
           end;
 
 
-        // ** certifikaty
+        // ** certificates
         if Form1.CheckBox13.Checked then
           begin
             backupTask.addFile('cert7.db');
@@ -1864,7 +1863,7 @@ begin
             backupTask.addDirectory('cert8.dir', '*.*');
           end;
 
-        // rozsireni
+        // extensions
         if Form1.CheckBox14.Checked then
           begin
             backupTask.addFile('extensions.rdf');
@@ -1879,11 +1878,11 @@ begin
             backupTask.addDirectory('chrome', '*.*');
             backupTask.addDirectory('searchplugins', '*.*');
 
-            // Zalohovani rozsireni
+            // ** Backup of extensions
             Zalohovani_ext (zipFactory);
           end;
 
-        // diskova pamet
+        // Disk storage
         if Form1.CheckBox15.Checked then
           begin
             backupTask.addDirectory('cache', '*.*');
@@ -1943,14 +1942,14 @@ begin
               end;
           end;
 
-       // ** vytvoreni indexoveho souboru
+       // ** Creation of the index file
        CreateFileHeader (unknowFilesList);
 
        // Backup
        zipFactory.addBackupTask (backupTask);
 
-       // ** Provedení testu, zda je výsledný pcv soubor korektní
-       // TODO: Docasny hack
+      // ** Performing a test to check if the resulting PCV file is valid
+      // TODO: Temporary hack
        if not IsRunCommandLineVersion() then
          begin
            TestBackupFile (zipFactory);
@@ -1974,7 +1973,7 @@ begin
        end;
   end;
 
-  // presun na posledni stranku programu}
+  // move to the last page of the program
   Okno6;
 end;
 

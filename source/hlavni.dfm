@@ -12,12 +12,10 @@ object Form1: TForm1
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
-  OldCreateOrder = False
   Position = poDesigned
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 96
   TextHeight = 13
   object Bevel1: TBevel
     Left = 16
@@ -593,7 +591,7 @@ object Form1: TForm1
     object Label1: TLabel
       Left = 8
       Top = 8
-      Width = 201
+      Width = 193
       Height = 20
       Caption = 'Welcome to MozBackup'
       Font.Charset = DEFAULT_CHARSET
@@ -784,7 +782,7 @@ object Form1: TForm1
     object StaticText5: TStaticText
       Left = 8
       Top = 8
-      Width = 194
+      Width = 191
       Height = 17
       Caption = 'Zvolte sou'#269#225'sti, kter'#233' chcete z'#225'lohovat.'
       TabOrder = 0
@@ -1006,7 +1004,7 @@ object Form1: TForm1
     object StaticText4: TStaticText
       Left = 8
       Top = 184
-      Width = 273
+      Width = 268
       Height = 17
       Caption = 'N'#225'sledn'#283' zvolte soubor do kter'#233'ho bude ulo'#382'ena z'#225'loha.'
       TabOrder = 3

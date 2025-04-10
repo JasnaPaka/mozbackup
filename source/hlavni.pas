@@ -40,24 +40,24 @@ uses
   Dialogs, jpeg, ExtCtrls, StdCtrls, ComCtrls, Config, l10n,
   heslo, heslo2, inifile, UnknowFiles, MozManager, AppEvnts, ActnList;
 
-// informace o jmenu a verzi aplikace
+// information about application name and version
 const Pocet_aplikaci   = 12;
-      // testuje, zda-li je aplikace spustena
+      // checks if the application is running
       Testovat_procesy = 1;
 
-// ** Seznam programù      
+// ** List of programs
 type TProgram = record
-        Nalezen:      boolean;          // nalezena aplikace?
-        Verze:        string;           // verze programu
-        Cesta:        string;           // adresar se spustitelnym souborem
+        Nalezen:      boolean;          // was the application found?
+        Verze:        string;           // version of the program
+        Cesta:        string;           // path to the executable file
       end;
 
-// ** Seznam nalezených profilù      
-     TProfily = ^profil;                // seznam profilu
+// ** List of detected profiles
+     TProfily = ^profil;                // list of profiles
      Profil = record
-       Jmeno: string;
-       Cesta: string;
-       Dalsi: TProfily;
+       Jmeno: string;                   // name of the profile
+       Cesta: string;                   // path to the profile
+       Dalsi: TProfily;                 // next profile in the list
      end;
 
 type
@@ -152,54 +152,53 @@ type
     procedure ListBox2GetSelection;
     procedure ListBox2ReturnSelection;     
   public    
-    Akce: byte;                         // 1 - zalohovani, 2 - obnoveni
-    Okno: byte;                         // informace o tom, ktere okno je momentalne
-                                        // aktualni
-    Cesta: string;                      // cesta ke slozce s Mozillou
-    Slozka_data: string;                // slozka s profily Mozilly
-    Verze: string;                      // zjistena verze Mozilly
-    Chyba: boolean;                     // vyskytla se chyba - program bude ukoncen
-    Typ_programu: byte;                 // program, který je vybrán
-    ProgramName: string;                // jmeno programu 
-    Vyst_soubor: string;                // cesta k vystupnimu souboru
-    Verze_souboru: byte;                // verze zalozniho souboru
-    Password: string;                   // heslo
-    Jazyk: integer;                     // konstanta jazykove mutace
-    Extern_ucty: array [1..25] of string;       // adresy externich emailovych uctu
-    Pocet_extern: byte;
-    Prvni_profil: TProfily;             // ukazatel na prvni profil
-    VychoziCesty: array [1..10] of string;  // vychozi cesty pro zalohovani
-    AktualniProfil: string;             // jmeno aktualniho profilu
+    Akce: byte;                         // 1 - backup, 2 - restore
+    Okno: byte;                         // information about which window is currently active
+    Cesta: string;                      // path to the Mozilla folder
+    Slozka_data: string;                // folder with Mozilla profiles
+    Verze: string;                      // detected Mozilla version
+    Chyba: boolean;                     // an error occurred - the program will terminate
+    Typ_programu: byte;                 // selected program
+    ProgramName: string;                // name of the program
+    Vyst_soubor: string;                // path to the output file
+    Verze_souboru: byte;                // backup file version
+    Password: string;                   // password
+    Jazyk: integer;                     // language localization constant
+    Extern_ucty: array [1..25] of string;       // addresses of external email accounts
+    Pocet_extern: byte;                         // number of external accounts
+    Prvni_profil: TProfily;             // pointer to the first profile
+    VychoziCesty: array [1..10] of string;  // default paths for backup
+    AktualniProfil: string;             // name of the currently active profile
 
-    VystupniFormat: string;             // nacteny format, jak bude vypadat vystupni soubor
+    VystupniFormat: string;             // loaded format for the output file structure
 
-    GeneralDir: string;                 // vychozi adresar pro zalohy
-    SuiteDir: string;                   // vychozi adresar pro zalohy Suite    
-    FirefoxDir: string;                 // vychozi adresar pro zalohy Firefoxu
-    ThunderbirdDir: string;             // vychozi adresar pro zalohy Thunderbirdu
-    SunbirdDir: string;                 // vychozi adresar pro zalohy Sunbird
-    FlockDir: string;                   // vychozi adresar pro zalohy Flock
-    NetscapeDir: string;                // vychozi adresar pro zalohy Netscape
-    NetscapeMessengerDir: string;       // vychozi adresar pro zalohy Netscape Messenger
-    SpicebirdDir: string;               // vychozi adresar pro zalohy Spicebirdu
-    SongbirdDir: string;                // vychozi adresar pro zalohy Songbirdu
-    PostBoxDir: string;                 // vychozi adresar pro zalohy PostBoxu
-    WyzoDir: string;                    // vychozi adresar pro zalohy Wyza
+    GeneralDir: string;                 // default directory for backups
+    SuiteDir: string;                   // default directory for Suite backups
+    FirefoxDir: string;                 // default directory for Firefox backups
+    ThunderbirdDir: string;             // default directory for Thunderbird backups
+    SunbirdDir: string;                 // default directory for Sunbird backups
+    FlockDir: string;                   // default directory for Flock backups
+    NetscapeDir: string;                // default directory for Netscape backups
+    NetscapeMessengerDir: string;       // default directory for Netscape Messenger backups
+    SpicebirdDir: string;               // default directory for Spicebird backups
+    SongbirdDir: string;                // default directory for Songbird backups
+    PostBoxDir: string;                 // default directory for PostBox backups
+    WyzoDir: string;                    // default directory for Wyzo backups
 
-    IsProfileInName: boolean;           // informace, zda je ve jmene vystupniho souboru uvedeno jmeno profilu
-    Monitor: integer;                   // monitor, na kterém se aplikace zobrazí
-    AskForPassword: boolean;            // zda bude uživatel pøi zálohování dotazován na heslo
-    UnknowFiles: TList;                 // nezname soubory uvedene v zaloze
-    PortableDirectory: String;          // directory with profile of Portable Firefox/Thunderbird etc.
-    BackupFailed: boolean;              // backup failed?
-    BackupAppVersion: Integer;          // backup app version
+    IsProfileInName: boolean;           // whether the profile name is included in the output file name
+    Monitor: integer;                   // monitor on which the application will be displayed
+    AskForPassword: boolean;            // whether the user will be asked for a password during backup
+    UnknowFiles: TList;                 // unknown files listed in the backup
+    PortableDirectory: String;          // directory containing the profile of Portable Firefox/Thunderbird etc.
+    BackupFailed: boolean;              // did the backup fail?
+    BackupAppVersion: Integer;          // backup application version
 
     MozManager: TMozManager;
   end;
 
 var
   Form1: TForm1;
-  Programy: array [1..Pocet_aplikaci] of TProgram;    // seznam programu, ktere se budou vyhledavat
+  Programy: array [1..Pocet_aplikaci] of TProgram;   // list of programs to be searched
   CommandLineStarted: boolean;
 
 implementation
@@ -207,24 +206,24 @@ implementation
 {$R *.dfm}
 
 //******************************************************************************
-// Deklarace pouzitych unit
+// Declaration of used units
 //******************************************************************************
 
 uses funkce, okna, zaloha, JPDialogs, CmdLine, Functions;
-// funkce - pouzite funkce
-// okna - informace o oknech pruvodce
-// zaloha - provedeni zalohy ci obnovy profilu
+// funkce - used functions
+// okna - information about the wizard windows
+// zaloha - performing backup or restore of the profile
 
 //******************************************************************************
-// Procedury a funkce
+// Procedures and functions
 //******************************************************************************
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  // nacteni ini souboru
+  // loading the ini file
   LoadIni;
 
-  // jedna se o tichou instalaci?
+  // is this a silent installation?
   //Form1.Ukoncit:= false;
 
   // ini l10n
@@ -239,29 +238,29 @@ end;
 
 procedure TForm1.ListBox1Click(Sender: TObject);
 begin
-  // vyber programu, ktery se bude zalohovat
+  // selection of the program to be backed up
   Over_vyber;
 end;
 
 procedure TForm1.ListBox2Click(Sender: TObject);
 begin
-  // volba profilu
+  // selection of the profile
   Over_vyber_profilu;
   if (Form1.Akce = 1) and (Form1.IsProfileInName = true) then NastavSoubor;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
-  // ukonceni programu nebo zahajeni noveho zalohovani/obnovy
+  // exit the application or start a new backup/restore
   if Form1.CheckBox16.Checked = false then Form1.Close
   else
     begin
-      Form1.CheckBox16.Checked:= false;
-      // Je potreba vymazat ListBox3 a 4
+      Form1.CheckBox16.Checked := false;
+      // It is necessary to clear ListBox3 and 4
       Form1.ListBox3.Clear;
       Form1.ListBox4.Clear;
 
-      Form1.Okno:= 1;
+      Form1.Okno := 1;
       Okno1;
       Form1.Button1.SetFocus;
     end;
@@ -308,34 +307,34 @@ end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-  // Tlacitko dalsi v dialogu
+  // "Next" button in the dialog
   case Okno of
     1: begin
-         Okno2;                 // nastaveni na dialog 2 - volba operace
-         Okno:= Okno + 1;
+         Okno2;                 // switch to dialog 2 – operation selection
+         Okno := Okno + 1;
        end;
     2: begin
-         // zjisteni typu programu a jeho jmena
+         // determine the type and name of the program
          GetTypeProgram;
 
-         // zde se nejedna o zacatek zalohovani - jen se overuje spusteny program
+         // this is not the start of backup – just checking if the program is running
          if Zacatek_zalohovani = true then
            begin
              Okno3;
-             Okno:= Okno + 1;
+             Okno := Okno + 1;
            end;
        end;
-    3: begin                    // detekce komponent pro zalohovani (obnoveni)
+    3: begin                    // detect components for backup (restore)
          Okno4;
-         Okno:= Okno + 1;
+         Okno := Okno + 1;
        end;
-    4: begin                    // akce
-         if (Zacatek_zalohovani = true) and (Prepsat_profil = true) then      // Mozilla nebyla detekovana
+    4: begin                    // action
+         if (Zacatek_zalohovani = true) and (Prepsat_profil = true) then  // Mozilla was not detected
            begin
              Okno5;
 
              if Akce = 1 then Zalohovani else Obnoveni;
-             Okno:= Okno + 1;
+             Okno := Okno + 1;
            end;
        end;
 
@@ -344,30 +343,30 @@ end;
 
 procedure TForm1.Button3Click(Sender: TObject);
 begin
-  // Tlacitko zpet v dialogu
+  // "Back" button in the dialog
   case Okno of
     2: begin
-         Okno:= Okno - 1;
-         Okno1;                 // nastaveni na dialog 1 - uvitani
+         Okno := Okno - 1;
+         Okno1;                 // switch to dialog 1 – welcome screen
        end;
-    3: begin                    // nastaveni na dialog 2 - volba operace
+    3: begin                    // switch to dialog 2 – operation selection
          Okno2;
-         Okno:= Okno - 1;
+         Okno := Okno - 1;
        end;
-    4: begin                    // nastaveni na dialog 3 - volba profilu
+    4: begin                    // switch to dialog 3 – profile selection
          Okno3;
-         Okno:= Okno - 1;
+         Okno := Okno - 1;
        end;
-    5: begin                    // nastaveni na dialog 4 - volba soucasti
+    5: begin                    // switch to dialog 4 – component selection
          Okno4;
-         Okno:= Okno - 1;
+         Okno := Okno - 1;
        end;
   end;
 end;
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
 begin
-  // uzavreni formulare (eventualne zobrazeni dialogu)
+  // Closing the form (possibly displaying a dialog)
   Ukonceni_programu (CanClose);
 end;
 
@@ -377,10 +376,10 @@ var Left: integer;
 begin
   //if Form1.Ukoncit = true then Application.Terminate;
 
-  // overeni existence potrebnych souboru
+  // Checking the existence of required files
   DetekceSouboru;
 
-  // zobrazení okna aplikace na støedu prvního monitoru
+  // Display the application window in the center of the first monitor
   if (Screen.MonitorCount < Form1.Monitor) then Form1.Monitor:= 1;
 
   Left:= Screen.Monitors[Form1.Monitor - 1].Width;
@@ -410,7 +409,7 @@ begin
     end;
 end;
 
-// Metoda, ktera se zavola, pokud je vyzadovano heslo
+// Method that is called if a password is required
 procedure TForm1.ZipMaster1PasswordError(Sender: TObject;
   IsZipAction: Boolean; var NewPassword: String; ForFile: String;
   var RepeatCount: Cardinal; var Action: TMsgDlgBtn);
@@ -432,7 +431,7 @@ begin
     end; 
 end;
 
-// Dvojklepnuti na listboxu s vyberem aplikace
+// Double-click on the listbox with application selection
 procedure TForm1.ListBox1DblClick(Sender: TObject);
 begin
   GetTypeProgram;            // Zjisteni vybraneho programu
@@ -443,7 +442,7 @@ begin
     end;
 end;
 
-// Dvojklepnuti na listboxu s volbou profilu
+// Double-click on the listbox with profile selection
 procedure TForm1.ListBox2DblClick(Sender: TObject);
 begin
   Okno4;
@@ -463,7 +462,7 @@ end;
 
 procedure TForm1.CheckBox16Click(Sender: TObject);
 begin
-  // Prepinani
+  // switching
   if CheckBox16.Checked then Button2.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_BUTTON_1')
   else Button2.Caption:= Config.l10n.getL10nString ('TForm1', 'LANG_BUTTON_KONEC'); 
 end;
@@ -488,7 +487,7 @@ begin
 
 end;
 
-{ Pokud nejde zapisovat do souboru, ukonèi zálohování
+{// If writing to the file is not possible, terminate the backup
 }
 procedure TForm1.ZipMaster1Message(Sender: TObject; ErrCode: Integer;
   Message: String);

@@ -36,53 +36,53 @@ interface
 
 uses Registry;
 
-// provede se inicializace dialogu (krom hlavniho)
+// Initializes the dialog (except for the main one)
 procedure Dialogy_init;
-// vytvori novy profil Mozilly
+// Creates a new Mozilla profile
 procedure Create_profil;
-// provede detekci aplikaci, ktere se mohou zalohovat
+// Detects the applications that can be backed up
 procedure DetekceKomponent;
-// provede detekci profilu Mozilly
+// Detects the Mozilla profile
 procedure DetekceProfilu;
-// detekuje potrebne soubory pro funkci programu
+// Detects the required files for the program's functionality
 procedure DetekceSouboru;
-// detekuje soucasti, ktere lze zalohovat
+// Detects the components that can be backed up
 procedure DetekceSoucasti;
-// detekuje soucasti, ktere lze obnovit
+// Detects the components that can be restored
 procedure DetekceSoucastiSoubor;
-// zjisti, jaky program byl vybran
+// Determines which program has been selected
 procedure GetTypeProgram;
-// vyber Open ci Save Dialogu
+// Selects Open or Save dialog
 procedure ChooseDialog;
-// detekce spustene Mozilly
+// Detects if Mozilla is running
 function IsRunning: boolean;
-// detekuje, zda-li se jedna o soubor se zalohou
+// Checks if the file is a valid backup file
 function IsValidFile (Soubor: string):boolean;
-// is backup for selected app?
+// Checks if the backup is for the selected app
 function IsValidFileForApp (Filename: String; ProgramId: byte):boolean;
-// "vynuluje" checkboxy
+// "Resets" the checkboxes
 procedure NastavCheckboxy;
-// nastavi vystupni soubor
+// Sets the output file
 procedure NastavSoubor;
-// overi a zvalidni cestu k souboru
+// Verifies and validates the file path
 function Over_platnost (Cesta: string):string;
-// overi platnost profilu
+// Verifies the validity of the profile
 function Over_profil (Adresar: string):boolean;
-// overi, zda-li byl nalezen nejaky program
+// Verifies if any program has been found
 procedure Over_program;
-// overi, zda-li je vybrana aplikace na provedeni zalohy
+// Verifies if an application is selected for backup
 procedure Over_vyber;
-// overi, zda-li je vybran nejaky profil
+// Verifies if a profile has been selected
 procedure Over_vyber_profilu;
-// pøi obnovování se dotázat, zda pøepsat data v existujícím profilu
+// When restoring, asks if the data should be overwritten in the existing profile
 function Prepsat_profil: boolean;
-// select portable profile
+// Selects a portable profile
 procedure selectPortableProfile();
-// ukonceni programu  - krizek na formulari
+// Ends the program - close button on the form
 procedure Ukonceni_programu (var CanClose: boolean);
-// zjisteni, zda-li se muze zacit se zalohovanim (resp. obnovou)
+// Determines if the backup (or restore) can begin
 function Zacatek_zalohovani: boolean;
-// oreze adresarovou cestu
+// Trims the directory path
 function Zkraceny_adresar (S: string):string;
 
 // temporary
@@ -100,7 +100,7 @@ uses Classes, controls, dialogs, forms, hlavni, chyby, input_dialog,
 //******************************************************************************
 // procedure Dialogy_init
 //
-// - provede jazykovou inicializaci dialogu (krom hlavniho)
+// - Performs language initialization of the dialog (except for the main one)
 //******************************************************************************
 
 procedure Dialogy_init;
@@ -122,7 +122,7 @@ end;
 //******************************************************************************
 // procedure Create_profil
 //
-// - vytvori novy profil Mozilly
+// - Creates a new Mozilla profile
 //******************************************************************************
 
 procedure Create_profil;
@@ -130,8 +130,8 @@ var Retezec: string;
     Vysledek: boolean;
     ExeName: String;
 begin
-  // Vytvoreni noveho profilu
-  Dialogy_init;                 // inicializace dialogu
+// Creation of a new profile
+Dialogy_init;                 // Initialize the dialog
 //  Profil_okno;
 
 
@@ -152,7 +152,7 @@ begin
       if Pos (':', Retezec) > 0 then Vysledek:= false;
       if Pos ('"', Retezec) > 0 then Vysledek:= false;
 
-      if (Vysledek = true) and (Length (Retezec) > 0) then  // byl zadan nejaky profil
+      if (Vysledek = true) and (Length (Retezec) > 0) then  // Was a profile provided?
         begin
           if not DirectoryExists (Form1.Slozka_data + 'Profiles\' + Retezec) then
             begin
@@ -193,10 +193,10 @@ end;
 //******************************************************************************
 // procedure ProfilesDirectory
 //
-// - vyhleda slozku s profilama, pokud existuje
+// - Searches for the profile folder if it exists
 //
-// Vstup: Typ - typ aplikace
-//        Vstup - ???
+// Input: Type - type of the application
+//        Input - ???
 //******************************************************************************
 
 procedure ProfilesDirectory (typ: integer; vstup: byte);
@@ -237,14 +237,14 @@ end;
 //******************************************************************************
 // procedure SearchProgram
 //
-// - vyhleda program v registru (pokud tam je)
+// - Searches for the program in the registry (if it's there)
 //
-// Vstup: Cesta - cesta v registrech
-//        Klic - klic, ktery se prohledava
-//        Typ - cislo aplikace, ktera se prohledava
-//        Vstup - 
-//        Program - typ programu
-//        Adresar - ma se hleat i adresar s profilem?
+// Input: Path - path in the registry
+//        Key - the key that is being searched
+//        Type - application number that is being searched
+//        Input -
+//        Program - program type
+//        Directory - should the profile directory be searched as well?
 //******************************************************************************
 
 procedure SearchProgram (Registr: TRegistry; Cesta: string; Klic: string; Typ: byte; Vstup: byte; Adresar: boolean);
@@ -276,7 +276,7 @@ begin
         end
     end;
 
-  //** nalezeni profilu odinstalovane aplikace
+//** Finding the profile of an uninstalled application
   if (Adresar) and (ApplicationDetected = false) then ProfilesDirectory (typ, vstup);
 
   Registr.CloseKey;
@@ -286,13 +286,12 @@ end;
 //******************************************************************************
 // procedure SearchDirectory
 //
-// - vyhleda cestu k zadanemu programu
+// - searches for the path to the specified program
 //
-// Vstup: Cesta - cesta v registrech
-//        Klic - klic, ktery se prohledava
-//        Program - typ programu
+// Input: Path - the registry path
+//        Key - the key to be searched
+//        Program - program type
 //******************************************************************************
-
 procedure SearchDirectory (Registr: TRegistry; Cesta: string; Klic: string; Typ: byte);
 begin
   if Registr.OpenKey(Cesta, false) then
@@ -309,9 +308,9 @@ end;
 //******************************************************************************
 // procedure DetekceEmails
 //
-// - detekce emailovych schranek
+// - detects email accounts
 //
-// Vstup: Slozka_data - cesta ke konfiguracnimu souboru
+// Input: Folder_data - path to the configuration file
 //******************************************************************************
 
 function DetectEmails (Slozka_data: string):boolean;
@@ -336,13 +335,13 @@ end;
 //******************************************************************************
 // procedure DetekceKomponent
 //
-// - detekce komponent, ktere jsou vhodne k zalohovani (programy)
+// - detection of components that are suitable for backup (programs)
 //******************************************************************************
 
 procedure DetekceKomponent;
 var Registr: TRegistry;
 begin
-  // vynulovani cest
+  // reset of paths
   Programy[1].Cesta:= '';
   Programy[2].Cesta:= '';
   Programy[3].Cesta:= '';
@@ -359,12 +358,12 @@ begin
   Form1.Typ_programu:= 0;
   Form1.Slozka_data:= '';
 
-  // otevreni registru
+  // open register
   Registr:= TRegistry.Create;
   Registr.Access:= KEY_READ;
   Registr.RootKey:= HKEY_LOCAL_MACHINE;
 
-  // ** Detekce SeaMonkey / Mozilly
+  // ** Detection of SeaMonkey / Mozilly
   Form1.ListBox1.Clear;
   SearchProgram (Registr, 'SOFTWARE\mozilla\SeaMonkey\', 'CurrentVersion', 1, 0, false);
   SearchDirectory (Registr, 'SOFTWARE\mozilla\SeaMonkey\' + Programy[1].Verze + '\Main', 'Install Directory', 1);
@@ -375,18 +374,18 @@ begin
       SearchDirectory (Registr, 'SOFTWARE\mozilla.org\SeaMonkey\' + Programy[1].Verze + '\Main', 'Install Directory', 1);
     end;
 
-  // ** Detekce Mozilly Firefox
+  // ** Detection of Mozilly Firefox
   SearchProgram (Registr, 'SOFTWARE\mozilla\Mozilla Firefox', 'CurrentVersion', 2, 1, false);
   SearchDirectory (Registr, 'SOFTWARE\mozilla\Mozilla Firefox\'+ Programy[2].Verze + '\Main', 'Install Directory', 2);
 
-  // Detekce starsi verze
+  // Detection of old version
   if Length (Programy[2].Cesta) = 0 then
     begin
       SearchProgram (Registr, 'SOFTWARE\mozilla.org\Mozilla Firefox', 'CurrentVersion', 2, 0, true);
       SearchDirectory (Registr, 'SOFTWARE\mozilla.org\Mozilla Firefox\'+ Programy[2].Verze + '\Main', 'Install Directory', 2);
     end;
 
-  // ** Detekce Mozilly Thunderbird
+  // ** Detection of Mozilly Thunderbird
   SearchProgram (Registr, 'SOFTWARE\mozilla\Mozilla Thunderbird', 'CurrentVersion', 3, 0, false);
   SearchDirectory (Registr, 'SOFTWARE\mozilla\Mozilla Thunderbird\' + Programy[3].Verze + '\Main', 'Install Directory', 3);
 
@@ -396,42 +395,42 @@ begin
       SearchDirectory (Registr, 'SOFTWARE\mozilla.org\Mozilla Thunderbird\' + Programy[3].Verze + '\Main', 'Install Directory', 3);
     end;
 
-  // ** Detekce Mozilly Sunbird
+  // ** Detection of Mozilly Sunbird
   SearchProgram (Registr, 'SOFTWARE\mozilla\Mozilla Sunbird', 'CurrentVersion', 4, 0, true);
   SearchDirectory (Registr, 'SOFTWARE\mozilla\Mozilla Sunbird\'+ Programy[4].Verze + '\Main', 'Install Directory', 4);
 
-  // ** Detekce Flock
+  // ** Detection of Flock
   SearchProgram (Registr, 'SOFTWARE\Flock', 'CurrentVersion', 5, 0, true);
   SearchDirectory (Registr, 'SOFTWARE\Flock\Flock\'+ Programy[5].Verze + '\Main', 'Install Directory', 5);
 
-  // ** Detekce Netscape 9
+  // ** Detection of Netscape 9
   SearchProgram (Registr, 'SOFTWARE\mozilla\Netscape Navigator', 'CurrentVersion', 6, 0, true);
   SearchDirectory (Registr, 'SOFTWARE\mozilla\Netscape Navigator\'+ Programy[6].Verze + '\Main', 'Install Directory', 6);
 
-  // ** Detekce Netscape Messenger 9
+  // ** Detection of Netscape Messenger 9
   SearchProgram (Registr, 'SOFTWARE\mozilla\Netscape Messenger', 'CurrentVersion', 7, 0, true);
   SearchDirectory (Registr, 'SOFTWARE\mozilla\Netscape Messenger\'+ Programy[7].Verze + '\Main', 'Install Directory', 7);
 
-  // ** Spicebird detection
+  // ** Detection of Spicebird
   SearchProgram (Registr, 'SOFTWARE\mozilla\Spicebird', 'CurrentVersion', 8, 0, true);
   SearchDirectory (Registr, 'SOFTWARE\mozilla\Spicebird\'+ Programy[8].Verze + '\Main', 'Install Directory', 8);
 
-  // ** Songbird detection
+  // ** Detection of Songbird
   SearchProgram (Registr, 'SOFTWARE\mozilla\Spicebird', 'CurrentVersion', 9, 0, true);
   SearchDirectory (Registr, 'SOFTWARE\mozilla\Spicebird\'+ Programy[9].Verze + '\Main', 'Install Directory', 9);
 
-  // ** PostBox detection
+  // ** Detection of PostBox
   SearchProgram (Registr, 'SOFTWARE\PostBox\PostBox', 'CurrentVersion', 11, 0, true);
   SearchDirectory (Registr, 'SOFTWARE\PostBox\PostBox\'+ Programy[11].Verze + '\Main', 'Install Directory', 11);
 
-  // ** Wyzo detection
+  // ** Detection of Wyzo
   SearchProgram (Registr, 'SOFTWARE\mozilla\Wyzo', 'CurrentVersion', 12, 0, true);
   SearchDirectory (Registr, 'SOFTWARE\mozilla\Wyzo\'+ Programy[12].Verze + '\Main', 'Install Directory', 12);
 
   // Portable Applications
   Form1.ListBox1.Items.Add (Config.l10n.getL10nString('MozBackup14', 'LANG_PORTABLE_APPS'));
 
-  // ukonceni prace s registry
+  // closing work with registry
   Registr.CloseKey;
   Registr.Destroy;
 end;
@@ -439,9 +438,8 @@ end;
 //******************************************************************************
 // function ReadString
 //
-// - nacte retezec z binarniho souboru
+// - reads a string from a binary file
 //******************************************************************************
-
 function ReadString(FStream: TFileStream; dwPos, dwLen: DWord): String;
 var
   sTemp: String;
@@ -461,9 +459,9 @@ end;
 //******************************************************************************
 // function GetProfiles
 //
-// - nacte data z registry.dat
+// - reads data from registry.dat
 //
-// Vstup: Cesta - cesta k souboru
+// Input: Path - path to the file
 //******************************************************************************
 
 function GetProfiles (Cesta: string): boolean;
@@ -482,11 +480,11 @@ begin
   Posledni:= nil;
   Nacteno:= false;
 
-  // nalezeni novejsiho typu souboru s profily
+  // finding a newer type of profile file
   if FileExists (Cesta + 'profiles.ini') then
     begin
       i:= 0; ProfileExist:= true; Form1.Prvni_profil:= nil; Posledni:= nil;
-      // nacteni INI souboru
+      // loading the INI file
       ini:= TIniFile.Create(Cesta + 'profiles.ini');
 
       Repeat
@@ -503,7 +501,7 @@ begin
                 if IsRelative = 0 then P^.Cesta:= Path
                 else
                   begin
-                    // upravi se cesta podle OS
+                    // adjust the path according to the OS
                     P^.Cesta:= Cesta + StringReplace (Path, '/', '\', [rfReplaceAll]);
                   end;
 
@@ -524,7 +522,7 @@ begin
     end;
 
 
-  // nacteni registroveho souboru
+  // loading the registry file
   if (FileExists (Cesta + 'registry.dat')) and (Nacteno = false) then
     begin
       FStream:= TFileStream.Create(Cesta + 'registry.dat', fmOpenRead);
@@ -532,26 +530,26 @@ begin
       FStream.Seek(12,soFromBeginning);                                         // 1
       FStream.Read(i, SizeOf (i));;
 
-      // nacteni "/"
+      // loading "/"
       FStream.Seek(I + 16, soFromBeginning);                                    // 2
       FStream.Read(i, SizeOf (i));
 
-      // nasleduje presun na key "users"                                        // 3
+      // moving to the "users" key                                        // 3
       FStream.Seek(I + 12, soFromBeginning);
       FStream.Read(i, SizeOf (i));
 
-      // nasleduje presun na sekci "common"                                     // 4
+      // moving to the "common" section                                     // 4
       FStream.Seek(I + 16, soFromBeginning);
       FStream.Read(i, SizeOf (i));
 
-      // nasleduje presun na sekci "CurrentProfile"                             
+      // moving to the "CurrentProfile" section
       FStream.Seek(I, soFromBeginning);
       FStream.Read(i, SizeOf (i));
 
       FStream.Seek(I+16, soFromBeginning);                                      // 5
       FStream.Read(i, SizeOf (i));
 
-      // ** I nyni ukazuje na prvni profil
+      // ** And now it points to the first profile
       if I <> 0 then
         begin
           While I<>0 do
@@ -565,7 +563,7 @@ begin
               S:= ReadString (FStream, K, J-K);
               Jmeno:= Utf8ToAnsi(S);
 
-              // odkaz na konec retezce
+             // pointer to the end of the string
               FStream.Seek(J+20,soFromBeginning);
               FStream.Read(i, SizeOf (i));
 
@@ -584,8 +582,8 @@ begin
               S:='';
               for I:=Length(Location) downto 1 do S:=S+Location[i];
 
-              // prekopane mazani retezce ze souboru
-              // puvodni: Delete (S, 1, 11);
+             // reworked deletion of the string from the file
+             // original: Delete(S, 1, 11);
               L:= Pos ('directory', S);
               if (L = 0) then Delete (S, 1, 11)
               else
@@ -605,7 +603,7 @@ begin
               Posledni:= P;
               if Form1.Prvni_profil = nil then Form1.Prvni_profil:= P;
 
-              // odkaz na dalsi?
+              // reference to the next one?
               FStream.Seek(J+12,soFromBeginning);
               FStream.Read(i, SizeOf (i));
             end;
@@ -620,17 +618,17 @@ end;
 //******************************************************************************
 // procedure DetekceProfilu
 //
-// - detekce profilu Mozilly
+// - detects Mozilla profiles
 //******************************************************************************
 
 procedure DetekceProfilu;
 begin
-  // vymazani listboxu pro profily
+  // clear the listbox for profiles
   Form1.ListBox2.Clear;
 
-  // urceni programu
+  // determine the program
   case (Form1.Typ_programu) of
-    // Zde se detekují profily SeaMonkey 2.0, 1.x se zálohuje níže
+    // Here we detect SeaMonkey 2.0 profiles; 1.x is backed up below
     1: Form1.Slozka_data:= GetSpecialDir (11) + '\Mozilla\SeaMonkey\';
     2: Form1.Slozka_data:= GetSpecialDir (11) + '\Mozilla\Firefox\';
     3: Form1.Slozka_data:= GetSpecialDir (11) + '\Thunderbird\';
@@ -644,10 +642,10 @@ begin
     12: Form1.Slozka_data:= GetSpecialDir (11) + '\Radical Software Ltd\Wyzo\';
   end;
 
-  // nacteni obsahu souboru s profily
+  // load the contents of the profiles file
   GetProfiles (Form1.Slozka_data);
 
-  // Detekce profilù SeaMonkey 1.x
+  // Detect SeaMonkey 1.x profiles
   if (Form1.Typ_programu = 1) and (Form1.Prvni_profil = nil) then
     begin
       GetProfiles (GetSpecialDir (11) + '\Mozilla\');
@@ -663,7 +661,7 @@ end;
 //******************************************************************************
 // procedure DetekceSouboru
 //
-// - detekuje soubory, ktere jsou potrebne pro funkci programu
+// - detects files that are necessary for the program to function
 //******************************************************************************
 procedure DetekceSouboru;
 var Cesta: string;
@@ -687,7 +685,7 @@ end;
 //******************************************************************************
 // procedure DetekceSoucasti
 //
-// - detekuje soucasti, ktere lze zalohovat
+// - detects components that can be backed up
 //******************************************************************************
 
 procedure DetekceSoucasti;
@@ -712,7 +710,7 @@ begin
               Until (Nalezeno = true) or (P = nil);
              end;
 
-          // Profil nebyl nalezen, nejedna se o externi?
+          // Profile not found, could it be an external one?
           if (P = nil) then
             begin
               if (Length (Form1.PortableDirectory) = 0) then
@@ -738,106 +736,107 @@ begin
 
       if (FileExists (Slozka_data1 + 'prefs.js') = false) then raise Exception.Create('Exception');
 
-      // ** nyni se vyhledaji soucasti
-      // obecna konfigurace
+      // ** now the components are being searched
+      // general configuration
 
-      if FileExists (Slozka_data1 + 'prefs.js') then Form1.CheckBox1.Checked:= true
-      else Form1.CheckBox1.Enabled:= false;
+      if FileExists(Slozka_data1 + 'prefs.js') then Form1.CheckBox1.Checked := true
+      else Form1.CheckBox1.Enabled := false;
 
-      // ****** novy typ detekce
-      if DetectEmails (Slozka_data1) then Form1.CheckBox2.Checked:= true
-      else Form1.CheckBox2.Enabled:= false; 
+      // ****** new type of detection
+      if DetectEmails(Slozka_data1) then Form1.CheckBox2.Checked := true
+      else Form1.CheckBox2.Enabled := false;
 
-      // kontakty
-      if FileExists (Slozka_data1 + 'abook.mab') then Form1.CheckBox3.Checked:= true
-      else Form1.CheckBox3.Enabled:= false;
+      // contacts
+      if FileExists(Slozka_data1 + 'abook.mab') then Form1.CheckBox3.Checked := true
+      else Form1.CheckBox3.Enabled := false;
 
-      // bookmarky
-      if FileExists (Slozka_data1 + 'bookmarks.html') or FileExists (Slozka_data1 + 'bookmarks_history.sqlite')
-      or FileExists (Slozka_data1 + 'places.sqlite') then Form1.CheckBox4.Checked:= true
-      else Form1.CheckBox4.Enabled:= false;
+      // bookmarks
+      if FileExists(Slozka_data1 + 'bookmarks.html') or FileExists(Slozka_data1 + 'bookmarks_history.sqlite')
+      or FileExists(Slozka_data1 + 'places.sqlite') then Form1.CheckBox4.Checked := true
+      else Form1.CheckBox4.Enabled := false;
 
-      // historie
-      if FileExists (Slozka_data1 + 'history.dat') or FileExists (Slozka_data1 + 'bookmarks_history.sqlite')
-      or FileExists (Slozka_data1 + 'places.sqlite') then Form1.CheckBox5.Checked:= true
-      else Form1.CheckBox5.Enabled:= false;
+      // history
+      if FileExists(Slozka_data1 + 'history.dat') or FileExists(Slozka_data1 + 'bookmarks_history.sqlite')
+      or FileExists(Slozka_data1 + 'places.sqlite') then Form1.CheckBox5.Checked := true
+      else Form1.CheckBox5.Enabled := false;
 
-      // panely
-      if FileExists (Slozka_data1 + 'panels.rdf') then Form1.CheckBox6.Checked:= true
-      else Form1.CheckBox6.Enabled:= false;
+      // sidebars
+      if FileExists(Slozka_data1 + 'panels.rdf') then Form1.CheckBox6.Checked := true
+      else Form1.CheckBox6.Enabled := false;
 
-      // uzivatelske styly
-      if FileExists (Slozka_data1 + 'chrome' + '\' + 'userChrome.css') or FileExists (Slozka_data1 + 'chrome' + '\' + 'userContent.css')
-      then Form1.CheckBox8.Checked:= true else Form1.CheckBox8.Enabled:= false;
+      // user styles
+      if FileExists(Slozka_data1 + 'chrome' + '\' + 'userChrome.css') or FileExists(Slozka_data1 + 'chrome' + '\' + 'userContent.css')
+      then Form1.CheckBox8.Checked := true else Form1.CheckBox8.Enabled := false;
 
-      // ulozena hesla
-      if (FindFirst (Slozka_data1 + '*.s', faAnyFile, Vyhledej) = 0) or (FileExists (Slozka_data1 + 'signons.txt') or
-      (FileExists (Slozka_data1 + 'signons2.txt')) or (FileExists (Slozka_data1 + 'signons3.txt')) or
-      (FileExists (Slozka_data1 + 'signons4.txt')) or (FileExists (Slozka_data1 + 'signons.sqlite')))
-      then Form1.CheckBox9.Checked:= true
-      else Form1.CheckBox9.Enabled:= false;
+      // saved passwords
+      if (FindFirst(Slozka_data1 + '*.s', faAnyFile, Vyhledej) = 0) or (FileExists(Slozka_data1 + 'signons.txt') or
+      (FileExists(Slozka_data1 + 'signons2.txt')) or (FileExists(Slozka_data1 + 'signons3.txt')) or
+      (FileExists(Slozka_data1 + 'signons4.txt')) or (FileExists(Slozka_data1 + 'signons.sqlite')))
+      then Form1.CheckBox9.Checked := true
+      else Form1.CheckBox9.Enabled := false;
       SysUtils.FindClose(Vyhledej);
 
       // cookies
-      if (FileExists (Slozka_data1 + 'cookies.txt')) or (FileExists (Slozka_data1 + 'cookies.sqlite'))
-      then Form1.CheckBox10.Checked:= true
-      else Form1.CheckBox10.Enabled:= false;
+      if (FileExists(Slozka_data1 + 'cookies.txt')) or (FileExists(Slozka_data1 + 'cookies.sqlite'))
+      then Form1.CheckBox10.Checked := true
+      else Form1.CheckBox10.Enabled := false;
 
-      // doplnene formulare
-      if (FindFirst (Slozka_data1 + '*.w', faAnyFile, Vyhledej) = 0) or (FileExists (Slozka_data1 + 'formhistory.dat')
-      or FileExists (Slozka_data1 + 'formhistory.sqlite')) then Form1.CheckBox11.Checked:= true
-      else Form1.CheckBox11.Enabled:= false;
+      // form history
+      if (FindFirst(Slozka_data1 + '*.w', faAnyFile, Vyhledej) = 0) or (FileExists(Slozka_data1 + 'formhistory.dat')
+      or FileExists(Slozka_data1 + 'formhistory.sqlite')) then Form1.CheckBox11.Checked := true
+      else Form1.CheckBox11.Enabled := false;
       SysUtils.FindClose(Vyhledej);
 
-      // stahovani souboru
-      if (FileExists (Slozka_data1 + 'downloads.rdf')) or (FileExists (Slozka_data1 + 'downloads.sqlite'))
-      then Form1.CheckBox12.Checked:= true
-      else Form1.CheckBox12.Enabled:= false;
+      // downloads
+      if (FileExists(Slozka_data1 + 'downloads.rdf')) or (FileExists(Slozka_data1 + 'downloads.sqlite'))
+      then Form1.CheckBox12.Checked := true
+      else Form1.CheckBox12.Enabled := false;
 
-      // certifikatu
-      if FileExists (Slozka_data1 + 'key3.db') or FileExists (Slozka_data1 + 'cert7.db') or
-         FileExists (Slozka_data1 + 'cert8.db') or FileExists (Slozka_data1 + 'secmod.db')
-      then Form1.CheckBox13.Checked:= true else Form1.CheckBox13.Enabled:= false;
+      // certificates
+      if FileExists(Slozka_data1 + 'key3.db') or FileExists(Slozka_data1 + 'cert7.db') or
+         FileExists(Slozka_data1 + 'cert8.db') or FileExists(Slozka_data1 + 'secmod.db')
+      then Form1.CheckBox13.Checked := true else Form1.CheckBox13.Enabled := false;
 
-      // rozsireni
-      if DirectoryExists (Slozka_data1 + 'Extensions') then
+      // extensions
+      if DirectoryExists(Slozka_data1 + 'Extensions') then
         begin
-          Form1.CheckBox14.ShowHint:= false;
-          Form1.CheckBox14.Enabled:= true;
-          Form1.CheckBox14.Checked:= true;
+          Form1.CheckBox14.ShowHint := false;
+          Form1.CheckBox14.Enabled := true;
+          Form1.CheckBox14.Checked := true;
         end
       else
         begin
-          Form1.CheckBox14.ShowHint:= true;
-          Form1.CheckBox14.Enabled:= false;
-          Form1.CheckBox14.Checked:= false;
+          Form1.CheckBox14.ShowHint := true;
+          Form1.CheckBox14.Enabled := false;
+          Form1.CheckBox14.Checked := false;
         end;
 
-      // diskova pamet
-      if DirectoryExists (Slozka_data1 + 'Cache') then
+      // disk cache
+      if DirectoryExists(Slozka_data1 + 'Cache') then
         begin
-          Form1.CheckBox15.Checked:= false;
-          Form1.CheckBox15.Enabled:= true;
+          Form1.CheckBox15.Checked := false;
+          Form1.CheckBox15.Enabled := true;
         end
-      else Form1.CheckBox15.Enabled:= false;
+      else Form1.CheckBox15.Enabled := false;
 
-      // pouze e-maily
-      if Form1.CheckBox2.Enabled = false then Form1.CheckBox7.Enabled:= false;
+      // emails only
+      if Form1.CheckBox2.Enabled = false then Form1.CheckBox7.Enabled := false;
 
-  except
-      // uzivatelsky profil je poskozen
-      Application.MessageBox (pchar (Config.l10n.getL10nString ('TForm1', 'LANG_BAD_PROFIL')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_OK + MB_ICONWARNING);
-      Halt (1);
-    end;
+      except
+        // user profile is corrupted
+        Application.MessageBox(pchar(Config.l10n.getL10nString('TForm1', 'LANG_BAD_PROFIL')),
+                               pchar(Config.l10n.getL10nString('TForm1', 'LANG_WARNING')),
+                               MB_OK + MB_ICONWARNING);
+        Halt(1);
+      end;
 end;
 
 
 //******************************************************************************
 // procedure DetekceSoucastiSoubor
 //
-// - detekuje soucasti, ktere obsahuje zalozni soubor
+// - detects components contained in the backup file
 //******************************************************************************
-
 procedure DetekceSoucastiSoubor;
 var F: textfile;
     S, S1, S2: string;
@@ -874,7 +873,7 @@ try
     Readln (F, S);
 
   Readln (F, S1);
-  // nacteni externich cest
+  // Loading external paths
   Form1.Pocet_extern:= 0;
   Repeat
     Readln (F, S1);
@@ -1027,7 +1026,7 @@ try
       Form1.CheckBox12.Enabled:= false;
     end;
 
-  // certifikat - byl dodan pozdeji
+  // certificate - was added later
   if (Length (S) > 11) and (S[12] = 'Y') then
     begin
       Form1.CheckBox13.Checked:= true;
@@ -1039,7 +1038,7 @@ try
       Form1.CheckBox13.Enabled:= false;
     end;
 
-  // rozsireni - bylo dodano pozdeji
+  // extensions - were added later
   if (Length (S) > 12) and (S[13] = 'Y') then
     begin
       Form1.CheckBox14.Checked:= true;
@@ -1051,7 +1050,7 @@ try
       Form1.CheckBox14.Enabled:= false;
     end;
 
-  // cache - bylo dodano pozdeji
+  // cache - was added later
   if (Length (S) > 13) and (S[14] = 'Y') then
     begin
       Form1.CheckBox15.Checked:= true;
@@ -1076,7 +1075,7 @@ end;
 //******************************************************************************
 // function GetDefaultFileName
 //
-// - vraci vychozi jmeno pro zalozni soubor
+// - returns the default name for the backup file
 //******************************************************************************
 
 function GetDefaultFilename: string;
@@ -1086,8 +1085,8 @@ var Cesta, Vystup: string;
     Pozice: integer;
     S: string;
 begin
-  // ** Je prednastavena cesta k zaloze? (adresar)
-  // Nejprve se hleda vychozi adresar v konfiguracnim souboru
+  // ** Is the backup path preset? (directory)
+  // First, the default directory is searched in the configuration file
   Adresar:= Trim(Form1.GeneralDir);
 
   case Form1.Typ_programu of
@@ -1116,25 +1115,25 @@ begin
       Adresar:= '';
     end;
 
-  // - nejpve se zkusi registry
+  // - first, try the registry
   if Length (Adresar) = 0 then
     begin
       RegCesta:= LoadDirectory (Form1.Typ_programu);
       if (Length (RegCesta) > 0) and (DirectoryExists (RegCesta)) then Adresar:= RegCesta else Adresar:= '';
     end;
 
-  // do ktereho adresare - windows
+  // to which directory - windows
   if (Length (Adresar) = 0) then Cesta:= GetSpecialDir (2) else Cesta:= Adresar;
 
-  // Je adresar zakoncen lomitkem?
+  // Is the directory ending with a backslash?
   Pozice:= Length(Cesta);
   if (Cesta[Pozice] <> '\') then Cesta:= Cesta + '\';
-  
-  // Je ve jmene vystupniho souboru uvedeno jmeno profilu?
+
+  // Is the profile name included in the output file name?
   if (Pos ('<profile>', Form1.VystupniFormat) > 0) then Form1.IsProfileInName:= true
   else Form1.IsProfileInName:= false;
 
-  // Sestavi se vystupni soubor
+  // The output file is assembled.
   Vystup:= Cesta + Form1.VystupniFormat;
 
   Result:= ReplacePlaceholdersInPath (Vystup, Form1.PortableDirectory);
@@ -1144,40 +1143,40 @@ end;
 //******************************************************************************
 // procedure GetTypeProgram
 //
-// - zjisti, jaky program byl vybran
+// Determines which program was selected.
 //******************************************************************************
 
 procedure GetTypeProgram;
 begin
-  // detekce Mozilly
+  // detection of Mozilla
   if Pos ('SeaMonkey', Form1.ListBox1.Items.Strings[Form1.ListBox1.ItemIndex]) > 0 then
     begin
       Form1.ProgramName:= 'Mozilla';
       Form1.Typ_programu:= 1;
     end;
 
-  // detekce Firefoxe
+  // detection of Firefox
   if Pos ('Firefox', Form1.ListBox1.Items.Strings[Form1.ListBox1.ItemIndex]) > 0 then
     begin
       Form1.ProgramName:= 'Firefox';
       Form1.Typ_programu:= 2;
     end;
 
-  // detekce Thunderbirdu
+  // detection of Thunderbird
   if Pos ('Thunderbird', Form1.ListBox1.Items.Strings[Form1.ListBox1.ItemIndex]) > 0 then
     begin
       Form1.ProgramName:= 'Thunderbird';
       Form1.Typ_programu:= 3;
     end;
 
-  // detekce Sunbirdu
+  // detection of Sunbird
   if Pos ('Sunbird', Form1.ListBox1.Items.Strings[Form1.ListBox1.ItemIndex]) > 0 then
     begin
       Form1.ProgramName:= 'Sunbird';
       Form1.Typ_programu:= 4;
     end;
 
-  // detekce Flocku
+  // detection of Flock
   if Pos ('Flock', Form1.ListBox1.Items.Strings[Form1.ListBox1.ItemIndex]) > 0 then
     begin
       Form1.ProgramName:= 'Flock';
@@ -1191,7 +1190,7 @@ begin
       Form1.Typ_programu:= 7;
     end;  
 
-  // detekce Netscape
+  // detection of Netscape
   if (Pos ('Netscape', Form1.ListBox1.Items.Strings[Form1.ListBox1.ItemIndex]) > 0) and
       (Pos ('Netscape Messenger', Form1.ListBox1.Items.Strings[Form1.ListBox1.ItemIndex]) = 0) then
     begin
@@ -1199,7 +1198,7 @@ begin
       Form1.Typ_programu:= 6;
     end;
 
-  // detection of Spicebird
+  // detection of of Spicebird
   if Pos ('Spicebird', Form1.ListBox1.Items.Strings[Form1.ListBox1.ItemIndex]) > 0 then
     begin
       Form1.ProgramName:= 'Spicebird';
@@ -1237,13 +1236,13 @@ end;
 //******************************************************************************
 // procedure ChooseDialog
 //
-// - vyber Open ci Save dialogu
+// Selects between Open or Save dialog.
 //******************************************************************************
 
 procedure ChooseDialog;
 var Soubor: string;
 begin
-  // vyber souboru                       
+  // Select file.
   if Form1.Akce = 1 then
     begin
       // setting default path and localization
@@ -1255,7 +1254,7 @@ begin
 
       if Form1.SaveDialog1.Execute then
         begin
-           // !!! Zmena s lomitkama
+           // !!! Change with slashes.
            //Form1.Vyst_soubor:= ChangeFileExt(Form1.SaveDialog1.FileName,'.pcv');
            Form1.Vyst_soubor:= SysUtils.StringReplace(ChangeFileExt(Form1.SaveDialog1.FileName,'.pcv'), '\\', '\', [rfReplaceAll]);
            Form1.StaticText3.Hint:= Form1.Vyst_soubor;
@@ -1274,7 +1273,7 @@ begin
 
       if FileExists (Form1.OpenDialog1.FileName) and IsValidFile (Form1.OpenDialog1.FileName) then
         begin
-           // !!! zmena s lomitkama
+           // !!! Change with slashes.
            //Form1.Vyst_soubor:= ChangeFileExt(Form1.OpenDialog1.FileName,'.pcv');
            Form1.Vyst_soubor:= SysUtils.StringReplace(ChangeFileExt(Form1.OpenDialog1.FileName,'.pcv'), '\\', '\', [rfReplaceAll]);
            Form1.StaticText3.Hint:= Form1.Vyst_soubor;
@@ -1285,12 +1284,12 @@ begin
       else Application.MessageBox (pchar (Config.l10n.getL10nString ('TForm1', 'LANG_BAD_FILE2')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_OK + MB_ICONWARNING);
     end;
 
-  // ** pokus o opravu bugu
+  // ** Attempt to fix the bug.
   Form1.Vyst_soubor:= SysUtils.StringReplace (Form1.Vyst_soubor, '\\', '\', [rfReplaceAll]);
   Form1.StaticText3.Caption:= SysUtils.StringReplace (Form1.StaticText3.Caption, '\\', '\', [rfReplaceAll]);
   Form1.StaticText3.Hint:= SysUtils.StringReplace (Form1.StaticText3.Hint, '\\', '\', [rfReplaceAll]);
 
-  // je to v siti?
+  // Is it on the network?
   if Pos ('\', Form1.StaticText3.Caption) = 1 then
     begin
       Form1.StaticText3.Caption:= '\' + Form1.StaticText3.Caption;
@@ -1308,7 +1307,7 @@ end;
 //******************************************************************************
 // function IsRunning
 //
-// - detekce spustene Mozilly
+// - detection of running Mozilla
 //******************************************************************************
 
 function IsRunning: boolean;
@@ -1356,7 +1355,7 @@ end;
 //******************************************************************************
 // function IsValidFile
 //
-// - detekce platnosti souboru zalohy
+// - detection of backup file validity
 //******************************************************************************
 
 function IsValidFile (Soubor: string):boolean;
@@ -1370,7 +1369,7 @@ begin
   Vystup:= false;
   try
     if FileExists (Soubor) = true then begin
-    // testovani na stary typ souboru
+    // testing for old file type
     AssignFile (F, Soubor);
     Reset (F);
       Readln (F, S);
@@ -1393,7 +1392,7 @@ begin
 
     if Vystup = false then
       begin
-        // testovani na novy typ souboru
+        // testing for new file type
         zipFactory:= TZipFactory.Create(Soubor, '');
         if zipFactory.extractFile('indexfile.txt', GetSpecialDir (2)) = 1 then
           begin
@@ -1404,13 +1403,13 @@ begin
         zipFactory.Destroy;
       end;
 
-    // prirazeni vysledku
+    // assignment of results
     Result:= Vystup;
 
     end;
 
   except
-    on E:EInOutError do     // nastala nejaka vyjimka
+    on E:EInOutError do
       begin
         Application.MessageBox (pchar (Config.l10n.getL10nString ('TForm1', 'LANG_NOT_FOUND')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_OK + MB_ICONWARNING);
         Halt (1);
@@ -1439,7 +1438,7 @@ end;
 //******************************************************************************
 // procedure NastavCheckboxy
 //
-// - nastavi checkboxy
+// - sets the checkboxes
 //******************************************************************************
 
 procedure NastavCheckboxy;
@@ -1462,7 +1461,7 @@ end;
 //******************************************************************************
 // function NastavSoubor
 //
-// - funkce nastavi vystupni soubor
+// - function sets the output file
 //******************************************************************************
 
 procedure NastavSoubor;
@@ -1494,10 +1493,10 @@ end;
 //******************************************************************************
 // function Over_platnost
 //
-// - funkce overi platnost vystupniho souboru a navrati spravnou 
+// - function verifies the validity of the output file and returns the correct one
 //
-// Vstup: Cesta - cesta k souboru
-// Vystup: - platna cesta
+// Input: Path - the path to the file
+// Output: - valid path
 //******************************************************************************
 
 function Over_platnost (Cesta: string):string;
@@ -1519,10 +1518,10 @@ end;
 //******************************************************************************
 // function Over_profil
 //
-// - funkce overi, zda-li je zadany profil platny
+// - function checks if the given profile is valid
 //
-// Vstup: Adresar - adresar s profilem
-// Vystup: - je platny ci neni
+// Input: Directory - the directory with the profile
+// Output: - is valid or not
 //******************************************************************************
 
 function Over_profil (Adresar: string):boolean;
@@ -1542,7 +1541,7 @@ end;
 //******************************************************************************
 // procedure Over_program
 //
-// - detekce, zda-li byl nalezen nejaky program. Kdyz ne, program je ukoncen
+// - detection if any program was found. If not, the program is terminated
 //******************************************************************************
 
 procedure Over_program;
@@ -1561,7 +1560,7 @@ end;
 //******************************************************************************
 // procedure Over_vyber
 //
-// - overi, zda-li je vybrana nejaka aplikace pro zalohovani (resp. obnovu)
+// - checks if any application for backup (or restore) has been selected
 //******************************************************************************
 
 procedure Over_vyber;
@@ -1577,7 +1576,7 @@ end;
 //******************************************************************************
 // procedure Over_vyber_profilu
 //
-// - overi, zda-li je vybran nejaky profil
+// - checks if a profile has been selected
 //******************************************************************************
 
 procedure Over_vyber_profilu;
@@ -1629,9 +1628,9 @@ end;
 //******************************************************************************
 // procedure Ukonceni_pogramu
 //
-// - ukonci programu stisknutim krizku na formulari
+// - closes the program when the close button on the form is pressed
 //
-// Vstup: CanClose - informace o uzavreni formulare
+// Input: CanClose - information about closing the form
 //******************************************************************************
 
 procedure Ukonceni_programu (var CanClose: boolean);
@@ -1647,7 +1646,7 @@ end;
 //******************************************************************************
 // function Zacatek_zalohovani
 //
-// - informace o tom, zda-li se muze zacit se zalohovanim (resp. obnovou)
+// - information about whether the backup (or restore) can begin
 //******************************************************************************
 
 function Zacatek_zalohovani: boolean;
@@ -1677,7 +1676,7 @@ end;
 //******************************************************************************
 // function Zkraceny_adresar
 //
-// - oreze adresarovou cestu
+// - trims the directory path
 //******************************************************************************
 
 function Zkraceny_adresar (S: string):string;

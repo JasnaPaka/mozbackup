@@ -41,7 +41,7 @@ uses
   heslo, heslo2, inifile, UnknowFiles, MozManager, AppEvnts, ActnList;
 
 // information about application name and version
-const Pocet_aplikaci   = 12;
+const Pocet_aplikaci   = 13;
       // checks if the application is running
       Testovat_procesy = 1;
 
@@ -184,6 +184,7 @@ type
     SongbirdDir: string;                // default directory for Songbird backups
     PostBoxDir: string;                 // default directory for PostBox backups
     WyzoDir: string;                    // default directory for Wyzo backups
+    LibreWolfDir: string;               // default directory for LibreWolf
 
     IsProfileInName: boolean;           // whether the profile name is included in the output file name
     Monitor: integer;                   // monitor on which the application will be displayed

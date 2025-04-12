@@ -168,6 +168,7 @@ Dialogy_init;                 // Initialize the dialog
                 9: ExeName:= 'songbird.exe';
                 11: ExeName:= 'postbox.exe';
                 12: ExeName:= 'wyzo.exe';
+                13: ExeName:= 'librewolf.exe';
               end;
               
               if Length (Form2.Label2.Hint) = 0 then
@@ -230,6 +231,9 @@ begin
        then Form1.ListBox1.Items.Add('PostBox ' + Config.l10n.getL10nString ('TForm1', 'LANG_ONLYPROFIL'));
     12: if ((DirectoryExists (GetSpecialDir (11) + '\Radical Software Ltd\Wyzo\Profiles\') = true)) and (Programy[12].Nalezen = false)
        then Form1.ListBox1.Items.Add('Wyzo ' + Config.l10n.getL10nString ('TForm1', 'LANG_ONLYPROFIL'));
+    13: if ((DirectoryExists (GetSpecialDir (11) + '\librewolf\Profiles') = true)) and (Programy[12].Nalezen = false)
+       then Form1.ListBox1.Items.Add('LibreWolf ' + Config.l10n.getL10nString ('TForm1', 'LANG_ONLYPROFIL'));
+
   end;
 end;
 
@@ -270,6 +274,7 @@ begin
             9: Form1.ListBox1.Items.Add ('Songbird '+ Programy[Typ].Verze);
             11: Form1.ListBox1.Items.Add ('PostBox '+ Programy[Typ].Verze);
             12: Form1.ListBox1.Items.Add ('Wyzo '+ Programy[Typ].Verze);
+            13: Form1.ListBox1.Items.Add ('LibreWolf '+ Programy[Typ].Verze);
           end;
 
           ApplicationDetected:= true;
@@ -426,6 +431,11 @@ begin
   // ** Detection of Wyzo
   SearchProgram (Registr, 'SOFTWARE\mozilla\Wyzo', 'CurrentVersion', 12, 0, true);
   SearchDirectory (Registr, 'SOFTWARE\mozilla\Wyzo\'+ Programy[12].Verze + '\Main', 'Install Directory', 12);
+
+  // ** Detection of LibreWolf
+  SearchProgram (Registr, 'SOFTWARE\LibreWolf', 'CurrentVersion', 13, 0, true);
+  SearchDirectory (Registr, 'SOFTWARE\LibreWolf\'+ Programy[13].Verze + '\Main', 'Install Directory', 13);
+
 
   // Portable Applications
   Form1.ListBox1.Items.Add (Config.l10n.getL10nString('MozBackup14', 'LANG_PORTABLE_APPS'));
@@ -640,6 +650,7 @@ begin
     9: Form1.Slozka_data:= GetSpecialDir (11) + '\Songbird2\';
     11: Form1.Slozka_data:= GetSpecialDir (11) + '\PostBox\';
     12: Form1.Slozka_data:= GetSpecialDir (11) + '\Radical Software Ltd\Wyzo\';
+    13: Form1.Slozka_data:= GetSpecialDir (11) + '\LibreWolf\';
   end;
 
   // load the contents of the profiles file
@@ -1101,6 +1112,7 @@ begin
     9: S:= Form1.SongbirdDir;
     11: S:= Form1.PostBoxDir;
     12: S:= Form1.WyzoDir;
+    13: S:= Form1.LibreWolfDir;
   end;
 
   S:= Trim (S);
@@ -1229,6 +1241,13 @@ begin
       Form1.ProgramName:= 'Wyzo';
       Form1.Typ_programu:= 12;
     end;
+
+  // detection of LibreWolf
+  if Pos ('LibreWolf', Form1.ListBox1.Items.Strings[Form1.ListBox1.ItemIndex]) > 0 then
+    begin
+      Form1.ProgramName:= 'LibreWolf';
+      Form1.Typ_programu:= 13;
+    end;
     
 end;  
 
@@ -1343,6 +1362,7 @@ begin
             9: if Procesy[I] = 'songbird.exe' then Vysledek:= true;
             11: if Procesy[I] = 'postbox.exe' then Vysledek:= true;
             12: if Procesy[I] = 'wyzo.exe' then Vysledek:= true;
+            13: if Procesy[I] = 'librewolf.exe' then Vysledek:= true;
           end;
           I:= I + 1;
         end;
@@ -1667,6 +1687,7 @@ begin
         9: if Application.MessageBox(pchar (Config.l10n.getL10nString ('MozBackup14', 'LANG_DETEKCE', 'Songbird')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_RETRYCANCEL + MB_ICONERROR) = IDCANCEL then Detekce:= true;
         11: if Application.MessageBox(pchar (Config.l10n.getL10nString ('MozBackup14', 'LANG_DETEKCE', 'PostBox')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_RETRYCANCEL + MB_ICONERROR) = IDCANCEL then Detekce:= true;
         12: if Application.MessageBox(pchar (Config.l10n.getL10nString ('MozBackup14', 'LANG_DETEKCE', 'Wyzo')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_RETRYCANCEL + MB_ICONERROR) = IDCANCEL then Detekce:= true;
+        13: if Application.MessageBox(pchar (Config.l10n.getL10nString ('MozBackup14', 'LANG_DETEKCE', 'LibreWolf')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_RETRYCANCEL + MB_ICONERROR) = IDCANCEL then Detekce:= true;
       end;
     end;
   if Detekce = true then Result:= false else Result:= true;

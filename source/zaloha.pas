@@ -286,6 +286,7 @@ begin
                   9: if Application.MessageBox(pchar (Config.l10n.getL10nString ('TForm1', 'LANG_DETEKCE', 'Songbird')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_RETRYCANCEL + MB_ICONERROR) = IDCANCEL then Detekce:= true;
                   11: if Application.MessageBox(pchar (Config.l10n.getL10nString ('TForm1', 'LANG_DETEKCE', 'Postbox')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_RETRYCANCEL + MB_ICONERROR) = IDCANCEL then Detekce:= true;
                   12: if Application.MessageBox(pchar (Config.l10n.getL10nString ('TForm1', 'LANG_DETEKCE', 'Wyzo')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_RETRYCANCEL + MB_ICONERROR) = IDCANCEL then Detekce:= true;
+                  13: if Application.MessageBox(pchar (Config.l10n.getL10nString ('TForm1', 'LANG_DETEKCE', 'LibreWolf')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_RETRYCANCEL + MB_ICONERROR) = IDCANCEL then Detekce:= true;
                 end;
               end;
             if Detekce = true then
@@ -302,6 +303,7 @@ begin
                   9: Application.MessageBox (pchar (Config.l10n.getL10nString ('TForm1', 'LANG_DETEKCE2', 'Songbird')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_OK + MB_ICONWARNING);
                   11: Application.MessageBox (pchar (Config.l10n.getL10nString ('TForm1', 'LANG_DETEKCE2', 'PostBox')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_OK + MB_ICONWARNING);
                   12: Application.MessageBox (pchar (Config.l10n.getL10nString ('TForm1', 'LANG_DETEKCE2', 'Wyzo')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_OK + MB_ICONWARNING);
+                  13: Application.MessageBox (pchar (Config.l10n.getL10nString ('TForm1', 'LANG_DETEKCE2', 'LibreWolf')), pchar (Config.l10n.getL10nString ('TForm1', 'LANG_WARNING')), MB_OK + MB_ICONWARNING);
                 end;
                 Halt (1);
               end;

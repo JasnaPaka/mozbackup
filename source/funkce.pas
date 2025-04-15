@@ -772,7 +772,7 @@ begin
       else Form1.CheckBox2.Enabled := false;
 
       // contacts
-      if FileExists(Slozka_data1 + 'abook.mab') then Form1.CheckBox3.Checked := true
+      if FileExists(Slozka_data1 + 'abook.mab') or FileExists(Slozka_data1 + 'abook.sqlite') then Form1.CheckBox3.Checked := true
       else Form1.CheckBox3.Enabled := false;
 
       // bookmarks
@@ -819,7 +819,8 @@ begin
 
       // certificates
       if FileExists(Slozka_data1 + 'key3.db') or FileExists(Slozka_data1 + 'cert7.db') or
-         FileExists(Slozka_data1 + 'cert8.db') or FileExists(Slozka_data1 + 'secmod.db')
+         FileExists(Slozka_data1 + 'cert8.db') or FileExists(Slozka_data1 + 'secmod.db') or
+         FileExists(Slozka_data1 + 'cert9.db')
       then Form1.CheckBox13.Checked := true else Form1.CheckBox13.Enabled := false;
 
       // extensions

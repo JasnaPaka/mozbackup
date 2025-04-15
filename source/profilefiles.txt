@@ -115,3 +115,15 @@ thumbnails\*.*
 indexedDB\*.*
 search-metadata.json
 applications.sqlite
+favicons.sqlite
+favicons.sqlite-shm
+favicons.sqlite-wal
+places.sqlite-shm
+places.sqlite-wal
+sessionCheckpoints.json
+sessionstore-backups\*.*
+webappsstore.sqlite-shm
+webappsstore.sqlite-wall
+key4.db
+addons.json
+cert9.db

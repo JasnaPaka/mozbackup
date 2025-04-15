@@ -1071,22 +1071,29 @@ begin
               stringList.Add('urlclassifier2.sqlite');
               stringList.Add('urlclassifier3.sqlite');
               stringList.Add('kf.txt');
-              stringList.Add('webappsstore.sqlite');             
+              stringList.Add('webappsstore.sqlite');
+              stringList.Add('webappsstore.sqlite-shm');
+              stringList.Add('webappsstore.sqlite-wall');
               stringList.Add('blocklist.xml');
               stringList.Add('metrics.xml');
               stringList.Add('metrics-config.xml');
               stringList.Add('content-prefs.sqlite');
               stringList.Add('session.json');
+              stringList.Add('sessionCheckpoints.json');
               stringList.Add('chromeappsstore.sqlite');
               stringList.Add('urlclassifierkey3.txt');
               stringList.Add('urlclassifierkey4.txt');
               stringList.Add('search-metadata.json');
+              stringList.Add('favicons.sqlite');
+              stringList.Add('favicons.sqlite-shm');
+              stringList.Add('favicons.sqlite-wal');
 
               zipFactory.extractFileList(stringList);
               stringList.Clear;
 
               zipFactory.extractDirectory('microsummary-generators', '*.*');
               zipFactory.extractDirectory('weave', '*.*');
+              zipFactory.extractDirectory('sessionstore-backups', '*.*');
 
               Form1.ListBox3.Items.Add(Config.l10n.getL10nString ('MozBackup14', 'LANG_AKCE_OBECNE_R_OK'));
             end;
@@ -1121,8 +1128,9 @@ begin
             begin
               Form1.StaticText6.Caption:= (Config.l10n.getL10nString ('TForm1', 'LANG_KONTATKY1'));
 
-              zipFactory.extractDirectory('Photos', '*.*');              
+              zipFactory.extractDirectory('Photos', '*.*');
               zipFactory.extractDirectory('', '*.mab');
+              zipFactory.extractDirectory('', '*.sqlite');
 
               Form1.ListBox3.Items.Add(Config.l10n.getL10nString ('MozBackup14', 'LANG_AKCE_KONTAKTY_R_OK'));
             end;
@@ -1137,6 +1145,8 @@ begin
               stringList.Add('bookmarks.bak');
               stringList.Add('bookmarks_history.sqlite');
               stringList.Add('places.sqlite');
+              stringList.Add('places.sqlite-shm');
+              stringList.Add('places.sqlite-wal');
               stringList.Add('places.sqlite-journal');
               stringList.Add('bookmarks.postplaces.html');
               stringList.Add('bookmarks.preplaces.html');
@@ -1211,7 +1221,8 @@ begin
               stringList.Add('signons4.txt');
               stringList.Add('signons5.txt');
               stringList.Add('signons.sqlite');              
-              stringList.Add('key3.db');                            
+              stringList.Add('key3.db');
+              stringList.Add('key4.db');
 
               zipFactory.extractFileList(stringList);
               stringList.Clear;
@@ -1276,7 +1287,9 @@ begin
 
               stringList.Add('cert7.db');
               stringList.Add('cert8.db');
+              stringList.Add('cert9.db');
               stringList.Add('key3.db');
+              stringList.Add('key4.db');
               stringList.Add('secmod.db');
               stringList.Add('cert_override.txt');
 
@@ -1301,7 +1314,8 @@ begin
               stringList.Add('addons.sqlite');              
               stringList.Add('lightweighttheme-footer');
               stringList.Add('lightweighttheme-header');
-              stringList.Add('applications.sqlite');                             
+              stringList.Add('applications.sqlite');
+              stringList.Add('addons.json');
 
               zipFactory.extractFileList(stringList);
               stringList.Clear;              
@@ -1755,6 +1769,8 @@ begin
             backupTask.addFile('urlclassifierkey4.txt');
             backupTask.addFile('kf.txt');
             backupTask.addFile('webappsstore.sqlite');
+            backupTask.addFile('webappsstore.sqlite-shm');
+            backupTask.addFile('webappsstore.sqlite-wall');
             backupTask.addFile('blocklist.xml');
             backupTask.addFile('metrics.xml');
             backupTask.addFile('metrics-config.xml');
@@ -1762,10 +1778,14 @@ begin
             backupTask.addFile('session.json');
             backupTask.addFile('chromeappsstore.sqlite');
             backupTask.addFile('search-metadata.json');
+            backupTask.addFile('favicons.sqlite');
+            backupTask.addFile('favicons.sqlite-shm');
+            backupTask.addFile('favicons.sqlite-wal');
 
 
             backupTask.addDirectory('microsummary-generators', '*.*');
             backupTask.addDirectory('weave', '*.*');
+            backupTask.addDirectory('sessionstore-backups', '*.*');
           end;
 
         // ** Backup of contacts
@@ -1773,6 +1793,7 @@ begin
           begin
             backupTask.addDirectory('Photos', '*.*');
             backupTask.addDirectory('.', '*.mab');
+            backupTask.addDirectory('.', '*.sqlite');
           end;
 
         // ** Backup of bookmarks
@@ -1795,6 +1816,8 @@ begin
             backupTask.addFile('history.dat');
             backupTask.addFile('bookmarks_history.sqlite');
             backupTask.addFile('places.sqlite');
+            backupTask.addFile('places.sqlite-shm');
+            backupTask.addFile('places.sqlite-wal');
             backupTask.addFile('url-data.txt');
             backupTask.addFile('urlbarhistory.sqlite');
           end;
@@ -1822,6 +1845,7 @@ begin
             backupTask.addFile('signons5.txt');
             backupTask.addFile('signons.sqlite');
             backupTask.addFile('key3.db');
+            backupTask.addFile('key4.db');
 
             backupTask.addDirectory('.', '*.s');
           end;
@@ -1857,7 +1881,9 @@ begin
           begin
             backupTask.addFile('cert7.db');
             backupTask.addFile('cert8.db');
+            backupTask.addFile('cert9.db');
             backupTask.addFile('key3.db');
+            backupTask.addFile('key4.db');
             backupTask.addFile('secmod.db');
             backupTask.addFile('cert_override.txt');
 
@@ -1875,6 +1901,7 @@ begin
             backupTask.addFile('lightweighttheme-footer');
             backupTask.addFile('lightweighttheme-header');
             backupTask.addFile('applications.sqlite');
+            backupTask.addFile('addons.json');
 
             backupTask.addDirectory('extensions', '*.*');
             backupTask.addDirectory('chrome', '*.*');

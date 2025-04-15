@@ -94,7 +94,7 @@ implementation
 uses Classes, controls, dialogs, forms, hlavni, chyby, input_dialog,
      WinUtils, ShellApi, StdCtrls, StrUtils, sysutils, windows,
      okna, zaloha, IniFiles, jp_registry, Config, ZipFactory, UnknowItem,
-     FileCtrl, JPDialogs, Functions, CmdLine;
+     FileCtrl, JPDialogs, Functions, CmdLine, MozillaStoreInfo;
 
 
 //******************************************************************************
@@ -345,6 +345,7 @@ end;
 
 procedure DetekceKomponent;
 var Registr: TRegistry;
+var MozillaStore : TMozillaStoreInfo;
 begin
   // reset of paths
   Programy[1].Cesta:= '';
@@ -389,6 +390,17 @@ begin
       SearchProgram (Registr, 'SOFTWARE\mozilla.org\Mozilla Firefox', 'CurrentVersion', 2, 0, true);
       SearchDirectory (Registr, 'SOFTWARE\mozilla.org\Mozilla Firefox\'+ Programy[2].Verze + '\Main', 'Install Directory', 2);
     end;
+
+  // Installation from Microsoft Store
+  //if Length (Programy[2].Cesta) = 0 then
+   //  begin
+   //    MozillaStore := GetMozillaStore('Mozilla.Firefox');
+   //    if MozillaStore.IsStoreVersion then
+   //    begin
+   //      Programy[2].Verze := MozillaStore.Version;
+   //      Programy[2].Cesta := MozillaStore.InstallLocation;
+   //    end;
+   //  end;
 
   // ** Detection of Mozilly Thunderbird
   SearchProgram (Registr, 'SOFTWARE\mozilla\Mozilla Thunderbird', 'CurrentVersion', 3, 0, false);
@@ -515,12 +527,14 @@ begin
                     P^.Cesta:= Cesta + StringReplace (Path, '/', '\', [rfReplaceAll]);
                   end;
 
-                P^.Dalsi:= nil;
+                  P^.Dalsi:= nil;
 
-                if Posledni <> nil then Posledni.Dalsi:= P;
-                Posledni:= P;
-                if Form1.Prvni_profil = nil then Form1.Prvni_profil:= P;
-                Form1.ListBox2.Items.Add(P^.Jmeno);
+                  if Posledni <> nil then Posledni.Dalsi:= P;
+                  Posledni:= P;
+                  if Form1.Prvni_profil = nil then Form1.Prvni_profil:= P;
+
+                  if (FileExists (P^.Cesta + '\prefs.js')) then
+                    Form1.ListBox2.Items.Add(P^.Jmeno);
               end;
           end
         else ProfileExist:= false;
@@ -823,7 +837,7 @@ begin
         end;
 
       // disk cache
-      if DirectoryExists(Slozka_data1 + 'Cache') then
+      if SysUtils.DirectoryExists(Slozka_data1 + 'Cache') then
         begin
           Form1.CheckBox15.Checked := false;
           Form1.CheckBox15.Enabled := true;
@@ -1122,7 +1136,7 @@ begin
     end;
 
   // Check, if directory is set and if exists
-  if DirectoryExists (Adresar) = false then
+  if SysUtils.DirectoryExists (Adresar) = false then
     begin
       Adresar:= '';
     end;
@@ -1131,7 +1145,7 @@ begin
   if Length (Adresar) = 0 then
     begin
       RegCesta:= LoadDirectory (Form1.Typ_programu);
-      if (Length (RegCesta) > 0) and (DirectoryExists (RegCesta)) then Adresar:= RegCesta else Adresar:= '';
+      if (Length (RegCesta) > 0) and (SysUtils.DirectoryExists (RegCesta)) then Adresar:= RegCesta else Adresar:= '';
     end;
 
   // to which directory - windows

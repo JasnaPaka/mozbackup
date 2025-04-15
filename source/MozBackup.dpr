@@ -44,7 +44,8 @@ uses
   TesterHelper in 'TesterHelper.pas',
   SongbirdApp in 'apps\SongbirdApp.pas',
   PostBoxApp in 'apps\PostBoxApp.pas',
-  WyzoApp in 'apps\WyzoApp.pas';
+  WyzoApp in 'apps\WyzoApp.pas',
+  MozillaStoreInfo in 'MozillaStoreInfo.pas';
 
 {$R Icons.res}
 {$R ZipMsgUS.RES}

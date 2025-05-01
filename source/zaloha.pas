@@ -1087,6 +1087,7 @@ begin
               stringList.Add('favicons.sqlite');
               stringList.Add('favicons.sqlite-shm');
               stringList.Add('favicons.sqlite-wal');
+              stringList.Add('containers.json');
 
               zipFactory.extractFileList(stringList);
               stringList.Clear;
@@ -1094,6 +1095,8 @@ begin
               zipFactory.extractDirectory('microsummary-generators', '*.*');
               zipFactory.extractDirectory('weave', '*.*');
               zipFactory.extractDirectory('sessionstore-backups', '*.*');
+              zipFactory.extractDirectory('crashes', '*.*');
+              zipFactory.extractDirectory('datareporting', '*.*');
 
               Form1.ListBox3.Items.Add(Config.l10n.getL10nString ('MozBackup14', 'LANG_AKCE_OBECNE_R_OK'));
             end;
@@ -1238,7 +1241,9 @@ begin
 
               stringList.Add('cookies.txt');
               stringList.Add('cookies.sqlite');
-              stringList.Add('cookies.sqlite-journal');              
+              stringList.Add('cookies.sqlite-journal');
+              stringList.Add('cookies.sqlite-shm');
+              stringList.Add('cookies.sqlite-wal');
 
               zipFactory.extractFileList(stringList);
               stringList.Clear;
@@ -1316,11 +1321,13 @@ begin
               stringList.Add('lightweighttheme-header');
               stringList.Add('applications.sqlite');
               stringList.Add('addons.json');
+              stringList.Add('extensions.json');
 
               zipFactory.extractFileList(stringList);
               stringList.Clear;              
 
               zipFactory.extractDirectory('extensions', '*.*');
+              zipFactory.extractDirectory('extension-store', '*.*');
               zipFactory.extractDirectory('chrome', '*.*');
               zipFactory.extractDirectory('searchplugins', '*.*');
 
@@ -1781,11 +1788,14 @@ begin
             backupTask.addFile('favicons.sqlite');
             backupTask.addFile('favicons.sqlite-shm');
             backupTask.addFile('favicons.sqlite-wal');
+            backupTask.addFile('containers.json');
 
 
             backupTask.addDirectory('microsummary-generators', '*.*');
             backupTask.addDirectory('weave', '*.*');
             backupTask.addDirectory('sessionstore-backups', '*.*');
+            backupTask.addDirectory('crashes', '*.*');
+            backupTask.addDirectory('datareporting', '*.*');
           end;
 
         // ** Backup of contacts
@@ -1855,6 +1865,8 @@ begin
           begin
             backupTask.addFile('cookies.txt');
             backupTask.addFile('cookies.sqlite');
+            backupTask.addFile('cookies.sqlite-shm');
+            backupTask.addFile('cookies.sqlite-wal');
           end;
 
         // ** Backup of filled forms
@@ -1902,8 +1914,10 @@ begin
             backupTask.addFile('lightweighttheme-header');
             backupTask.addFile('applications.sqlite');
             backupTask.addFile('addons.json');
+            backupTask.addFile('extensions.json');
 
             backupTask.addDirectory('extensions', '*.*');
+            backupTask.addDirectory('extension-store', '*.*');
             backupTask.addDirectory('chrome', '*.*');
             backupTask.addDirectory('searchplugins', '*.*');
 

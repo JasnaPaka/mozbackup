@@ -44,6 +44,8 @@ key3.db
 *.s
 cookies.txt
 cookies.sqlite
+cookies.sqlite-wal
+cookies.sqlite-shm
 formhistory.dat
 URL.tbl
 formhistory.sqlite
@@ -127,3 +129,8 @@ webappsstore.sqlite-wall
 key4.db
 addons.json
 cert9.db
+containers.json
+datareporting\*.*
+crashes\*.*
+extension-store\*.*
+extensions.json

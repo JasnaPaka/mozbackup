@@ -1,5 +1,13 @@
 Changelog (since MozBackup 1.4)
 -------------------------------
+(MozBackup 1.6 NB 20250508)
+!!! This version is for testing purpose only. !!!
+- Add support for LibreWolf (https://librewolf.net/).
+- Add support for Windows 10/11.
+- Add support for Windows ARM.
+- Add support for actual versions of Firefox and Thunderbird.
+- Removed support for Windows versions older than 7.
+
 (MozBackup 1.5.2 Beta 1)
 - Add: New warning when you want to create backup on drive with FAT32 file system where max. file size is limited.
 - Add: Some new files from newer versions of FF/TB.
@@ -8,10 +16,10 @@ Changelog (since MozBackup 1.4)
 - Fix: *.map files were offered as unknown files.
 - Fix: Restoration backup from portable profile to standard profile is now possible.
 - Fix: Creation of profile from app was broken.
-- Fix: Some language corrections. 			
+- Fix: Some language corrections. 
 
 (MozBackup 1.5.1)
-- Fix one problem with backup address books in Thunderbird.
+- Fix: some minor fixes 
 
 (MozBackup 1.5)
 - Fix: some minor fixes 

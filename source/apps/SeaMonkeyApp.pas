@@ -54,7 +54,7 @@ uses Classes;
 procedure TSeaMonkeyApp.searchApplication();
 begin
   Registr:= TRegistry.Create;
-  Registr.Access:= KEY_READ;
+  Registr.Access:= KEY_READ or KEY_WOW64_64KEY;
   Registr.RootKey:= HKEY_LOCAL_MACHINE;
 
   // called function need rewrite

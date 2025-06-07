@@ -43,7 +43,7 @@ const TEST_MODE = false;
 const TEST_WARNING = false;
 
 // application name
-const APPLICATION_NAME = 'MozBackup 1.6 Nightly (20250805)';
+const APPLICATION_NAME = 'MozBackup 1.6 Beta 1';
 
 // file with l10n
 const L10N_FILE = 'Default.lng';

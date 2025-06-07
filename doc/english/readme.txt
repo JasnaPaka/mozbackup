@@ -1,5 +1,7 @@
-MozBackup 1.5.2
+MozBackup 1.6 Beta 1
 ===================================================
+
+!!! This version is for testing purpose only!!!
 
 General
 --------------------------------------------------
@@ -8,6 +10,7 @@ of Mozilla applications like:
 
 * Mozilla Firefox 
 * Mozilla Thunderbird
+* LibreWolf
 * Mozilla Sunbird
 * SeaMonkey / Mozilla Suite
 * Flock
@@ -22,22 +25,25 @@ It allows you to backup and restore bookmarks, mail,
 contacts, history, extensions, cache etc.
 
 Supported versions:
-* Firefox 1.0 or newer
-* Thunderbird 1.0 or newer
-* Sunbird 0.3 - 0.9
-* Flock 1.0 - 2.6
-* Postbox (Express) 1.0 or newer
-* SeaMonkey 1.0a or newer
-* Mozilla Suite 1.7 - 1.7.x
-* Spicebird 0.4 - 0.8
-* Songbird 1.0 or newer
-* Netscape 7.x, 9.x
+* Firefox 1.0 and newer
+* Thunderbird 1.0 and newer
+* LibreWolf 130 and higher
+* SeaMonkey 1.0a and newer
+* Mozilla Sunbird 0.3 and newer
+* Flock 1.0 and newer
+* Spicebird 0.4 and newer
+* Mozilla Suite 1.7 and newer
+* Netscape 7.x / 9.0
+* Netscape Messanger 9.0
+* Songbird 1.0 and newer
+* PostBox (Express) 1.0 and newer
 * Wyzo
+
+NB - nightly builds
 
 Requirements
 --------------------------------------------------
-Windows 98 or higher (Windows 95 are not official
-supported but maybe MozBackup works there too)
+Windows 7 or higher.
 
 
 Changes 
@@ -53,5 +59,5 @@ This program is freeware.
 Contact
 --------------------------------------------------
 Author:   Pavel Cvrcek
-Homepage: http://mozbackup.jasnapaka.com/
-Support:  http://mozbackup.jasnapaka.com/support.php
+Homepage: https://mozbackup.jasnapaka.com/
+Support:  https://mozbackup.jasnapaka.com/support.php

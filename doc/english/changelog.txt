@@ -1,5 +1,9 @@
 Changelog (since MozBackup 1.4)
 -------------------------------
+(MozBackup 1.6 Beta 1)
+!!! This version is for testing purpose only. !!!
+- Fix: Windows 64bit/ARM support in cmd mode.
+
 (MozBackup 1.6 NB 20250508)
 !!! This version is for testing purpose only. !!!
 - Add support for LibreWolf (https://librewolf.net/).

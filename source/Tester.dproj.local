@@ -2,7 +2,7 @@
 <BorlandProject>
 	<Transactions>
     <Transaction>1899.12.30 00:00:00.000.pas,D:\Projekty\MozBackup\trunk\source\IZipFactory.pas=</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.bdsproj,D:\Projekty\MozBackup\trunk\source\Tester.bdsproj=C:\Documents and Settings\Pavel Cvrček\Dokumenty\Borland Studio Projects\Project1.bdsproj</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.pas,D:\Projekty\MozBackup\trunk\source\TesterHelper.pas=D:\Projekty\MozBackup\trunk\source\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.pas,D:\Projekty\MozBackup\trunk\source\Unit1.pas=D:\Projekty\MozBackup\trunk\source\TesterHelper.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.bdsproj,C:\Documents and Settings\Pavel Cvrček\Dokumenty\Borland Studio Projects\Project1.bdsproj=D:\Projekty\MozBackup\trunk\source\Tester.bdsproj</Transaction>
   </Transactions>
 </BorlandProject>

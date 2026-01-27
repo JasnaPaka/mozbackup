@@ -796,7 +796,8 @@ begin
       // saved passwords
       if (FindFirst(Slozka_data1 + '*.s', faAnyFile, Vyhledej) = 0) or (FileExists(Slozka_data1 + 'signons.txt') or
       (FileExists(Slozka_data1 + 'signons2.txt')) or (FileExists(Slozka_data1 + 'signons3.txt')) or
-      (FileExists(Slozka_data1 + 'signons4.txt')) or (FileExists(Slozka_data1 + 'signons.sqlite')))
+      (FileExists(Slozka_data1 + 'signons4.txt')) or (FileExists(Slozka_data1 + 'signons.sqlite'))
+      or (FileExists(Slozka_data1 + 'logins.json')))
       then Form1.CheckBox9.Checked := true
       else Form1.CheckBox9.Enabled := false;
       SysUtils.FindClose(Vyhledej);

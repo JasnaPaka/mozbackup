@@ -1226,6 +1226,7 @@ begin
               stringList.Add('signons.sqlite');              
               stringList.Add('key3.db');
               stringList.Add('key4.db');
+              stringList.Add('logins.json');
 
               zipFactory.extractFileList(stringList);
               stringList.Clear;
@@ -1856,6 +1857,7 @@ begin
             backupTask.addFile('signons.sqlite');
             backupTask.addFile('key3.db');
             backupTask.addFile('key4.db');
+            backupTask.addFile('logins.json');
 
             backupTask.addDirectory('.', '*.s');
           end;

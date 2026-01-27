@@ -134,3 +134,5 @@ datareporting\*.*
 crashes\*.*
 extension-store\*.*
 extensions.json
+logins.json
+
